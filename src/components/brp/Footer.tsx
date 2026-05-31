@@ -265,7 +265,6 @@ export function Footer() {
               <img src={logo as string} alt="" className="h-10 w-auto object-contain" />
               <div className="min-w-0">
                 <div className="text-sm font-semibold tracking-[0.18em] text-foreground">
-                  BRP GROUP
                 </div>
                 <div className="text-xs font-light text-muted-foreground">
                   Diversified ventures · Since {siteMeta.foundedYear}
