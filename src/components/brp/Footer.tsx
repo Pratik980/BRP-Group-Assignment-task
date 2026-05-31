@@ -141,14 +141,6 @@ export function Footer() {
           <div className="flex flex-col items-center gap-4 text-center">
             <Link to="/" className="flex flex-col items-center gap-3" aria-label="BRP Group home">
               <img src={logo as string} alt="" className="h-11 w-auto object-contain" />
-              <div>
-                <div className="text-sm font-semibold tracking-[0.18em] text-foreground">
-                  BRP GROUP
-                </div>
-                <div className="mt-1 text-xs text-muted-foreground">
-                  Est. {siteMeta.foundedYear}
-                </div>
-              </div>
             </Link>
             <SocialRow className="justify-center" compact />
           </div>
