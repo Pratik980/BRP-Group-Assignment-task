@@ -1,0 +1,16 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Single Page App redirect: serve index.html for all routes
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true
+
+# Optional: set environment variables here for Netlify builds
+# [build.environment]
+#   NODE_VERSION = "18"
+#   SUPABASE_URL = "${SUPABASE_URL}"
+#   SUPABASE_ANON_KEY = "${SUPABASE_ANON_KEY}"
