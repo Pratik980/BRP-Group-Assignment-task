@@ -134,10 +134,7 @@ export function Footer() {
               </button>
             </form>
             <p className="mt-4 text-xs text-muted-foreground">
-              <a
-                href={`mailto:${siteMeta.email}`}
-                className="hover:text-primary transition-colors"
-              >
+              <a href={`mailto:${siteMeta.email}`} className="hover:text-primary transition-colors">
                 {siteMeta.email}
               </a>
             </p>

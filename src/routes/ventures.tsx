@@ -154,7 +154,7 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 
   useEffect(() => {
     if (!isInView || !ref.current) return;
-    
+
     import("framer-motion").then(({ animate }) => {
       animate(0, value, {
         duration: 2,
@@ -163,7 +163,7 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
           if (ref.current) {
             ref.current.textContent = Math.floor(latest) + suffix;
           }
-        }
+        },
       });
     });
   }, [isInView, value, suffix]);
@@ -172,13 +172,7 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 }
 
 /* ─── 3D Tilt Card ─── */
-function TiltCard({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
@@ -316,7 +310,7 @@ function VentureSpotlight({
               </p>
 
               {/* Footer */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-border/15">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-border/15">
                 <div>
                   <span className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground/60 block mb-1">
                     Focus Sector
@@ -380,7 +374,7 @@ function VenturesPage() {
               <motion.div
                 key={v.title}
                 className="absolute w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/20 shadow-sm flex items-center justify-center"
-                style={pos as any}
+                style={pos as React.CSSProperties}
                 animate={{
                   y: [0, -12, 0],
                   rotate: [0, 3, -3, 0],

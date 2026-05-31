@@ -86,7 +86,9 @@ export function CTA() {
                     <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
                       Headquarters
                     </div>
-                    <div className="text-sm font-medium text-foreground">{siteMeta.headquarters}</div>
+                    <div className="text-sm font-medium text-foreground">
+                      {siteMeta.headquarters}
+                    </div>
                   </div>
                 </div>
               </div>

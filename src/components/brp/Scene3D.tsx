@@ -287,38 +287,41 @@ export function Scene3D({ className }: { className?: string }) {
   }, []);
 
   // Attach WebGL context lost / restore handlers when the canvas is created.
-  const handleCreated = useCallback((state: { gl: WebGLRenderer; [key: string]: any }) => {
-    onCreated();
-    try {
-      const canvas = state.gl.domElement as HTMLCanvasElement | null;
-      if (!canvas) return;
+  const handleCreated = useCallback(
+    (state: { gl: WebGLRenderer; [key: string]: unknown }) => {
+      onCreated();
+      try {
+        const canvas = state.gl.domElement as HTMLCanvasElement | null;
+        if (!canvas) return;
 
-      const onLost = (e: Event) => {
-        // Prevent default to avoid automatic context restore attempts
-        e.preventDefault?.();
-        console.warn("WebGL context lost detected");
-        setContextLost(true);
-      };
+        const onLost = (e: Event) => {
+          // Prevent default to avoid automatic context restore attempts
+          e.preventDefault?.();
+          console.warn("WebGL context lost detected");
+          setContextLost(true);
+        };
 
-      const onRestored = () => {
-        console.info("WebGL context restored");
-        setContextLost(false);
-        // remount canvas to ensure a fresh GL context
-        setCanvasKey((k) => k + 1);
-      };
+        const onRestored = () => {
+          console.info("WebGL context restored");
+          setContextLost(false);
+          // remount canvas to ensure a fresh GL context
+          setCanvasKey((k) => k + 1);
+        };
 
-      canvas.addEventListener("webglcontextlost", onLost, false);
-      canvas.addEventListener("webglcontextrestored", onRestored, false);
+        canvas.addEventListener("webglcontextlost", onLost, false);
+        canvas.addEventListener("webglcontextrestored", onRestored, false);
 
-      // cleanup when unmounted or recreated
-      state.__r3fContextCleanup = () => {
-        canvas.removeEventListener("webglcontextlost", onLost);
-        canvas.removeEventListener("webglcontextrestored", onRestored);
-      };
-    } catch (err) {
-      // ignore
-    }
-  }, [onCreated]);
+        // cleanup when unmounted or recreated
+        state.__r3fContextCleanup = () => {
+          canvas.removeEventListener("webglcontextlost", onLost);
+          canvas.removeEventListener("webglcontextrestored", onRestored);
+        };
+      } catch (err) {
+        // ignore
+      }
+    },
+    [onCreated],
+  );
 
   return (
     <div
@@ -334,7 +337,9 @@ export function Scene3D({ className }: { className?: string }) {
         <div className="relative flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_50%_120%,oklch(0.85_0.1_240/0.5),transparent_60%)]">
           <div className="glass rounded-2xl p-4 text-center">
             <div className="mb-2 text-sm font-medium">WebGL context lost</div>
-            <div className="mb-4 text-xs text-muted-foreground">Tap retry to recreate the 3D canvas.</div>
+            <div className="mb-4 text-xs text-muted-foreground">
+              Tap retry to recreate the 3D canvas.
+            </div>
             <div className="flex justify-center">
               <button
                 onClick={() => setCanvasKey((k) => k + 1)}

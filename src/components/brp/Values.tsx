@@ -1,9 +1,20 @@
 import { motion } from "framer-motion";
 import { Lightbulb, Leaf, TrendingUp, Compass, Layers } from "lucide-react";
+import React from "react";
+
+type IconComponent = (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
+
+type ValueItem = {
+  icon: IconComponent;
+  name: string;
+  desc: string;
+  detail: string;
+  bgClass: string;
+};
 
 // Replaced image backgrounds with theme gradients for better consistency
 
-const values = [
+const values: ValueItem[] = [
   {
     icon: Lightbulb,
     name: "Innovation",
@@ -83,7 +94,7 @@ export function Values() {
               >
                 {/* Background photo */}
                 <div
-                  className={`absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105 ${(v as any).bgClass}`}
+                  className={`absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105 ${v.bgClass}`}
                 />
 
                 {/* Light overlay for a professional, airy look */}
@@ -98,7 +109,9 @@ export function Values() {
                     <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/0 border border-border/10 shadow-sm transition-all duration-300 group-hover:scale-105">
                       <Icon className="h-5 w-5 text-primary" />
                     </div>
-                    <h3 className="font-display text-2xl tracking-tight text-foreground">{v.name}</h3>
+                    <h3 className="font-display text-2xl tracking-tight text-foreground">
+                      {v.name}
+                    </h3>
                     <p className="mt-3 text-sm font-light leading-relaxed text-muted-foreground transition-opacity duration-300 group-hover:opacity-85">
                       {v.desc}
                     </p>

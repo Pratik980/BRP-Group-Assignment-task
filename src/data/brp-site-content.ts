@@ -22,7 +22,8 @@ export const ourHistory = {
 
 export const valueStatements = {
   left: "BRP Group strives to deliver value for all our stakeholders through continuous innovation, groundbreaking solutions, and trust. We offer consultation and the strategic approach to lay the foundations necessary for your business growth. We listen, understand your reality, and provide the technological solution that will truly work best.",
-  right: "Combining the digital world with the real, we help meet the significant challenges of our time. We are geared towards creating technology with purpose and value for customers, ultimately changing the lives of billions of people for the better.",
+  right:
+    "Combining the digital world with the real, we help meet the significant challenges of our time. We are geared towards creating technology with purpose and value for customers, ultimately changing the lives of billions of people for the better.",
 } as const;
 
 export const ourServices = [

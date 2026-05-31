@@ -125,7 +125,7 @@ function HistoryPage() {
           }
         });
       },
-      { root: null, threshold: 0.5 }
+      { root: null, threshold: 0.5 },
     );
 
     cardRefs.current.forEach((el) => {
@@ -170,7 +170,9 @@ function HistoryPage() {
             {/* Left: Sticky Years Column */}
             <aside className="hidden md:block sticky top-[96px] h-fit self-start">
               <div className="flex flex-col gap-4">
-                <h3 className="text-sm uppercase text-muted-foreground tracking-wider mb-4">Timeline</h3>
+                <h3 className="text-sm uppercase text-muted-foreground tracking-wider mb-4">
+                  Timeline
+                </h3>
                 {historyMilestones.map((m, i) => (
                   <div
                     key={m.period}
@@ -198,7 +200,9 @@ function HistoryPage() {
                   return (
                     <div
                       key={milestone.period}
-                      ref={(el) => { cardRefs.current[idx] = el; }}
+                      ref={(el) => {
+                        cardRefs.current[idx] = el;
+                      }}
                       data-index={idx}
                       className="relative"
                     >
@@ -216,8 +220,12 @@ function HistoryPage() {
                                 <Icon className="h-5 w-5" />
                               </div>
                               <div>
-                                <div className="text-xs text-muted-foreground">{milestone.period}</div>
-                                <div className="font-display text-xl text-foreground font-semibold">{milestone.title}</div>
+                                <div className="text-xs text-muted-foreground">
+                                  {milestone.period}
+                                </div>
+                                <div className="font-display text-xl text-foreground font-semibold">
+                                  {milestone.title}
+                                </div>
                               </div>
                             </div>
                           </div>

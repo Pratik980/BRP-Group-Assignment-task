@@ -56,21 +56,37 @@ function MorphingText() {
   }, []);
 
   return (
-    <span className="inline-flex align-baseline items-baseline text-left" style={{ display: "inline-flex" }}>
+    <span
+      className="inline-flex align-baseline items-baseline text-left"
+      style={{ display: "inline-flex" }}
+    >
       {/* Measurer (offscreen) to determine widest word without affecting layout */}
       <div
         ref={measurerRef}
         aria-hidden
-        style={{ position: "absolute", left: -9999, top: -9999, visibility: "hidden", pointerEvents: "none" }}
+        style={{
+          position: "absolute",
+          left: -9999,
+          top: -9999,
+          visibility: "hidden",
+          pointerEvents: "none",
+        }}
       >
         {words.map((word) => (
-          <span key={word} className="text-gradient italic" style={{ fontSize: "inherit", fontFamily: "inherit" }}>
+          <span
+            key={word}
+            className="text-gradient italic"
+            style={{ fontSize: "inherit", fontFamily: "inherit" }}
+          >
             {word}
           </span>
         ))}
       </div>
 
-      <span className="relative inline-block align-baseline text-left" style={{ width: width ? `${width}px` : "auto" }}>
+      <span
+        className="relative inline-block align-baseline text-left"
+        style={{ width: width ? `${width}px` : "auto" }}
+      >
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
             key={words[index]}
@@ -91,7 +107,10 @@ function MorphingText() {
 
 function MobileScene3DPlaceholder() {
   const placeholder = (
-    <div className="absolute inset-x-0 top-40 bottom-0 md:top-32 bg-gradient-to-b from-primary/8 to-transparent" aria-hidden />
+    <div
+      className="absolute inset-x-0 top-40 bottom-0 md:top-32 bg-gradient-to-b from-primary/8 to-transparent"
+      aria-hidden
+    />
   );
 
   return (
@@ -150,7 +169,11 @@ export function Hero() {
           transition={{ duration: 1, delay: 0.35, ease: easeOut }}
           className="font-display text-balance text-5xl leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-[88px]"
         >
-          Building Nepal's Future <span className="inline-flex items-baseline justify-start whitespace-nowrap text-left">Through Diversified&nbsp;<MorphingText /></span>
+          Building Nepal's Future{" "}
+          <span className="inline-flex items-baseline justify-start whitespace-nowrap text-left">
+            Through Diversified&nbsp;
+            <MorphingText />
+          </span>
         </motion.h1>
 
         <motion.p
@@ -201,7 +224,9 @@ export function Hero() {
               <div className="font-display text-3xl text-gradient md:text-4xl">
                 <AnimatedCounter target={s.target} suffix={s.suffix} />
               </div>
-              <div className="mt-1 text-xs font-light text-muted-foreground md:text-sm">{s.label}</div>
+              <div className="mt-1 text-xs font-light text-muted-foreground md:text-sm">
+                {s.label}
+              </div>
             </div>
           ))}
         </motion.div>

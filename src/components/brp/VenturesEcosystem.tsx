@@ -39,17 +39,13 @@ function VentureDetailPanel({
         />
       </div>
 
-      <div
-        className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/8 opacity-100 blur-3xl"
-      />
+      <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/8 opacity-100 blur-3xl" />
 
       <div className="relative flex flex-1 flex-col p-6 sm:p-8 md:p-10">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <span
-                className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground"
-              >
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 <Icon className="h-3 w-3 text-primary" />
                 {venture.category}
               </span>
@@ -64,14 +60,8 @@ function VentureDetailPanel({
             <p className="mt-2 text-sm font-medium text-muted-foreground">{venture.desc}</p>
           </div>
 
-          <div
-            className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl border border-border/40 bg-white p-4 shadow-sm sm:h-28 sm:w-28"
-          >
-            <img
-              src={venture.logo}
-              alt=""
-              className="max-h-full max-w-full object-contain"
-            />
+          <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl border border-border/40 bg-white p-4 shadow-sm sm:h-28 sm:w-28">
+            <img src={venture.logo} alt="" className="max-h-full max-w-full object-contain" />
           </div>
         </div>
 
@@ -170,8 +160,8 @@ export function VenturesEcosystem() {
             The Ecosystem
           </div>
           <h2 className="font-display text-4xl leading-[1.08] tracking-tight text-balance text-foreground md:text-5xl lg:text-6xl">
-            An interconnected network of{" "}
-            <span className="text-gradient italic">ventures</span> driving innovation and growth.
+            An interconnected network of <span className="text-gradient italic">ventures</span>{" "}
+            driving innovation and growth.
           </h2>
           <p className="mt-5 text-base font-light leading-relaxed text-muted-foreground md:text-lg md:leading-8">
             Each company in the BRP constellation operates independently — yet draws strength from a
@@ -234,9 +224,7 @@ export function VenturesEcosystem() {
                             <span
                               className={cn(
                                 "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border p-1.5 transition-colors",
-                                selected
-                                  ? "border-white/20 bg-white"
-                                  : "border-border/50 bg-white",
+                                selected ? "border-white/20 bg-white" : "border-border/50 bg-white",
                               )}
                             >
                               <img
@@ -302,7 +290,9 @@ export function VenturesEcosystem() {
                       onClick={() => selectVenture(i)}
                       className={cn(
                         "h-1.5 rounded-full transition-all duration-300",
-                        i === activeIndex ? "w-8 bg-primary" : "w-1.5 bg-border hover:bg-muted-foreground/40",
+                        i === activeIndex
+                          ? "w-8 bg-primary"
+                          : "w-1.5 bg-border hover:bg-muted-foreground/40",
                       )}
                       aria-label={`Show ${ventures[i].name}`}
                     />

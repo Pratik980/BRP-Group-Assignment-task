@@ -27,9 +27,7 @@ export function Leadership({ title = "Our Executive Team" }: LeadershipProps) {
           transition={{ duration: 0.8 }}
           className="mb-12 text-center md:mb-16"
         >
-          <h2 className="font-display text-4xl tracking-tight text-primary md:text-5xl">
-            {title}
-          </h2>
+          <h2 className="font-display text-4xl tracking-tight text-primary md:text-5xl">{title}</h2>
         </motion.div>
 
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 md:gap-8">
