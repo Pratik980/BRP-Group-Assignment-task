@@ -198,7 +198,7 @@ function HistoryPage() {
                   return (
                     <div
                       key={milestone.period}
-                      ref={(el) => (cardRefs.current[idx] = el)}
+                      ref={(el) => { cardRefs.current[idx] = el; }}
                       data-index={idx}
                       className="relative"
                     >

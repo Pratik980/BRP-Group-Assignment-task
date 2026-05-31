@@ -2,6 +2,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { AdaptiveDpr, AdaptiveEvents, Float, Sparkles } from "@react-three/drei";
 import { useRef, useMemo, useState, useCallback, useEffect } from "react";
 import * as THREE from "three";
+import type { WebGLRenderer } from "three";
 import { cn } from "@/lib/utils";
 
 const BRAND = {
@@ -286,7 +287,7 @@ export function Scene3D({ className }: { className?: string }) {
   }, []);
 
   // Attach WebGL context lost / restore handlers when the canvas is created.
-  const handleCreated = useCallback((state) => {
+  const handleCreated = useCallback((state: { gl: WebGLRenderer; [key: string]: any }) => {
     onCreated();
     try {
       const canvas = state.gl.domElement as HTMLCanvasElement | null;
