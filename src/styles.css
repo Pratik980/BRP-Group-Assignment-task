@@ -302,26 +302,29 @@
 
   @media (max-width: 1023px) {
     .hero-parallax-track {
-      height: auto;
+      height: 180svh;
     }
 
     .hero-parallax-sticky {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      overflow: hidden;
+    }
+
+    .intro-parallax-track {
+      height: auto;
+      margin-top: -100svh;
+      border-radius: 2rem 2rem 0 0;
+      box-shadow: 0 -12px 36px rgba(0, 0, 0, 0.12);
+    }
+
+    .intro-parallax-sticky {
       position: relative;
       top: auto;
       height: auto;
       overflow: visible;
-    }
-
-    .intro-parallax-track {
-      margin-top: 0;
-      border-radius: 0;
-      box-shadow: none;
-    }
-
-    .intro-slide-panel {
-      margin-top: 0;
-      border-radius: 0;
-      overflow: visible;
+      display: block;
     }
   }
 

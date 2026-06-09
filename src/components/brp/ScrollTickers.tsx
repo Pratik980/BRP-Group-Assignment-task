@@ -61,14 +61,14 @@ export function ScrollTickers() {
 
       <motion.div
         style={{ rotate: prefersReducedMotion ? 0 : bandRotate }}
-        className="heritage-band pointer-events-none absolute left-[-8%] right-[-8%] top-[72%] z-0 hidden h-[min(320px,50vw)] -translate-y-1/2 md:top-1/2 md:block md:h-[min(480px,65vw)]"
+        className="heritage-band pointer-events-none absolute left-[-8%] right-[-8%] top-[72%] z-0 block h-[min(320px,50vw)] -translate-y-1/2 md:top-1/2 md:h-[min(480px,65vw)]"
       />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true }}
           transition={{ duration: 0.75, ease }}
         >
           <div className="glass mb-8 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-primary shadow-sm">

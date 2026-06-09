@@ -36,23 +36,23 @@ export const Route = createFileRoute("/")({
 
 function IntroSection() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/30 to-background py-16 sm:py-24">
+    <section className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/30 to-background py-8 sm:py-16 lg:py-24">
       <ThemeBackdrop variant="subtle" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid gap-12 lg:grid-cols-12 items-center">
+        <div className="grid gap-6 lg:gap-12 lg:grid-cols-12 items-center">
           {/* Header block */}
           <div className="lg:col-span-5">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
+              viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="glass mb-4 inline-flex rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-primary shadow-sm">
+              <div className="glass mb-3 lg:mb-4 inline-flex rounded-full px-3 py-1 lg:px-4 lg:py-1.5 text-[10px] lg:text-xs font-semibold uppercase tracking-[0.24em] text-primary shadow-sm">
                 <Sparkles className="h-3 w-3 text-primary shrink-0 mr-1.5" />
                 About Us
               </div>
-              <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-foreground">
+              <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-foreground">
                 Who We <span className="text-gradient italic">Are</span>
               </h2>
             </motion.div>
@@ -63,19 +63,19 @@ function IntroSection() {
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
+              viewport={{ once: true }}
               transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="glass-strong border border-border/40 p-8 md:p-10 rounded-3xl shadow-glass flex flex-col justify-center h-full relative overflow-hidden"
+              className="glass-strong border border-border/40 p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl shadow-glass flex flex-col justify-center h-full relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
-              <div className="space-y-4 relative z-10 text-base sm:text-lg font-light text-muted-foreground leading-relaxed text-pretty">
+              <div className="space-y-3 lg:space-y-4 relative z-10 text-sm sm:text-lg font-light text-muted-foreground leading-relaxed text-pretty">
                 {aboutUs.communityIntro.map((paragraph, idx) => (
                   <motion.p
                     key={idx}
                     initial={{ opacity: 0, y: 25 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-40px" }}
+                    viewport={{ once: true }}
                     transition={{ duration: 0.7, delay: 0.25 + idx * 0.12, ease: [0.22, 1, 0.36, 1] }}
                   >
                     {paragraph}
@@ -88,11 +88,11 @@ function IntroSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-8 relative z-10"
+                className="mt-4 sm:mt-8 relative z-10"
               >
                 <Link
                   to="/about"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
+                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-primary transition-colors hover:text-primary/80"
                 >
                   Learn more about our journey
                   <ArrowRight className="h-4 w-4" />
@@ -103,23 +103,23 @@ function IntroSection() {
         </div>
 
         {/* Vision & Mission Cards */}
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
+        <div className="mt-6 sm:mt-8 grid gap-4 sm:gap-6 md:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="glass-strong border border-border/40 p-6 md:p-8 rounded-3xl shadow-sm flex flex-col"
+            className="glass-strong border border-border/40 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl shadow-sm flex flex-col"
           >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <Target className="h-5 w-5" />
+            <div className="flex items-center gap-3 mb-2 sm:mb-4">
+              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl bg-primary/10 text-primary">
+                <Target className="h-4 sm:h-5 w-4 sm:w-5" />
               </div>
-              <h3 className="font-display text-xl text-foreground font-semibold">
+              <h3 className="font-display text-lg sm:text-xl text-foreground font-semibold">
                 {aboutUs.vision.title}
               </h3>
             </div>
-            <p className="text-sm font-light text-muted-foreground leading-relaxed text-pretty">
+            <p className="text-xs sm:text-sm font-light text-muted-foreground leading-relaxed text-pretty">
               {aboutUs.vision.body}
             </p>
           </motion.div>
@@ -127,19 +127,19 @@ function IntroSection() {
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="glass-strong border border-border/40 p-6 md:p-8 rounded-3xl shadow-sm flex flex-col"
+            className="glass-strong border border-border/40 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl shadow-sm flex flex-col"
           >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <Compass className="h-5 w-5" />
+            <div className="flex items-center gap-3 mb-2 sm:mb-4">
+              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl bg-primary/10 text-primary">
+                <Compass className="h-4 sm:h-5 w-4 sm:w-5" />
               </div>
-              <h3 className="font-display text-xl text-foreground font-semibold">
+              <h3 className="font-display text-lg sm:text-xl text-foreground font-semibold">
                 {aboutUs.mission.title}
               </h3>
             </div>
-            <p className="text-sm font-light text-muted-foreground leading-relaxed text-pretty">
+            <p className="text-xs sm:text-sm font-light text-muted-foreground leading-relaxed text-pretty">
               {aboutUs.mission.body}
             </p>
           </motion.div>
