@@ -176,8 +176,8 @@
 
   html {
     scroll-behavior: smooth;
-    /* Reserve space for fixed header (top offset + header height). Set to 72px. */
-    scroll-padding-top: 72px;
+    /* Reserve space for fixed header (top offset + taller header height). */
+    scroll-padding-top: 112px;
     scrollbar-gutter: stable both-edges;
   }
 
@@ -240,6 +240,85 @@
   .font-thin-display {
     font-weight: 200;
     letter-spacing: -0.04em;
+  }
+
+  /*
+   * IME-style Hero parallax — content slides up over sticky Hero.
+   *
+   * .hero-parallax-track  → tall container that creates the scroll runway
+   * .hero-parallax-sticky → sticks the Hero at top:0 while scrolling
+   * .content-slide-panel  → the solid panel that slides up and covers the Hero
+   */
+  .hero-parallax-track {
+    position: relative;
+    z-index: 0;
+    height: 200svh;        /* 100vh for the Hero + 100vh of scroll runway */
+    width: 100%;
+  }
+  .hero-parallax-sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /*
+   * Who We Are track — Heritage & Impact slides up over Who We Are.
+   */
+  .intro-parallax-track {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    margin-top: -100svh;   /* Pull up over Hero on all screen sizes */
+    border-radius: 2.5rem 2.5rem 0 0;
+    box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.12);
+    background-color: var(--background);
+  }
+  @media (min-width: 640px) {
+    .intro-parallax-track {
+      border-radius: 3rem 3rem 0 0;
+    }
+  }
+
+  .intro-parallax-sticky {
+    position: relative;
+    width: 100%;
+    background-color: var(--background);
+  }
+
+  .intro-slide-panel {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    background-color: var(--background);
+  }
+
+  /* Only enable the second parallax (Heritage & Impact sliding over Who We Are) on desktop screens */
+  @media (min-width: 1024px) {
+    .intro-parallax-track {
+      height: 200svh;      /* 100vh for IntroSection + 100vh runway */
+    }
+    .intro-parallax-sticky {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .intro-slide-panel {
+      margin-top: -100svh; /* Pull up into the Who We Are runway */
+      border-radius: 2.5rem 2.5rem 0 0;
+      box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+    }
+  }
+  @media (min-width: 1024px) and (min-width: 640px) {
+    .intro-slide-panel {
+      border-radius: 3rem 3rem 0 0;
+    }
   }
 
   /* Heritage trust strip — homepage bridge between intro & ventures */
@@ -350,6 +429,225 @@
     background: linear-gradient(90deg, transparent 25%, oklch(1 0 0 / 0.4) 50%, transparent 75%);
     background-size: 200% 100%;
     animation: shimmer 2s infinite;
+  }
+}
+
+/* === Full-Width Dropbar Menus === */
+.dropbar-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  background: oklch(1 0 0 / 0.98);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border-bottom: 1px solid oklch(0.92 0.01 275 / 0.8);
+  box-shadow: 0 30px 60px -20px oklch(0.3 0.08 275 / 0.12);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.dropbar-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 24px 50px;
+}
+
+.dropbar-layout {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* Featured Section (Left) */
+.dropbar-featured {
+  flex: 0 0 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.dropbar-featured-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 100px;
+  background: oklch(0.96 0.015 275);
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 20px;
+}
+
+.dropbar-featured-title {
+  font-family: "Instrument Serif", "Playfair Display", ui-serif, serif;
+  font-size: 32px;
+  line-height: 1.1;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+  margin: 0 0 12px 0;
+}
+
+.dropbar-featured-desc {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+  margin: 0 0 24px 0;
+}
+
+.dropbar-featured-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--foreground);
+  text-decoration: none;
+  transition: opacity 0.2s ease, gap 0.2s ease;
+  padding-bottom: 4px;
+  border-bottom: 1px solid oklch(0.92 0.01 275);
+}
+.dropbar-featured-link:hover {
+  opacity: 0.8;
+  gap: 12px;
+  border-bottom-color: var(--foreground);
+}
+
+/* Divider */
+.dropbar-divider {
+  width: 1px;
+  align-self: stretch;
+  background: linear-gradient(to bottom, oklch(0.92 0.01 275 / 0), oklch(0.92 0.01 275), oklch(0.92 0.01 275 / 0));
+}
+
+/* Grid Section (Right) */
+.dropbar-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 24px;
+}
+.dropbar-grid--ventures {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px 16px;
+}
+
+/* Cards */
+.dropbar-card {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  text-decoration: none;
+  cursor: pointer;
+}
+.dropbar-grid--ventures .dropbar-card {
+  gap: 12px;
+  padding: 14px;
+}
+
+.dropbar-card:hover {
+  background: oklch(0.98 0.005 275);
+  border-color: oklch(0.94 0.01 275);
+  box-shadow: 0 8px 24px -8px oklch(0.3 0.08 275 / 0.06);
+  transform: translateY(-2px);
+}
+
+.dropbar-card-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+.dropbar-grid--ventures .dropbar-card-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+}
+.dropbar-card:hover .dropbar-card-icon {
+  transform: scale(1.1) rotate(-3deg);
+}
+
+.dropbar-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.dropbar-card-period {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 4px;
+}
+
+.dropbar-card-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--foreground);
+  line-height: 1.2;
+  margin: 0;
+  letter-spacing: -0.01em;
+  transition: color 0.2s ease;
+}
+.dropbar-grid--ventures .dropbar-card-title {
+  font-size: 13.5px;
+}
+
+.dropbar-card:hover .dropbar-card-title {
+  color: var(--primary);
+}
+
+.dropbar-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.dropbar-card-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2.5px 7px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+.dropbar-card-desc {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--muted-foreground);
+  line-height: 1.5;
+  margin: 6px 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.dropbar-grid--ventures .dropbar-card-desc {
+  font-size: 11.5px;
+}
+
+@media (max-width: 1024px) {
+  .dropbar-container {
+    display: none;
   }
 }
 

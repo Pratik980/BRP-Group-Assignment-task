@@ -162,7 +162,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="top" className="relative min-h-screen w-full overflow-hidden">
+    <section id="top" className="relative min-h-screen w-full overflow-hidden pt-32 sm:pt-36 md:pt-40">
       {/* Aurora background */}
       <div className="absolute inset-0 aurora-bg opacity-80" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,oklch(0.85_0.1_240/0.5),transparent_60%)]" />
@@ -186,7 +186,7 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,oklch(1_0_0/0.4)_85%)]" />
 
       {/* Content overlay */}
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-4 pt-28 pb-16 text-center sm:px-6 sm:pt-32 sm:pb-20">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-8rem)] max-w-7xl flex-col items-center justify-center px-4 pt-4 pb-16 text-center sm:min-h-[calc(100vh-9rem)] sm:px-6 sm:pt-4 sm:pb-20 md:min-h-[calc(100vh-10rem)]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

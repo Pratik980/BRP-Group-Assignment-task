@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VenturesRouteImport } from './routes/ventures'
 import { Route as HistoryRouteImport } from './routes/history'
+import { Route as CommunityRouteImport } from './routes/community'
+import { Route as CareerRouteImport } from './routes/career'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -22,6 +24,16 @@ const VenturesRoute = VenturesRouteImport.update({
 const HistoryRoute = HistoryRouteImport.update({
   id: '/history',
   path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareerRoute = CareerRouteImport.update({
+  id: '/career',
+  path: '/career',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -38,12 +50,16 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/career': typeof CareerRoute
+  '/community': typeof CommunityRoute
   '/history': typeof HistoryRoute
   '/ventures': typeof VenturesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/career': typeof CareerRoute
+  '/community': typeof CommunityRoute
   '/history': typeof HistoryRoute
   '/ventures': typeof VenturesRoute
 }
@@ -51,20 +67,37 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/career': typeof CareerRoute
+  '/community': typeof CommunityRoute
   '/history': typeof HistoryRoute
   '/ventures': typeof VenturesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/history' | '/ventures'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/career'
+    | '/community'
+    | '/history'
+    | '/ventures'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/history' | '/ventures'
-  id: '__root__' | '/' | '/about' | '/history' | '/ventures'
+  to: '/' | '/about' | '/career' | '/community' | '/history' | '/ventures'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/career'
+    | '/community'
+    | '/history'
+    | '/ventures'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CareerRoute: typeof CareerRoute
+  CommunityRoute: typeof CommunityRoute
   HistoryRoute: typeof HistoryRoute
   VenturesRoute: typeof VenturesRoute
 }
@@ -83,6 +116,20 @@ declare module '@tanstack/react-router' {
       path: '/history'
       fullPath: '/history'
       preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/career': {
+      id: '/career'
+      path: '/career'
+      fullPath: '/career'
+      preLoaderRoute: typeof CareerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -105,6 +152,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CareerRoute: CareerRoute,
+  CommunityRoute: CommunityRoute,
   HistoryRoute: HistoryRoute,
   VenturesRoute: VenturesRoute,
 }
