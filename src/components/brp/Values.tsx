@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Lightbulb, Leaf, TrendingUp, Compass, Layers } from "lucide-react";
 import React from "react";
+import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 type IconComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>;
 
@@ -59,10 +60,10 @@ const values: ValueItem[] = [
 
 export function Values() {
   return (
-    <section id="values" className="relative py-20 sm:py-28 md:py-32">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/40 to-transparent" />
+    <section id="values" className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/25 to-background py-20 sm:py-28 md:py-32">
+      <ThemeBackdrop variant="subtle" />
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

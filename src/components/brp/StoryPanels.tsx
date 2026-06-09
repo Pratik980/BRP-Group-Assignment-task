@@ -5,14 +5,14 @@ import { ArrowRight, Landmark, Heart } from "lucide-react";
 import legacyImg from "@/assets/optimized/legacy-image-1200.webp";
 import childrenImg from "@/assets/optimized/childrents-1200.webp";
 import { ourLegacy, ourCommunity } from "@/data/brp-site-content";
+import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 export function StoryPanels() {
   return (
-    <section id="story" className="relative py-24 md:py-32 overflow-hidden bg-background">
-      {/* Background orbs */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.88_0.08_240/0.15),transparent_60%)] pointer-events-none" />
+    <section id="story" className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/20 to-background py-24 md:py-32">
+      <ThemeBackdrop variant="section" />
 
-      <div className="relative mx-auto max-w-7xl px-6 flex flex-col gap-24 md:gap-36">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 flex flex-col gap-24 md:gap-36">
         {/* Section 1: Our Legacy */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}

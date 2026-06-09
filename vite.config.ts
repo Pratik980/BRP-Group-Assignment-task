@@ -22,6 +22,9 @@ export default defineConfig(({ mode }) => {
         "node:async_hooks": path.resolve(__dirname, "src/shims/async_hooks.ts"),
       },
     },
+    optimizeDeps: {
+      include: ["three", "@react-three/fiber"],
+    },
     build: {
       chunkSizeWarningLimit: 700,
       rollupOptions: {

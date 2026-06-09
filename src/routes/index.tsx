@@ -6,6 +6,7 @@ import { StoryPanels } from "@/components/brp/StoryPanels";
 import { Values } from "@/components/brp/Values";
 import { CTA } from "@/components/brp/CTA";
 import { Footer } from "@/components/brp/Footer";
+import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 import { ScrollTickers } from "@/components/brp/ScrollTickers";
 import { CorporateGallery } from "@/components/brp/CorporateGallery";
 import { motion } from "framer-motion";
@@ -35,8 +36,8 @@ export const Route = createFileRoute("/")({
 
 function IntroSection() {
   return (
-    <section className="relative overflow-hidden py-16 sm:py-24">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,oklch(0.95_0.02_240/0.5),transparent_60%)] pointer-events-none" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/30 to-background py-16 sm:py-24">
+      <ThemeBackdrop variant="subtle" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid gap-12 lg:grid-cols-12 items-center">
           {/* Header block */}
@@ -182,7 +183,9 @@ function Index() {
 
       {/* ── Heritage & Impact and remaining sections ── */}
       {/* On desktop: slides up over Who We Are, then scrolls normally */}
-      <div className="intro-slide-panel">
+      <div className="intro-slide-panel relative overflow-hidden">
+        <ThemeBackdrop variant="page" className="opacity-60" />
+        <div className="relative z-10">
         <ScrollTickers />
         <VenturesEcosystem />
         <StoryPanels />
@@ -190,6 +193,7 @@ function Index() {
         <Values />
         <CTA />
         <Footer />
+        </div>
       </div>
     </main>
   );

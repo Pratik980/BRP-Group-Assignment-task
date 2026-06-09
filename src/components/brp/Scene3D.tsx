@@ -1,5 +1,4 @@
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { AdaptiveDpr, AdaptiveEvents, Float, Sparkles } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef, useMemo, useState, useCallback, useEffect } from "react";
 import * as THREE from "three";
 import { cn } from "@/lib/utils";
@@ -164,32 +163,40 @@ function FloatingShard({
   rotation,
   color,
   reduced,
+  seed = 0,
 }: {
   position: [number, number, number];
   scale: number;
   rotation: [number, number, number];
   color: string;
   reduced: boolean;
+  seed?: number;
 }) {
+  const ref = useRef<THREE.Mesh>(null);
+  const baseY = position[1];
+
+  useFrame((state) => {
+    if (!ref.current) return;
+    const t = state.clock.elapsedTime + seed;
+    const intensity = reduced ? 0.35 : 1;
+    ref.current.position.y = baseY + Math.sin(t * (reduced ? 0.8 : 1.2)) * 0.22 * intensity;
+    ref.current.rotation.x = rotation[0] + Math.sin(t * 0.7) * 0.15;
+    ref.current.rotation.z = rotation[2] + Math.cos(t * 0.5) * 0.12;
+  });
+
   return (
-    <Float
-      speed={reduced ? 0.6 : 1.2}
-      rotationIntensity={reduced ? 0.2 : 0.6}
-      floatIntensity={reduced ? 0.35 : 1.1}
-    >
-      <mesh position={position} rotation={rotation} scale={scale}>
-        <octahedronGeometry args={[0.5, 0]} />
-        <meshStandardMaterial
-          color={color}
-          roughness={0.2}
-          metalness={0.85}
-          emissive={color}
-          emissiveIntensity={0.25}
-          transparent
-          opacity={0.85}
-        />
-      </mesh>
-    </Float>
+    <mesh ref={ref} position={position} rotation={rotation} scale={scale}>
+      <octahedronGeometry args={[0.5, 0]} />
+      <meshStandardMaterial
+        color={color}
+        roughness={0.2}
+        metalness={0.85}
+        emissive={color}
+        emissiveIntensity={0.25}
+        transparent
+        opacity={0.85}
+      />
+    </mesh>
   );
 }
 
@@ -210,31 +217,43 @@ function Beam({ active, x, delay }: { active: boolean; x: number; delay: number 
   );
 }
 
-function WebGLContextGuard({ onContextLost }: { onContextLost: () => void }) {
-  const { gl } = useThree();
+function MistSparkles({ count, reduced }: { count: number; reduced: boolean }) {
+  const ref = useRef<THREE.Points>(null);
+  const positions = useMemo(() => {
+    const arr = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      arr[i * 3] = (Math.random() - 0.5) * 14;
+      arr[i * 3 + 1] = (Math.random() - 0.5) * 8;
+      arr[i * 3 + 2] = (Math.random() - 0.5) * 6;
+    }
+    return arr;
+  }, [count]);
 
-  useEffect(() => {
-    const canvas = gl.domElement;
-    const onLost = (e: Event) => {
-      e.preventDefault();
-      onContextLost();
-      try {
-        gl.dispose();
-      } catch {
-        // ignore
-      }
-    };
-    canvas.addEventListener("webglcontextlost", onLost, false);
-    return () => canvas.removeEventListener("webglcontextlost", onLost);
-  }, [gl, onContextLost]);
+  useFrame((state) => {
+    if (!ref.current) return;
+    ref.current.rotation.y = state.clock.elapsedTime * (reduced ? 0.02 : 0.04);
+  });
 
-  return null;
+  return (
+    <points ref={ref}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+      </bufferGeometry>
+      <pointsMaterial
+        color={BRAND.mist}
+        size={reduced ? 0.9 : 1.05}
+        transparent
+        opacity={reduced ? 0.28 : 0.36}
+        sizeAttenuation
+        depthWrite={false}
+      />
+    </points>
+  );
 }
 
-function Scene({ active, reduced, onContextLost }: { active: boolean; reduced: boolean; onContextLost: () => void }) {
+function Scene({ active, reduced }: { active: boolean; reduced: boolean }) {
   return (
     <>
-      <WebGLContextGuard onContextLost={onContextLost} />
       <ambientLight intensity={0.5} />
       <directionalLight position={[4, 6, 4]} intensity={1.0} color="#ffffff" />
       {!reduced && <pointLight position={[-5, 2, -2]} intensity={1.4} color={BRAND.soft} />}
@@ -249,6 +268,7 @@ function Scene({ active, reduced, onContextLost }: { active: boolean; reduced: b
         rotation={[0.3, 0.4, 0.2]}
         color={BRAND.indigo}
         reduced={reduced}
+        seed={0.2}
       />
       <FloatingShard
         position={[3.4, 1.4, -1]}
@@ -256,6 +276,7 @@ function Scene({ active, reduced, onContextLost }: { active: boolean; reduced: b
         rotation={[0.6, 0.2, 0.5]}
         color={BRAND.navy}
         reduced={reduced}
+        seed={1.1}
       />
       {!reduced && (
         <>
@@ -265,6 +286,7 @@ function Scene({ active, reduced, onContextLost }: { active: boolean; reduced: b
             rotation={[0.2, 0.8, 0.1]}
             color={BRAND.soft}
             reduced={reduced}
+            seed={2.4}
           />
           <FloatingShard
             position={[2.8, -0.4, 0.5]}
@@ -272,6 +294,7 @@ function Scene({ active, reduced, onContextLost }: { active: boolean; reduced: b
             rotation={[0.7, 0.5, 0.3]}
             color={BRAND.mist}
             reduced={reduced}
+            seed={3.7}
           />
         </>
       )}
@@ -281,22 +304,14 @@ function Scene({ active, reduced, onContextLost }: { active: boolean; reduced: b
       <Beam active={active} x={1.8} delay={1} />
       {!reduced && <Beam active={active} x={4.2} delay={3.5} />}
 
-      <Sparkles
-        count={reduced ? 16 : 36}
-        scale={[14, 8, 6]}
-        size={reduced ? 0.9 : 1.05}
-        speed={reduced ? 0.06 : 0.11}
-        color={BRAND.mist}
-        opacity={reduced ? 0.28 : 0.36}
-      />
+      <MistSparkles count={reduced ? 16 : 36} reduced={reduced} />
 
       <fog attach="fog" args={["#f4f5fb", 8, 18]} />
     </>
   );
 }
 
-const SCENE_FALLBACK_CLASS =
-  "bg-gradient-to-b from-primary/8 to-transparent";
+const SCENE_FALLBACK_CLASS = "bg-gradient-to-b from-primary/8 to-transparent";
 
 export function Scene3D({ className }: { className?: string }) {
   const [ready, setReady] = useState(false);
@@ -311,11 +326,7 @@ export function Scene3D({ className }: { className?: string }) {
 
   if (useFallback) {
     return (
-      <div
-        ref={containerRef}
-        className={cn(className, SCENE_FALLBACK_CLASS)}
-        aria-hidden
-      />
+      <div ref={containerRef} className={cn(className, SCENE_FALLBACK_CLASS)} aria-hidden />
     );
   }
 
@@ -337,9 +348,7 @@ export function Scene3D({ className }: { className?: string }) {
         performance={{ min: 0.6 }}
         onCreated={onCreated}
       >
-        <AdaptiveDpr pixelated />
-        <AdaptiveEvents />
-        <Scene active={active} reduced={reduced} onContextLost={() => setUseFallback(true)} />
+        <Scene active={active} reduced={reduced} />
       </Canvas>
     </div>
   );

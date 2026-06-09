@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/brp/Nav";
 import { Footer } from "@/components/brp/Footer";
+import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { useHashScroll } from "@/components/brp/FooterNavLink";
@@ -346,16 +347,13 @@ function VenturesPage() {
 
   return (
     <main className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+      <ThemeBackdrop variant="page" className="opacity-50" />
       <Nav />
+      <div className="relative z-10">
 
       {/* ═══ HERO BANNER ═══ */}
       <section className="relative py-28 md:py-40 overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background">
-        <div className="absolute inset-0 aurora-bg opacity-30 pointer-events-none" />
-        <div className="absolute -left-16 top-20 w-80 h-80 rounded-full bg-gradient-to-tr from-primary/10 to-accent/15 blur-3xl pointer-events-none animate-pulse-glow" />
-        <div
-          className="absolute -right-20 top-40 w-96 h-96 rounded-full bg-gradient-to-br from-indigo-500/10 to-sky-500/10 blur-3xl pointer-events-none"
-          style={{ animationDelay: "2s" }}
-        />
+        <ThemeBackdrop variant="hero" />
 
         {/* Floating venture logos behind hero text */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -420,7 +418,8 @@ function VenturesPage() {
 
       {/* ═══ CATEGORY ECOSYSTEM MAP ═══ */}
       <section className="relative py-16 md:py-24 overflow-hidden">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <ThemeBackdrop variant="subtle" />
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -499,8 +498,9 @@ function VenturesPage() {
       </section>
 
       {/* ═══ VENTURES SHOWCASE — Alternating Immersive Cards ═══ */}
-      <section className="px-4 pb-16 sm:px-6 sm:pb-20">
-        <div className="mx-auto max-w-6xl">
+      <section className="relative overflow-hidden px-4 pb-16 sm:px-6 sm:pb-20">
+        <ThemeBackdrop variant="section" />
+        <div className="relative z-10 mx-auto max-w-6xl">
           <motion.div layout className="flex flex-col gap-12 md:gap-16">
             <AnimatePresence mode="popLayout">
               {filteredVentures.map((venture, i) => (
@@ -573,6 +573,7 @@ function VenturesPage() {
       </section>
 
       <Footer />
+      </div>
     </main>
   );
 }

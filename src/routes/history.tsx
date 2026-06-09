@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/brp/Nav";
 import { Footer } from "@/components/brp/Footer";
+import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import {
@@ -137,12 +138,14 @@ function HistoryPage() {
 
   return (
     <main className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+      <ThemeBackdrop variant="page" className="opacity-50" />
       <Nav />
+      <div className="relative z-10">
 
       {/* Hero Banner */}
       <section className="relative py-28 md:py-36 overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background">
-        <div className="absolute inset-0 aurora-bg opacity-30 pointer-events-none" />
-        <div className="mx-auto max-w-7xl px-6 text-center pt-20">
+        <ThemeBackdrop variant="hero" />
+        <div className="relative z-10 mx-auto max-w-7xl px-6 text-center pt-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -164,8 +167,9 @@ function HistoryPage() {
       </section>
 
       {/* Milestones Tree */}
-      <section className="px-4 pb-24 sm:px-6 sm:pb-32">
-        <div className="mx-auto max-w-7xl">
+      <section className="relative overflow-hidden px-4 pb-24 sm:px-6 sm:pb-32">
+        <ThemeBackdrop variant="section" />
+        <div className="relative z-10 mx-auto max-w-7xl">
           <div className="grid md:grid-cols-[240px_1fr] gap-10">
             {/* Left: Sticky Years Column */}
             <aside className="hidden md:block sticky top-[96px] h-fit self-start">
@@ -269,6 +273,7 @@ function HistoryPage() {
       </section>
 
       <Footer />
+      </div>
     </main>
   );
 }

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ContactForm } from "./ContactForm";
 import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { siteMeta } from "@/data/brp-site-content";
+import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 const fadeSlide = {
   hidden: { opacity: 0, y: 24 },
@@ -34,13 +35,10 @@ const contactItems = [
 
 export function CTA() {
   return (
-    <section id="contact" className="relative overflow-hidden py-20 sm:py-28 md:py-36">
-      {/* Background */}
-      <div className="absolute inset-0 bg-background" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,oklch(0.92_0.06_240/0.45),transparent_70%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,oklch(0.97_0.02_240/0.3)_50%,transparent_100%)]" />
+    <section id="contact" className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/25 to-background py-20 sm:py-28 md:py-36">
+      <ThemeBackdrop variant="section" />
 
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Centered header */}
         <div className="mx-auto mb-16 max-w-3xl text-center md:mb-20">
           <motion.div

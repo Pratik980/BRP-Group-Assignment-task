@@ -35,6 +35,110 @@ export type Database = {
         };
         Relationships: [];
       };
+      job_vacancies: {
+        Row: {
+          id: string;
+          title: string;
+          department: string;
+          location: string;
+          employment_type: string;
+          experience_required: string;
+          description: string;
+          requirements: string[];
+          salary_range: string;
+          is_active: boolean;
+          application_deadline: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          department: string;
+          location: string;
+          employment_type: string;
+          experience_required: string;
+          description: string;
+          requirements?: string[];
+          salary_range?: string;
+          is_active?: boolean;
+          application_deadline: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          department?: string;
+          location?: string;
+          employment_type?: string;
+          experience_required?: string;
+          description?: string;
+          requirements?: string[];
+          salary_range?: string;
+          is_active?: boolean;
+          application_deadline?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      job_applications: {
+        Row: {
+          id: string;
+          vacancy_id: string | null;
+          full_name: string;
+          email: string;
+          phone: string;
+          address: string;
+          position: string;
+          experience: string;
+          portfolio_url: string | null;
+          cover_letter: string | null;
+          resume_path: string;
+          status: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          vacancy_id?: string | null;
+          full_name: string;
+          email: string;
+          phone: string;
+          address: string;
+          position: string;
+          experience: string;
+          portfolio_url?: string | null;
+          cover_letter?: string | null;
+          resume_path: string;
+          status?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          vacancy_id?: string | null;
+          full_name?: string;
+          email?: string;
+          phone?: string;
+          address?: string;
+          position?: string;
+          experience?: string;
+          portfolio_url?: string | null;
+          cover_letter?: string | null;
+          resume_path?: string;
+          status?: string;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "job_applications_vacancy_id_fkey";
+            columns: ["vacancy_id"];
+            isOneToOne: false;
+            referencedRelation: "job_vacancies";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
     };
     Views: {
       [_ in never]: never;

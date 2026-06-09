@@ -1,4 +1,4 @@
-import logo from "@/assets/optimized/Brp-Nav-logo.webp";
+import logo from "@/assets/optimized/BRPGrouplogo.png";
 import { ArrowUp, Mail, Linkedin, Facebook, Instagram, Send, Phone, MapPin } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -7,11 +7,15 @@ import { ventures } from "@/data/ventures";
 import { siteMeta } from "@/data/brp-site-content";
 import { FooterNavLink, useHashScroll } from "@/components/brp/FooterNavLink";
 import { cn } from "@/lib/utils";
+import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 const exploreLinks = [
   { label: "Home", to: "/" as const },
-  { label: "Ventures", to: "/ventures" as const },
   { label: "About Us", to: "/about" as const },
+  { label: "History", to: "/history" as const },
+  { label: "Ventures", to: "/ventures" as const },
+  { label: "Community", to: "/community" as const },
+  { label: "Career", to: "/career" as const },
   { label: "Contact", to: "/" as const, hash: "contact" },
 ] as const;
 
@@ -133,8 +137,9 @@ export function Footer() {
   const phoneNumbers = siteMeta.phone.split(",").map((p) => p.trim());
 
   return (
-    <footer className="relative border-t border-border/40 bg-background">
-      <div className="mx-auto max-w-7xl px-5 sm:px-6">
+    <footer className="relative overflow-hidden border-t border-border/40 bg-background">
+      <ThemeBackdrop variant="footer" />
+      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6">
         {/* ——— Mobile: clean two-column nav + stacked sections ——— */}
         <div className="space-y-8 pt-10 pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] md:hidden">
           {/* Brand */}

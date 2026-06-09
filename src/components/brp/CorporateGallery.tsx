@@ -2,6 +2,7 @@ import { motion, useMotionValue } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 import img1 from "@/assets/optimized/image-1.webp";
 import img2 from "@/assets/optimized/image-2.webp";
@@ -66,8 +67,9 @@ export function CorporateGallery() {
   }, [handleNext]);
 
   return (
-    <section id="gallery" className="relative overflow-hidden bg-background py-16 sm:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+    <section id="gallery" className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/20 to-background py-16 sm:py-24">
+      <ThemeBackdrop variant="section" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12">
           <div>
             <div className="glass mb-4 inline-flex rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground shadow-sm">

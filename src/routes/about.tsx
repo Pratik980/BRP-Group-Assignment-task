@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Nav } from "@/components/brp/Nav";
 import { Footer } from "@/components/brp/Footer";
+import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 import { Leadership } from "@/components/brp/Leadership";
 import { Values } from "@/components/brp/Values";
 import { VisionMissionSection } from "@/components/brp/VisionMissionSection";
@@ -30,11 +31,14 @@ export const Route = createFileRoute("/about")({
 function AboutPage() {
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+      <ThemeBackdrop variant="page" className="opacity-50" />
       <Nav />
+      <div className="relative z-10">
 
       {/* Hero — text left, photo right (no full-width background) */}
-      <section className="relative overflow-hidden border-b border-border/30 bg-gradient-to-b from-secondary/40 via-background to-background pt-28 pb-16 md:pt-32 md:pb-24">
-        <div className="mx-auto max-w-7xl px-6">
+      <section className="relative overflow-hidden border-b border-border/30 bg-gradient-to-b from-secondary/50 via-background to-background pt-28 pb-16 md:pt-32 md:pb-24">
+        <ThemeBackdrop variant="hero" />
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -73,8 +77,9 @@ function AboutPage() {
       </section>
 
       {/* Company overview */}
-      <section className="border-b border-border/30 py-16 md:py-20">
-        <div className="mx-auto max-w-3xl px-6 text-center">
+      <section className="relative overflow-hidden border-b border-border/30 py-16 md:py-20">
+        <ThemeBackdrop variant="subtle" />
+        <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -90,8 +95,9 @@ function AboutPage() {
       <VisionMissionSection />
 
       {/* Community */}
-      <section className="py-20 md:py-24">
-        <div className="mx-auto max-w-7xl px-6">
+      <section className="relative overflow-hidden py-20 md:py-24">
+        <ThemeBackdrop variant="section" />
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
           <div className="grid items-center gap-10 lg:grid-cols-2">
             <div className="overflow-hidden rounded-3xl shadow-glass lg:order-2">
               <img
@@ -124,8 +130,9 @@ function AboutPage() {
 
       <Values />
 
-      <section className="border-t border-border/30 py-12">
-        <div className="mx-auto max-w-7xl px-6 text-center">
+      <section className="relative overflow-hidden border-t border-border/30 py-12">
+        <ThemeBackdrop variant="subtle" />
+        <div className="relative z-10 mx-auto max-w-7xl px-6 text-center">
           <div className="glass mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
             Get in touch
@@ -162,6 +169,7 @@ function AboutPage() {
       </section>
 
       <Footer />
+      </div>
     </main>
   );
 }

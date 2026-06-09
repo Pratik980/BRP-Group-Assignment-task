@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Compass, Rocket, Sparkles } from "lucide-react";
 import { aboutUs } from "@/data/brp-site-content";
+import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 import photoHeritage from "@/assets/optimized/History-image-2-1200.webp";
 import photoGrowth from "@/assets/optimized/image-5-1200.webp";
@@ -203,16 +204,16 @@ export function VisionMissionSection() {
     <section
       ref={sectionRef}
       id="vision-mission"
-      className="relative overflow-hidden py-20 md:py-28"
+      className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/20 to-background py-20 md:py-28"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.97_0.02_275/0.5),transparent_65%)]" />
+      <ThemeBackdrop variant="subtle" />
       <motion.div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-24 h-px w-[min(90%,720px)] -translate-x-1/2 origin-left bg-gradient-to-r from-transparent via-primary/40 to-transparent"
         style={{ scaleX: lineScale }}
       />
 
-      <div className="relative mx-auto max-w-7xl px-6">
+      <div className="relative z-10 mx-auto max-w-7xl px-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Linkedin, Mail } from "lucide-react";
+import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 import { executiveTeam, siteMeta } from "@/data/brp-site-content";
 
 import BrpSir480 from "@/assets/optimized/Brp-sir-image-480.webp";
@@ -27,7 +28,8 @@ type LeadershipProps = {
 export function Leadership({ title = "Our Executive Team" }: LeadershipProps) {
   return (
     <section id="leadership" className="relative overflow-hidden py-24 md:py-32">
-      <div className="relative mx-auto max-w-7xl px-6">
+      <ThemeBackdrop variant="subtle" />
+      <div className="relative z-10 mx-auto max-w-7xl px-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}

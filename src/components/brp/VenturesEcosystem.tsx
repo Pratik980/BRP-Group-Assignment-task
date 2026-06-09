@@ -5,6 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { ventures, ventureCount, type Venture } from "@/data/ventures";
 import brpVenturesLogo from "@/assets/optimized/logo-BRP.webp";
+import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const AUTO_ROTATE_MS = 6000;
@@ -131,11 +132,12 @@ export function VenturesEcosystem() {
   return (
     <section
       id="ecosystem"
-      className="relative overflow-hidden py-24 md:py-32"
+      className="relative overflow-hidden bg-gradient-to-b from-secondary/30 via-background to-background py-24 md:py-32"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.97_0.02_275/0.6),transparent_50%),linear-gradient(180deg,oklch(0.99_0.005_275)_0%,oklch(0.97_0.01_275)_100%)]" />
+      <ThemeBackdrop variant="section" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.97_0.02_275/0.35),transparent_50%)]" />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.35]"

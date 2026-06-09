@@ -226,6 +226,25 @@
   .aurora-bg {
     background: var(--gradient-aurora);
   }
+  .brp-page-bg {
+    background-color: var(--background);
+    background-image:
+      radial-gradient(60rem 32rem at 8% 12%, oklch(0.42 0.11 275 / 0.09), transparent 62%),
+      radial-gradient(46rem 28rem at 92% 18%, oklch(0.55 0.12 270 / 0.08), transparent 64%),
+      linear-gradient(180deg, var(--background), oklch(0.965 0.014 275 / 0.75) 45%, var(--background));
+    background-attachment: fixed;
+  }
+  .brp-section-tint {
+    background:
+      radial-gradient(44rem 26rem at 12% 15%, oklch(0.42 0.11 275 / 0.07), transparent 64%),
+      radial-gradient(38rem 24rem at 86% 80%, oklch(0.55 0.12 270 / 0.06), transparent 62%),
+      linear-gradient(180deg, oklch(1 0 0 / 0.42), oklch(0.96 0.016 275 / 0.36));
+  }
+  .brp-section-tint-soft {
+    background:
+      radial-gradient(40rem 22rem at 50% 0%, oklch(0.42 0.11 275 / 0.055), transparent 68%),
+      linear-gradient(180deg, transparent, oklch(0.96 0.014 275 / 0.28), transparent);
+  }
   .shadow-float {
     box-shadow: var(--shadow-float);
   }
@@ -291,7 +310,22 @@
     position: relative;
     z-index: 10;
     width: 100%;
-    background-color: var(--background);
+    background: linear-gradient(
+      180deg,
+      var(--background) 0%,
+      oklch(0.975 0.012 275) 28%,
+      oklch(0.985 0.008 275) 55%,
+      var(--background) 100%
+    );
+  }
+
+  .themed-section-surface {
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      oklch(0.975 0.012 275 / 0.65) 50%,
+      transparent 100%
+    );
   }
 
   /* Only enable the second parallax (Heritage & Impact sliding over Who We Are) on desktop screens */

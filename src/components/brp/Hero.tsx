@@ -3,7 +3,20 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { ourHistory } from "@/data/brp-site-content";
 import { lazy, Suspense, useRef, useEffect, useState, useCallback, useLayoutEffect } from "react";
 
-const Scene3D = lazy(() => import("./Scene3D").then((m) => ({ default: m.Scene3D })));
+function Scene3DFallback({ className }: { className?: string }) {
+  return (
+    <div
+      className={`${className ?? ""} bg-gradient-to-b from-primary/8 to-transparent`}
+      aria-hidden
+    />
+  );
+}
+
+const Scene3D = lazy(() =>
+  import("./Scene3D")
+    .then((m) => ({ default: m.Scene3D }))
+    .catch(() => ({ default: Scene3DFallback })),
+);
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 

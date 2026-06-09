@@ -58,6 +58,40 @@ export const ourCommunity = {
   ],
 } as const;
 
+/** https://brpgroup.com.np/Community */
+export const communityPage = {
+  heroTitle: "Our Community",
+  heroIntro:
+    "The BRP Group understands its responsibility not just to its members but to the society. Our ambition to make an impact in society is not possible without being able to support and empower it. We continue to assist efforts that improve lives, and we firmly believe that the health and education sectors are crucial to achieving this goal. We have been providing financial or in-kind support to hospitals and schools that serve the community, particularly those where such services are in low supply.",
+  highlights: [
+    { value: "50+", label: "Scholarships" },
+    { value: "1000+", label: "Happy Faces" },
+  ],
+  sections: [
+    {
+      headline: "Education",
+      paragraphs: [
+        "Established by the late Dr. Babu Ram Pokharel, Shree Mandali, a higher secondary school and Shree Janakalyan, a primary level school in Siranchok Rural Municipality, Gorkha has been serving to educate hundreds of children from Chhoprak and the nearby villages.",
+        "BRP Group has been continuously improving the infrastructure and facilities at these schools. We have also introduced a library room and computer lab in Shree Mandali to help students find more resources for their interests.",
+      ],
+    },
+    {
+      headline: "Healthcare",
+      paragraphs: [
+        "Similarly, we are also supporting the local healthcare center in Chhoprak village through means of infrastructure and resources. Working closely with the local community we supported the construction of the healthcare center and have been helping to expand their services.",
+        "The health center is equipped with a maternity ward for pregnancy and post-natal care that has been providing health care services to ensure a safe and healthy environment for women and children.",
+      ],
+    },
+    {
+      headline: "Community Centre",
+      paragraphs: [
+        "Our activities show that we are proud of our heritage and have started a number of projects to advance Chhoprak. Local support has been essential to what we have accomplished in the region. We intended to inspire the neighborhood to get together and generate ideas for the common good after realizing the potential of local efforts.",
+        "The construction of a community center in the village was one of these methods. The center created by the late Dr. Babu Ram Pokharel acts as a focal point for locals to share ideas, get help, work together, and foster inclusivity and solidarity.",
+      ],
+    },
+  ],
+} as const;
+
 export const heritageHighlights = ["45 Years", "2nd Generation"] as const;
 
 /** https://brpgroup.com.np/About-Us */

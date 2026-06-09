@@ -2,6 +2,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } fr
 import { useEffect, useRef, useState } from "react";
 import { Landmark } from "lucide-react";
 import { heritageStrip } from "@/data/brp-site-content";
+import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -48,12 +49,11 @@ export function ScrollTickers() {
   return (
     <section
       ref={containerRef}
-      className="relative z-10 overflow-hidden border-y border-border/25 bg-background py-16 sm:py-20 md:py-28"
+      className="relative z-10 overflow-hidden border-y border-border/25 bg-gradient-to-b from-secondary/20 via-background to-secondary/15 py-16 sm:py-20 md:py-28"
       aria-label="BRP heritage and impact highlights"
     >
-      {/* Ambient bridges — matches Intro (top) and Ventures (bottom) */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.95_0.02_240/0.45),transparent_58%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,oklch(0.97_0.02_275/0.35),transparent_55%)]" />
+      <ThemeBackdrop variant="subtle" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.95_0.02_240/0.35),transparent_58%)]" />
       <div
         aria-hidden
         className="pointer-events-none absolute -right-16 top-1/3 h-64 w-64 rounded-full bg-primary/8 blur-3xl md:h-80 md:w-80"
