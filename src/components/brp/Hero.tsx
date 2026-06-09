@@ -153,7 +153,7 @@ function MobileScene3DPlaceholder() {
 
   const placeholder = (
     <div
-      className="absolute inset-x-0 top-40 bottom-0 md:top-32 bg-gradient-to-b from-primary/8 to-transparent"
+      className="absolute inset-x-0 top-28 bottom-0 sm:top-32 md:top-32 bg-gradient-to-b from-primary/8 to-transparent"
       aria-hidden
     />
   );
@@ -175,7 +175,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="top" className="relative min-h-screen w-full overflow-hidden pt-32 sm:pt-36 md:pt-40">
+    <section id="top" className="relative min-h-[100svh] w-full overflow-hidden pt-28 sm:pt-36 md:pt-40">
       {/* Aurora background */}
       <div className="absolute inset-0 aurora-bg opacity-80" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,oklch(0.85_0.1_240/0.5),transparent_60%)]" />
@@ -199,7 +199,7 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,oklch(1_0_0/0.4)_85%)]" />
 
       {/* Content overlay */}
-      <div className="relative z-10 mx-auto flex min-h-[calc(100vh-8rem)] max-w-7xl flex-col items-center justify-center px-4 pt-4 pb-16 text-center sm:min-h-[calc(100vh-9rem)] sm:px-6 sm:pt-4 sm:pb-20 md:min-h-[calc(100vh-10rem)]">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-7rem)] max-w-7xl flex-col items-center justify-center px-4 pt-4 pb-14 text-center sm:min-h-[calc(100svh-8rem)] sm:px-6 sm:pt-4 sm:pb-20 md:min-h-[calc(100svh-9rem)]">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

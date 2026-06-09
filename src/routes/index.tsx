@@ -186,13 +186,13 @@ function Index() {
       <div className="intro-slide-panel relative overflow-hidden">
         <ThemeBackdrop variant="page" className="opacity-60" />
         <div className="relative z-10">
-        <ScrollTickers />
-        <VenturesEcosystem />
-        <StoryPanels />
-        <CorporateGallery />
-        <Values />
-        <CTA />
-        <Footer />
+          <ScrollTickers />
+          <VenturesEcosystem />
+          <StoryPanels />
+          <CorporateGallery />
+          <Values />
+          <CTA />
+          <Footer />
         </div>
       </div>
     </main>

@@ -143,9 +143,9 @@ function HistoryPage() {
       <div className="relative z-10">
 
       {/* Hero Banner */}
-      <section className="relative py-28 md:py-36 overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background">
+      <section className="relative overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background py-20 sm:py-24 md:py-36">
         <ThemeBackdrop variant="hero" />
-        <div className="relative z-10 mx-auto max-w-7xl px-6 text-center pt-20">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 pt-16 text-center sm:px-6 sm:pt-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -167,10 +167,10 @@ function HistoryPage() {
       </section>
 
       {/* Milestones Tree */}
-      <section className="relative overflow-hidden px-4 pb-24 sm:px-6 sm:pb-32">
+      <section className="relative overflow-hidden px-4 pb-20 sm:px-6 sm:pb-32">
         <ThemeBackdrop variant="section" />
         <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="grid md:grid-cols-[240px_1fr] gap-10">
+          <div className="grid gap-8 md:grid-cols-[240px_1fr] md:gap-10">
             {/* Left: Sticky Years Column */}
             <aside className="hidden md:block sticky top-[96px] h-fit self-start">
               <div className="flex flex-col gap-4">
@@ -215,19 +215,19 @@ function HistoryPage() {
                         whileInView={{ opacity: 1, y: 0, scale: 1 }}
                         viewport={{ once: true, margin: "-120px" }}
                         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                        className="glass-strong border border-border/40 p-6 md:p-10 rounded-3xl shadow-glass overflow-hidden"
+                        className="glass-strong overflow-hidden rounded-3xl border border-border/40 p-4 shadow-glass sm:p-6 md:p-10"
                       >
-                        <div className="md:flex md:items-start md:gap-8">
-                          <div className="md:w-48 flex-shrink-0 mb-4 md:mb-0">
+                        <div className="flex flex-col gap-5 md:flex-row md:items-start md:gap-8">
+                          <div className="flex-shrink-0 md:w-48">
                             <div className="flex items-center gap-3">
                               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
                                 <Icon className="h-5 w-5" />
                               </div>
-                              <div>
+                              <div className="min-w-0">
                                 <div className="text-xs text-muted-foreground">
                                   {milestone.period}
                                 </div>
-                                <div className="font-display text-xl text-foreground font-semibold">
+                                <div className="font-display text-lg font-semibold text-foreground sm:text-xl">
                                   {milestone.title}
                                 </div>
                               </div>
@@ -239,7 +239,7 @@ function HistoryPage() {
                               <div className="w-24 h-1 rounded-full bg-[#2A4580] my-2" />
                             </div>
 
-                            <div className="grid md:grid-cols-2 gap-6 items-start">
+                            <div className="grid gap-5 md:grid-cols-2 md:gap-6 md:items-start">
                               <div>
                                 <p className="text-sm font-light text-muted-foreground text-pretty whitespace-pre-line">
                                   {milestone.desc}
@@ -250,7 +250,7 @@ function HistoryPage() {
                                 {milestone.images ? (
                                   <ImageSlider images={milestone.images} />
                                 ) : (
-                                  <div className="relative overflow-hidden rounded-2xl border bg-white p-2 shadow-sm aspect-video">
+                                  <div className="relative aspect-video overflow-hidden rounded-2xl border bg-white p-2 shadow-sm">
                                     <img
                                       src={milestone.image}
                                       alt={milestone.title}

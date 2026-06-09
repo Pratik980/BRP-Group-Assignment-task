@@ -36,10 +36,10 @@ function AboutPage() {
       <div className="relative z-10">
 
       {/* Hero — text left, photo right (no full-width background) */}
-      <section className="relative overflow-hidden border-b border-border/30 bg-gradient-to-b from-secondary/50 via-background to-background pt-28 pb-16 md:pt-32 md:pb-24">
+      <section className="relative overflow-hidden border-b border-border/30 bg-gradient-to-b from-secondary/50 via-background to-background pt-24 pb-14 sm:pt-28 sm:pb-16 md:pt-32 md:pb-24">
         <ThemeBackdrop variant="hero" />
-        <div className="relative z-10 mx-auto max-w-7xl px-6">
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -77,9 +77,9 @@ function AboutPage() {
       </section>
 
       {/* Company overview */}
-      <section className="relative overflow-hidden border-b border-border/30 py-16 md:py-20">
+      <section className="relative overflow-hidden border-b border-border/30 py-14 md:py-20">
         <ThemeBackdrop variant="subtle" />
-        <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
+        <div className="relative z-10 mx-auto max-w-3xl px-4 text-center sm:px-6">
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -95,10 +95,10 @@ function AboutPage() {
       <VisionMissionSection />
 
       {/* Community */}
-      <section className="relative overflow-hidden py-20 md:py-24">
+      <section className="relative overflow-hidden py-16 md:py-24">
         <ThemeBackdrop variant="section" />
-        <div className="relative z-10 mx-auto max-w-7xl px-6">
-          <div className="grid items-center gap-10 lg:grid-cols-2">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="grid items-center gap-8 lg:grid-cols-2">
             <div className="overflow-hidden rounded-3xl shadow-glass lg:order-2">
               <img
                 src={communityImg}
@@ -132,7 +132,7 @@ function AboutPage() {
 
       <section className="relative overflow-hidden border-t border-border/30 py-12">
         <ThemeBackdrop variant="subtle" />
-        <div className="relative z-10 mx-auto max-w-7xl px-6 text-center">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 text-center sm:px-6">
           <div className="glass mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
             Get in touch

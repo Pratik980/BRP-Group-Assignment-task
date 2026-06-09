@@ -629,9 +629,9 @@ export function Nav() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.96 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed top-28 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md md:hidden"
+              className="fixed left-1/2 top-20 z-50 w-[calc(100%-1.5rem)] max-w-md -translate-x-1/2 md:hidden"
             >
-              <div className="glass-strong rounded-3xl p-6 shadow-float">
+              <div className="glass-strong max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-3xl p-5 shadow-float">
                 <ul className="space-y-1">
                   {links.map((link, i) => (
                     <motion.li
