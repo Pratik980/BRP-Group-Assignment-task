@@ -129,3 +129,8 @@ export const executiveTeam = [
     bio: "Driving operations, organizational excellence, and strategic growth across all business verticals with a focus on sustainable, tech-enabled solutions.",
   },
 ] as const;
+
+export const ourTeam = {
+  title: "Our Team",
+  members: [] as { name: string; role: string }[],
+};

@@ -3,6 +3,7 @@ import { Nav } from "@/components/brp/Nav";
 import { Footer } from "@/components/brp/Footer";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 import { Leadership } from "@/components/brp/Leadership";
+import { OurTeam } from "@/components/brp/OurTeam";
 import { Values } from "@/components/brp/Values";
 import { VisionMissionSection } from "@/components/brp/VisionMissionSection";
 import { motion } from "framer-motion";
@@ -127,6 +128,8 @@ function AboutPage() {
       </section>
 
       <Leadership title={aboutUs.executiveTeamTitle} />
+
+      <OurTeam />
 
       <Values />
 

@@ -2,8 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/brp/Nav";
 import { Footer } from "@/components/brp/Footer";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
-import { motion } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useRef, useState, useLayoutEffect } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -14,6 +14,7 @@ import {
   Compass,
 } from "lucide-react";
 
+import { alternateSlideIn } from "@/lib/alternate-slide";
 import histImg1 from "@/assets/optimized/History-image-1.webp";
 import histImg2 from "@/assets/optimized/History-image-2-1200.webp";
 import hallOfFrame from "@/assets/optimized/hall-of-frame.webp";
@@ -37,9 +38,28 @@ export const Route = createFileRoute("/history")({
   component: HistoryPage,
 });
 
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const cardContentVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
+  },
+};
+
+const cardItemVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.45, ease },
+  },
+};
+
 // Helper Image Slider Component
 function ImageSlider({ images }: { images: string[] }) {
   const [index, setIndex] = useState(0);
+  const reduceMotion = useReducedMotion();
 
   const next = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -52,13 +72,21 @@ function ImageSlider({ images }: { images: string[] }) {
   };
 
   return (
-    <div className="relative overflow-hidden w-full h-[250px] md:h-[350px] rounded-3xl border border-border/40 shadow-sm flex items-center justify-center bg-white">
-      <img
-        src={images[index]}
-        alt="VS Niketan Slider"
-        className="w-full h-full object-cover transition-transform duration-700 hover:scale-102"
-      />
-      {/* Slider controls */}
+    <div className="relative w-full overflow-hidden rounded-3xl border border-border/40 shadow-sm flex items-center justify-center bg-white p-2 min-h-[200px] md:min-h-[280px]">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.img
+          key={index}
+          src={images[index]}
+          alt="VS Niketan Slider"
+          className="w-full h-auto max-h-[320px] md:max-h-[400px] object-contain rounded-2xl"
+          loading="lazy"
+          decoding="async"
+          initial={reduceMotion ? false : { opacity: 0, scale: 1.04, x: 24 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          exit={reduceMotion ? undefined : { opacity: 0, scale: 0.96, x: -24 }}
+          transition={{ duration: 0.45, ease }}
+        />
+      </AnimatePresence>
       <button
         onClick={prev}
         className="absolute left-4 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 transition-colors z-20"
@@ -112,168 +140,333 @@ const historyMilestones = [
   },
 ];
 
+const timelineNavItemClass =
+  "relative min-h-[60px] py-3 px-4 rounded-xl cursor-pointer select-none flex flex-col justify-center transition-colors duration-300 hover:bg-primary/[0.03]";
+
+function TimelineNavItem({
+  active,
+  onClick,
+  title,
+  subtitle,
+  index,
+}: {
+  active: boolean;
+  onClick: () => void;
+  title: string;
+  subtitle: string;
+  index: number;
+}) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      initial={reduceMotion ? false : { opacity: 0, x: -24 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.55, delay: index * 0.08, ease }}
+      className={timelineNavItemClass}
+      onMouseDown={(e) => e.preventDefault()}
+      onClick={onClick}
+      role="button"
+      tabIndex={-1}
+    >
+      {active && (
+        <motion.div
+          layoutId="timeline-active-pill"
+          className="absolute inset-0 rounded-xl bg-primary/5 ring-1 ring-primary/10"
+          transition={{ type: "spring", stiffness: 420, damping: 32 }}
+        />
+      )}
+      <div className="relative z-10">
+        <div className="text-sm font-semibold text-foreground">{title}</div>
+        <div className="text-xs text-muted-foreground">{subtitle}</div>
+      </div>
+    </motion.div>
+  );
+}
+
 function HistoryPage() {
-  const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const [activeIdx, setActiveIdx] = useState(0);
+  const [activeIdx, setActiveIdx] = useState<number | null>(null);
+  const cardsContainerRef = useRef<HTMLDivElement | null>(null);
+  const [overviewHeight, setOverviewHeight] = useState(0);
+  const reduceMotion = useReducedMotion();
 
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const idx = Number((entry.target as HTMLElement).dataset.index ?? 0);
-            setActiveIdx(idx);
-          }
-        });
-      },
-      { root: null, threshold: 0.5 },
-    );
+  useLayoutEffect(() => {
+    const el = cardsContainerRef.current;
+    if (!el) return;
 
-    cardRefs.current.forEach((el) => {
-      if (el) obs.observe(el);
-    });
+    const updateHeight = () => {
+      if (activeIdx === null) {
+        setOverviewHeight(el.offsetHeight);
+      }
+    };
+    updateHeight();
 
-    return () => obs.disconnect();
-  }, []);
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [activeIdx]);
+
+  const setTimelineView = (idx: number | null) => {
+    setActiveIdx(idx);
+  };
+
+  const isCardVisible = (index: number) => activeIdx === null || activeIdx === index;
 
   return (
     <main className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
       <ThemeBackdrop variant="page" className="opacity-50" />
       <Nav />
       <div className="relative z-10">
+        {/* Hero Banner */}
+        <section className="relative overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background py-20 sm:py-24 md:py-36">
+          <ThemeBackdrop variant="hero" />
+          <div className="relative z-10 mx-auto max-w-7xl px-4 pt-16 text-center sm:px-6 sm:pt-20">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-6 shadow-sm">
+                <Sparkles className="h-3 w-3 text-primary animate-pulse" />
+                Our Timeline
+              </span>
+              <h1 className="font-display text-5xl leading-tight tracking-tight sm:text-6xl md:text-7xl">
+                Chronicle of <span className="text-gradient italic">Trust</span>
+              </h1>
+              <p className="mx-auto mt-6 max-w-2xl text-base font-light text-muted-foreground md:text-lg">
+                A 45-year narrative of corporate responsibility, educational transformation, and
+                compound value creation across Nepal.
+              </p>
+            </motion.div>
+          </div>
+        </section>
 
-      {/* Hero Banner */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background py-20 sm:py-24 md:py-36">
-        <ThemeBackdrop variant="hero" />
-        <div className="relative z-10 mx-auto max-w-7xl px-4 pt-16 text-center sm:px-6 sm:pt-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-6 shadow-sm">
-              <Sparkles className="h-3 w-3 text-primary animate-pulse" />
-              Our Timeline
-            </span>
-            <h1 className="font-display text-5xl leading-tight tracking-tight sm:text-6xl md:text-7xl">
-              Chronicle of <span className="text-gradient italic">Trust</span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-base font-light text-muted-foreground md:text-lg">
-              A 45-year narrative of corporate responsibility, educational transformation, and
-              compound value creation across Nepal.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+        {/* Milestones Tree */}
+        <section className="relative overflow-hidden px-4 pb-20 sm:px-6 sm:pb-32">
+          <ThemeBackdrop variant="section" />
+          <div className="relative z-10 mx-auto max-w-7xl">
+            <div className="hidden md:grid md:grid-cols-[240px_1fr] md:gap-x-10 md:items-start [overflow-anchor:none]">
+              <aside className="sticky top-[96px] z-10 self-start">
+                <motion.div
+                  initial={reduceMotion ? false : { opacity: 0, y: -12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, ease }}
+                  className="mb-6 flex w-full items-center justify-center gap-3"
+                >
+                  <motion.span
+                    className="h-px w-8 bg-gradient-to-r from-transparent to-primary/40"
+                    initial={reduceMotion ? false : { scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2, ease }}
+                    style={{ originX: 1 }}
+                  />
+                  <h3 className="shrink-0 text-center text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                    Timeline
+                  </h3>
+                  <motion.span
+                    className="h-px w-8 bg-gradient-to-l from-transparent to-primary/40"
+                    initial={reduceMotion ? false : { scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2, ease }}
+                    style={{ originX: 0 }}
+                  />
+                </motion.div>
 
-      {/* Milestones Tree */}
-      <section className="relative overflow-hidden px-4 pb-20 sm:px-6 sm:pb-32">
-        <ThemeBackdrop variant="section" />
-        <div className="relative z-10 mx-auto max-w-7xl">
-          <div className="grid gap-8 md:grid-cols-[240px_1fr] md:gap-10">
-            {/* Left: Sticky Years Column */}
-            <aside className="hidden md:block sticky top-[96px] h-fit self-start">
-              <div className="flex flex-col gap-4">
-                <h3 className="text-sm uppercase text-muted-foreground tracking-wider mb-4">
-                  Timeline
-                </h3>
-                {historyMilestones.map((m, i) => (
+                <div className="relative flex flex-col gap-4 pl-3">
+                  <motion.div
+                    className="absolute left-0 top-3 bottom-3 w-px bg-gradient-to-b from-primary/40 via-border to-transparent"
+                    initial={reduceMotion ? false : { scaleY: 0 }}
+                    whileInView={{ scaleY: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.1, delay: 0.15, ease }}
+                    style={{ originY: 0 }}
+                  />
+                  <TimelineNavItem
+                    active={activeIdx === null}
+                    onClick={() => setTimelineView(null)}
+                    title="Overview"
+                    subtitle="View all milestones"
+                    index={0}
+                  />
+                  {historyMilestones.map((m, i) => (
+                    <TimelineNavItem
+                      key={m.period}
+                      active={activeIdx === i}
+                      onClick={() => setTimelineView(i)}
+                      title={m.period}
+                      subtitle={m.title}
+                      index={i + 1}
+                    />
+                  ))}
+                </div>
+              </aside>
+
+              <div
+                ref={cardsContainerRef}
+                className="min-w-0 md:pt-11 [overflow-anchor:none]"
+                style={overviewHeight > 0 ? { minHeight: overviewHeight } : undefined}
+              >
+                <div className="flex flex-col gap-12">
+                  {historyMilestones.map((milestone, i) => (
+                    <div
+                      key={milestone.period}
+                      className={isCardVisible(i) ? "block" : "hidden"}
+                      aria-hidden={!isCardVisible(i)}
+                    >
+                      <MilestoneCard milestone={milestone} index={i} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile */}
+            <div className="md:hidden [overflow-anchor:none]">
+              <motion.h3
+                initial={reduceMotion ? false : { opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-8 text-center text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground"
+              >
+                Timeline
+              </motion.h3>
+              <div
+                className="flex flex-col gap-12"
+                style={overviewHeight > 0 ? { minHeight: overviewHeight } : undefined}
+              >
+                {historyMilestones.map((milestone, i) => (
                   <div
-                    key={m.period}
-                    className={`py-3 px-4 rounded-xl transition-all duration-300 cursor-pointer select-none ${
-                      activeIdx === i ? "bg-primary/5 scale-100" : "hover:bg-primary/5"
-                    }`}
-                    data-index={i}
-                    onClick={() => {
-                      const el = cardRefs.current[i];
-                      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
-                    }}
+                    key={milestone.period}
+                    className={isCardVisible(i) ? "block" : "hidden"}
+                    aria-hidden={!isCardVisible(i)}
                   >
-                    <div className="text-sm font-semibold text-foreground">{m.period}</div>
-                    <div className="text-xs text-muted-foreground">{m.title}</div>
+                    <MilestoneCard milestone={milestone} index={i} />
                   </div>
                 ))}
               </div>
-            </aside>
+            </div>
+          </div>
+        </section>
 
-            {/* Right: Cards */}
-            <div>
-              <div className="flex flex-col gap-12">
-                {historyMilestones.map((milestone, idx) => {
-                  const Icon = milestone.icon;
-                  return (
-                    <div
-                      key={milestone.period}
-                      ref={(el) => {
-                        cardRefs.current[idx] = el;
-                      }}
-                      data-index={idx}
-                      className="relative"
-                    >
-                      <motion.div
-                        initial={{ opacity: 0, y: 30, scale: 0.995 }}
-                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                        viewport={{ once: true, margin: "-120px" }}
-                        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                        className="glass-strong overflow-hidden rounded-3xl border border-border/40 p-4 shadow-glass sm:p-6 md:p-10"
-                      >
-                        <div className="flex flex-col gap-5 md:flex-row md:items-start md:gap-8">
-                          <div className="flex-shrink-0 md:w-48">
-                            <div className="flex items-center gap-3">
-                              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                                <Icon className="h-5 w-5" />
-                              </div>
-                              <div className="min-w-0">
-                                <div className="text-xs text-muted-foreground">
-                                  {milestone.period}
-                                </div>
-                                <div className="font-display text-lg font-semibold text-foreground sm:text-xl">
-                                  {milestone.title}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+        <Footer />
+      </div>
+    </main>
+  );
+}
 
-                          <div className="flex-1">
-                            <div className="mb-4">
-                              <div className="w-24 h-1 rounded-full bg-[#2A4580] my-2" />
-                            </div>
+function MilestoneCard({
+  milestone,
+  index = 0,
+}: {
+  milestone: (typeof historyMilestones)[number];
+  index?: number;
+}) {
+  const reduceMotion = useReducedMotion();
 
-                            <div className="grid gap-5 md:grid-cols-2 md:gap-6 md:items-start">
-                              <div>
-                                <p className="text-sm font-light text-muted-foreground text-pretty whitespace-pre-line">
-                                  {milestone.desc}
-                                </p>
-                              </div>
+  return (
+    <motion.div
+      {...(reduceMotion
+        ? { initial: { opacity: 0 }, whileInView: { opacity: 1 } }
+        : alternateSlideIn(index, { margin: "-60px", duration: 0.9 }))}
+      viewport={{ once: true, margin: "-60px" }}
+      className="group relative"
+    >
+      <motion.div
+        className="pointer-events-none absolute -inset-3 -z-10 rounded-[2rem] opacity-0 blur-2xl transition-opacity duration-700 group-hover:opacity-100"
+        style={{ background: milestone.glowColor }}
+        initial={reduceMotion ? false : { opacity: 0, scale: 0.8 }}
+        whileInView={{ opacity: 0.6, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: index * 0.1 + 0.2 }}
+      />
+      <motion.div
+        className="glass-strong overflow-hidden rounded-3xl border border-border/40 p-4 shadow-glass sm:p-6 md:p-10"
+        whileHover={reduceMotion ? undefined : { y: -4, transition: { duration: 0.35, ease } }}
+      >
+        <motion.div
+          className="absolute left-0 top-0 h-1 w-full origin-left bg-gradient-to-r from-[#2A4580] via-primary to-transparent"
+          initial={reduceMotion ? false : { scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9, delay: index * 0.08 + 0.2, ease }}
+        />
+        <RightCardContent milestone={milestone} />
+      </motion.div>
+    </motion.div>
+  );
+}
 
-                              <div className="w-full">
-                                {milestone.images ? (
-                                  <ImageSlider images={milestone.images} />
-                                ) : (
-                                  <div className="relative aspect-video overflow-hidden rounded-2xl border bg-white p-2 shadow-sm">
-                                    <img
-                                      src={milestone.image}
-                                      alt={milestone.title}
-                                      className="w-full h-full object-cover rounded-xl pointer-events-none"
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    </div>
-                  );
-                })}
-              </div>
+function RightCardContent({ milestone }: { milestone: (typeof historyMilestones)[number] }) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      className="flex flex-col gap-5 md:flex-row md:items-start md:gap-8"
+      variants={reduceMotion ? undefined : cardContentVariants}
+      initial={false}
+      whileInView="visible"
+      viewport={{ once: true, margin: "-40px" }}
+    >
+      <motion.div className="flex-shrink-0 md:w-48" variants={reduceMotion ? undefined : cardItemVariants}>
+        <div className="flex items-center gap-3">
+          <motion.div
+            className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary"
+            whileHover={reduceMotion ? undefined : { scale: 1.08, rotate: 4 }}
+            transition={{ type: "spring", stiffness: 400, damping: 18 }}
+          >
+            <milestone.icon className="h-5 w-5" />
+          </motion.div>
+          <div className="min-w-0">
+            <div className="text-xs text-muted-foreground">{milestone.period}</div>
+            <div className="font-display text-lg font-semibold text-foreground sm:text-xl">
+              {milestone.title}
             </div>
           </div>
         </div>
-      </section>
+      </motion.div>
 
-      <Footer />
-      </div>
-    </main>
+      <motion.div className="flex-1" variants={reduceMotion ? undefined : cardItemVariants}>
+        <div className="mb-4">
+          <motion.div
+            className="my-2 h-1 w-24 rounded-full bg-[#2A4580]"
+            initial={reduceMotion ? false : { width: 0 }}
+            whileInView={{ width: 96 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease }}
+          />
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2 md:gap-6 md:items-start">
+          <motion.div variants={reduceMotion ? undefined : cardItemVariants}>
+            <p className="text-sm font-light text-muted-foreground text-pretty whitespace-pre-line">
+              {milestone.desc}
+            </p>
+          </motion.div>
+
+          <motion.div className="w-full" variants={reduceMotion ? undefined : cardItemVariants}>
+            {milestone.images && milestone.images.length > 1 ? (
+              <ImageSlider images={milestone.images} />
+            ) : milestone.image ? (
+              <motion.div
+                className="overflow-hidden rounded-2xl border bg-white p-2 shadow-sm"
+                whileHover={reduceMotion ? undefined : { scale: 1.02 }}
+                transition={{ duration: 0.35, ease }}
+              >
+                <img
+                  src={milestone.image}
+                  alt={milestone.title}
+                  className="w-full h-auto rounded-xl pointer-events-none"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </motion.div>
+            ) : null}
+          </motion.div>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }

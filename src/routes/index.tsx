@@ -12,6 +12,8 @@ import { CorporateGallery } from "@/components/brp/CorporateGallery";
 import { motion } from "framer-motion";
 import { Sparkles, ArrowRight, Target, Compass } from "lucide-react";
 import { aboutUs } from "@/data/brp-site-content";
+import aboutSideImg from "@/assets/optimized/Brp-Group-1200.webp";
+import { alternateSlideIn, splitSlideIn, slideEase } from "@/lib/alternate-slide";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -43,10 +45,7 @@ function IntroSection() {
           {/* Header block */}
           <div className="lg:col-span-5">
             <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              {...splitSlideIn(0, "visual", { margin: "-60px", duration: 0.85 })}
             >
               <div className="glass mb-3 lg:mb-4 inline-flex rounded-full px-3 py-1 lg:px-4 lg:py-1.5 text-[10px] lg:text-xs font-semibold uppercase tracking-[0.24em] text-primary shadow-sm">
                 <Sparkles className="h-3 w-3 text-primary shrink-0 mr-1.5" />
@@ -56,15 +55,33 @@ function IntroSection() {
                 Who We <span className="text-gradient italic">Are</span>
               </h2>
             </motion.div>
+
+            <motion.div
+              {...splitSlideIn(0, "visual", { margin: "-60px", duration: 0.9 })}
+              transition={{ duration: 0.9, ease: slideEase, delay: 0.1 }}
+              className="mt-6 lg:mt-8"
+            >
+              <div
+                className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-border/30 bg-card/60 p-3 sm:p-4 shadow-sm"
+                style={{ boxShadow: "-14px 14px 0 0 rgba(42, 69, 128, 0.07)" }}
+              >
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
+                <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-muted/10">
+                  <img
+                    src={aboutSideImg}
+                    alt="BRP Group — building Nepal's future through diversified ventures"
+                    className="w-full h-auto max-h-[200px] sm:max-h-[260px] lg:max-h-[300px] object-contain"
+                  />
+                </div>
+              </div>
+            </motion.div>
           </div>
 
           {/* Content block */}
           <div className="lg:col-span-7">
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              {...splitSlideIn(0, "content", { margin: "-60px", duration: 0.9 })}
+              transition={{ duration: 0.9, ease: slideEase, delay: 0.08 }}
               className="glass-strong border border-border/40 p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl shadow-glass flex flex-col justify-center h-full relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
@@ -105,10 +122,8 @@ function IntroSection() {
         {/* Vision & Mission Cards */}
         <div className="mt-6 sm:mt-8 grid gap-4 sm:gap-6 md:grid-cols-2">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            {...alternateSlideIn(0, { margin: "-40px", duration: 0.85 })}
+            transition={{ duration: 0.85, ease: slideEase, delay: 0.1 }}
             className="glass-strong border border-border/40 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl shadow-sm flex flex-col"
           >
             <div className="flex items-center gap-3 mb-2 sm:mb-4">
@@ -125,10 +140,8 @@ function IntroSection() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            {...alternateSlideIn(1, { margin: "-40px", duration: 0.85 })}
+            transition={{ duration: 0.85, ease: slideEase, delay: 0.18 }}
             className="glass-strong border border-border/40 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl shadow-sm flex flex-col"
           >
             <div className="flex items-center gap-3 mb-2 sm:mb-4">

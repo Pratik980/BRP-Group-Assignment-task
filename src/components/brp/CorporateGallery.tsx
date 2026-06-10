@@ -2,6 +2,7 @@ import { motion, useMotionValue } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { alternateSlideIn, splitSlideIn, slideEase } from "@/lib/alternate-slide";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 import img1 from "@/assets/optimized/image-1.webp";
@@ -71,7 +72,7 @@ export function CorporateGallery() {
       <ThemeBackdrop variant="section" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12">
-          <div>
+          <motion.div {...splitSlideIn(0, "visual", { margin: "-60px" })}>
             <div className="glass mb-4 inline-flex rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground shadow-sm">
               Corporate Gallery
             </div>
@@ -81,9 +82,13 @@ export function CorporateGallery() {
             <p className="mt-3 max-w-xl text-sm font-light text-muted-foreground md:text-base">
               Browse the full gallery below — select any photo to view it without cropping.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="flex items-center gap-3 mt-6 md:mt-0 relative z-20">
+          <motion.div
+            {...splitSlideIn(0, "content", { margin: "-60px" })}
+            transition={{ duration: 0.85, ease: slideEase, delay: 0.08 }}
+            className="flex items-center gap-3 mt-6 md:mt-0 relative z-20"
+          >
             <button
               type="button"
               onClick={handlePrev}
@@ -103,12 +108,13 @@ export function CorporateGallery() {
             >
               <ChevronRight className="h-5 w-5" />
             </button>
-          </div>
+          </motion.div>
         </div>
 
         {/* Main viewer — object-contain shows the entire photo */}
-        <div
+        <motion.div
           ref={containerRef}
+          {...alternateSlideIn(0, { margin: "-80px", duration: 0.95 })}
           className="relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-muted/40 border border-border/40 shadow-glass"
         >
           <motion.div
@@ -144,15 +150,17 @@ export function CorporateGallery() {
               </div>
             ))}
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Thumbnail grid — see every photo at a glance */}
         <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5 md:gap-3">
           {images.map((img, idx) => (
-            <button
+            <motion.button
               key={idx}
               type="button"
               onClick={() => goTo(idx)}
+              {...alternateSlideIn(idx, { margin: "-40px", duration: 0.7 })}
+              transition={{ duration: 0.7, ease: slideEase, delay: idx * 0.04 }}
               className={cn(
                 "group relative overflow-hidden rounded-xl border-2 bg-muted/30 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                 idx === imgIndex
@@ -175,12 +183,15 @@ export function CorporateGallery() {
               {idx === imgIndex && (
                 <span className="absolute inset-x-0 bottom-0 h-1 bg-primary" aria-hidden />
               )}
-            </button>
+            </motion.button>
           ))}
         </div>
 
         {/* Dot indicators */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+        <motion.div
+          {...alternateSlideIn(1, { margin: "-20px", duration: 0.75 })}
+          className="mt-6 flex flex-wrap items-center justify-center gap-2"
+        >
           {images.map((_, idx) => (
             <button
               key={idx}
@@ -195,7 +206,7 @@ export function CorporateGallery() {
               aria-label={`Go to slide ${idx + 1}`}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

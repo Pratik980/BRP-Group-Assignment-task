@@ -5,6 +5,7 @@ import { ArrowRight, Landmark, Heart } from "lucide-react";
 import legacyImg from "@/assets/optimized/legacy-image-1200.webp";
 import childrenImg from "@/assets/optimized/childrents-1200.webp";
 import { ourLegacy, ourCommunity } from "@/data/brp-site-content";
+import { splitSlideIn, slideEase } from "@/lib/alternate-slide";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 export function StoryPanels() {
@@ -14,15 +15,13 @@ export function StoryPanels() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 flex flex-col gap-24 md:gap-36">
         {/* Section 1: Our Legacy */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          className="grid gap-12 lg:grid-cols-12 items-center"
-        >
+        <div className="grid gap-12 lg:grid-cols-12 items-center">
           {/* Text block */}
-          <div className="lg:col-span-6 flex flex-col justify-center text-center md:text-left order-last lg:order-first">
+          <motion.div
+            {...splitSlideIn(1, "content", { margin: "-100px" })}
+            transition={{ duration: 0.85, ease: slideEase, delay: 0.06 }}
+            className="lg:col-span-6 flex flex-col justify-center text-center md:text-left order-last lg:order-first"
+          >
             <div className="glass mb-6 inline-flex rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary self-center md:self-start shadow-sm">
               <Landmark className="h-3 w-3 text-primary shrink-0 mr-1.5" />
               {ourLegacy.label}
@@ -46,10 +45,13 @@ export function StoryPanels() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-          </div>
+          </motion.div>
 
           {/* Visual block with custom offset shadow */}
-          <div className="lg:col-span-6 flex items-center justify-center select-none z-10">
+          <motion.div
+            {...splitSlideIn(1, "visual", { margin: "-100px" })}
+            className="lg:col-span-6 flex items-center justify-center select-none z-10"
+          >
             <div
               className="relative overflow-hidden rounded-3xl border bg-white p-2 shadow-sm max-w-md w-full aspect-[4/3] flex items-center justify-center"
               style={{
@@ -63,19 +65,16 @@ export function StoryPanels() {
                 className="w-full h-full object-cover rounded-2xl pointer-events-none"
               />
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
         {/* Section 2: Our Community */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          className="grid gap-12 lg:grid-cols-12 items-center"
-        >
+        <div className="grid gap-12 lg:grid-cols-12 items-center">
           {/* Visual block with custom offset shadow (reversed) */}
-          <div className="lg:col-span-6 flex items-center justify-center select-none z-10">
+          <motion.div
+            {...splitSlideIn(0, "visual", { margin: "-100px" })}
+            className="lg:col-span-6 flex items-center justify-center select-none z-10"
+          >
             <div
               className="relative overflow-hidden rounded-3xl border bg-white p-2 shadow-sm max-w-md w-full aspect-[4/3] flex items-center justify-center"
               style={{
@@ -89,10 +88,14 @@ export function StoryPanels() {
                 className="w-full h-full object-cover rounded-2xl pointer-events-none"
               />
             </div>
-          </div>
+          </motion.div>
 
           {/* Text block */}
-          <div className="lg:col-span-6 flex flex-col justify-center text-center md:text-left">
+          <motion.div
+            {...splitSlideIn(0, "content", { margin: "-100px" })}
+            transition={{ duration: 0.85, ease: slideEase, delay: 0.06 }}
+            className="lg:col-span-6 flex flex-col justify-center text-center md:text-left"
+          >
             <div className="glass mb-6 inline-flex rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary self-center md:self-start shadow-sm">
               <Heart className="h-3 w-3 text-primary shrink-0 mr-1.5" />
               {ourCommunity.label}
@@ -116,8 +119,8 @@ export function StoryPanels() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

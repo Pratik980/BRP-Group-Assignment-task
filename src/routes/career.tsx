@@ -20,6 +20,7 @@ import {
 import { Nav } from "@/components/brp/Nav";
 import { Footer } from "@/components/brp/Footer";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
+import { SectionScene3DLazy } from "@/components/brp/SectionScene3DLazy";
 import { submitApplication } from "@/lib/career.api";
 
 export const Route = createFileRoute("/career")({
@@ -176,7 +177,11 @@ function CareersPage() {
 
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
-      <ThemeBackdrop variant="page" className="opacity-50" />
+      <SectionScene3DLazy
+        variant="career"
+        className="pointer-events-none fixed inset-0 z-[1] opacity-40 mix-blend-normal"
+      />
+      <ThemeBackdrop variant="page" className="z-[2] opacity-50" />
       <Nav />
       <div className="relative z-10">
 

@@ -25,6 +25,7 @@ import assabetLogo from "@/assets/optimized/Assabet.webp";
 import satinLeafLogo from "@/assets/optimized/satin-leaf.webp";
 import brpVenturesLogo from "@/assets/optimized/logo-BRP.webp";
 import ubVenturesLogo from "@/assets/optimized/uv-ventures.webp";
+import { alternateSlideIn } from "@/lib/alternate-slide";
 import brpToursLogo from "@/assets/optimized/Brp-tours-and-travel.webp";
 
 export const Route = createFileRoute("/ventures")({
@@ -233,10 +234,7 @@ function VentureSpotlight({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+      {...alternateSlideIn(index, { margin: "-100px", duration: 0.9 })}
       className="relative group"
     >
       <TiltCard className="rounded-[2rem] overflow-hidden">
@@ -509,9 +507,12 @@ function VenturesPage() {
                   id={`venture-${venture.slug}`}
                   className=""
                   layout
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                  initial={{
+                    opacity: 0,
+                    x: i % 2 === 0 ? -56 : 56,
+                  }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, x: i % 2 === 0 ? -24 : 24 }}
                   transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.05 }}
                 >
                   <VentureSpotlight venture={venture} index={i} />

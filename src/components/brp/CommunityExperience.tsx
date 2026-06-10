@@ -14,6 +14,7 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+import { splitSlideIn } from "@/lib/alternate-slide";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 import educationImg from "@/assets/optimized/image-5-1200.webp";
@@ -145,14 +146,9 @@ function PillarStory({
     : "-18px 18px 0px 0px rgba(42, 69, 128, 0.08)";
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.85, ease }}
-      className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14"
-    >
-      <div
+    <article className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
+      <motion.div
+        {...splitSlideIn(index, "visual")}
         className={cn(
           "lg:col-span-6 flex justify-center",
           reverse ? "lg:order-2" : "lg:order-1",
@@ -168,9 +164,11 @@ function PillarStory({
             className="aspect-[4/3] w-full rounded-2xl object-cover"
           />
         </div>
-      </div>
+      </motion.div>
 
-      <div
+      <motion.div
+        {...splitSlideIn(index, "content", { duration: 0.9, margin: "-80px" })}
+        transition={{ duration: 0.9, ease, delay: 0.08 }}
         className={cn(
           "lg:col-span-6 flex flex-col text-center md:text-left",
           reverse ? "lg:order-1" : "lg:order-2",
@@ -198,8 +196,8 @@ function PillarStory({
           className="mx-auto mt-6 h-1.5 w-20 rounded-full md:mx-0"
           style={{ backgroundColor: pillar.accent }}
         />
-      </div>
-    </motion.article>
+      </motion.div>
+    </article>
   );
 }
 
