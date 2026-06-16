@@ -1,7 +1,8 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Compass, Rocket, Sparkles } from "lucide-react";
-import { aboutUs } from "@/data/brp-site-content";
+import { resolveVisionMission } from "@/lib/cms/about-content";
+import { usePublicAboutSections } from "@/hooks/usePublicContent";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 import photoHeritage from "@/assets/optimized/History-image-2-1200.webp";
@@ -17,6 +18,16 @@ const galleryPhotos = [
     src: photoHeritage,
     alt: "BRP Group heritage and long-term vision",
     caption: "Legacy & vision",
+  },
+  {
+    src: photoGrowth,
+    alt: "BRP Group growth across sectors",
+    caption: "Growth & scale",
+  },
+  {
+    src: photoCommunity,
+    alt: "BRP Group community impact",
+    caption: "Community impact",
   },
 ] as const;
 
@@ -193,6 +204,8 @@ function PurposeBlock({
 }
 
 export function VisionMissionSection() {
+  const { data: aboutSections } = usePublicAboutSections();
+  const { vision, mission } = resolveVisionMission(aboutSections);
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -213,7 +226,7 @@ export function VisionMissionSection() {
         style={{ scaleX: lineScale }}
       />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
+      <div className="relative z-10 brp-container">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -254,8 +267,8 @@ export function VisionMissionSection() {
               <PurposeBlock
                 icon={Compass}
                 label="Our Vision"
-                title={aboutUs.vision.title}
-                body={aboutUs.vision.body}
+                title={vision.title}
+                body={vision.body}
                 delay={0.08}
               />
 
@@ -271,8 +284,8 @@ export function VisionMissionSection() {
               <PurposeBlock
                 icon={Rocket}
                 label="Our Mission"
-                title={aboutUs.mission.title}
-                body={aboutUs.mission.body}
+                title={mission.title}
+                body={mission.body}
                 delay={0.18}
               />
             </div>

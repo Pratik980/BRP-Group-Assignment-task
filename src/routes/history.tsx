@@ -168,7 +168,13 @@ function TimelineNavItem({
       onMouseDown={(e) => e.preventDefault()}
       onClick={onClick}
       role="button"
-      tabIndex={-1}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
     >
       {active && (
         <motion.div
@@ -216,12 +222,24 @@ function HistoryPage() {
   return (
     <main className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
       <ThemeBackdrop variant="page" className="opacity-50" />
+      <div
+        className="pointer-events-none absolute inset-0 opacity-70"
+        style={{
+          backgroundImage:
+            "linear-gradient(oklch(0.42 0.11 275 / 0.06) 1px, transparent 1px), linear-gradient(90deg, oklch(0.42 0.11 275 / 0.06) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+          maskImage: "linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)",
+        }}
+        aria-hidden
+      />
       <Nav />
       <div className="relative z-10">
         {/* Hero Banner */}
         <section className="relative overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background py-20 sm:py-24 md:py-36">
           <ThemeBackdrop variant="hero" />
-          <div className="relative z-10 mx-auto max-w-7xl px-4 pt-16 text-center sm:px-6 sm:pt-20">
+          <div className="relative z-10 brp-container pt-16 text-center sm:pt-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -231,10 +249,10 @@ function HistoryPage() {
                 <Sparkles className="h-3 w-3 text-primary animate-pulse" />
                 Our Timeline
               </span>
-              <h1 className="font-display text-5xl leading-tight tracking-tight sm:text-6xl md:text-7xl">
+              <h1 className="font-display text-5xl leading-tight tracking-tight sm:text-6xl md:text-7xl xl:text-8xl">
                 Chronicle of <span className="text-gradient italic">Trust</span>
               </h1>
-              <p className="mx-auto mt-6 max-w-2xl text-base font-light text-muted-foreground md:text-lg">
+              <p className="mx-auto mt-6 max-w-2xl text-base font-light text-muted-foreground md:text-lg xl:text-xl">
                 A 45-year narrative of corporate responsibility, educational transformation, and
                 compound value creation across Nepal.
               </p>
@@ -245,8 +263,8 @@ function HistoryPage() {
         {/* Milestones Tree */}
         <section className="relative overflow-hidden px-4 pb-20 sm:px-6 sm:pb-32">
           <ThemeBackdrop variant="section" />
-          <div className="relative z-10 mx-auto max-w-7xl">
-            <div className="hidden md:grid md:grid-cols-[240px_1fr] md:gap-x-10 md:items-start [overflow-anchor:none]">
+          <div className="relative z-10 brp-container">
+            <div className="hidden md:grid md:grid-cols-[240px_1fr] md:gap-x-10 lg:gap-x-14 xl:gap-x-20 md:items-start [overflow-anchor:none]">
               <aside className="sticky top-[96px] z-10 self-start">
                 <motion.div
                   initial={reduceMotion ? false : { opacity: 0, y: -12 }}
@@ -310,17 +328,42 @@ function HistoryPage() {
                 className="min-w-0 md:pt-11 [overflow-anchor:none]"
                 style={overviewHeight > 0 ? { minHeight: overviewHeight } : undefined}
               >
-                <div className="flex flex-col gap-12">
-                  {historyMilestones.map((milestone, i) => (
-                    <div
-                      key={milestone.period}
-                      className={isCardVisible(i) ? "block" : "hidden"}
-                      aria-hidden={!isCardVisible(i)}
-                    >
-                      <MilestoneCard milestone={milestone} index={i} />
+                {activeIdx === null ? (
+                  <motion.div
+                    initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.55, ease }}
+                    className="glass-strong rounded-[2rem] border border-border/40 p-4 shadow-glass md:p-6"
+                  >
+                    <div className="mb-5 border-b border-border/30 pb-4">
+                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+                        Overview
+                      </p>
+                      <h2 className="font-display mt-2 text-2xl tracking-tight text-foreground md:text-3xl">
+                        Complete timeline
+                      </h2>
                     </div>
-                  ))}
-                </div>
+                    <div className="max-h-[calc(100vh-190px)] overflow-y-auto pr-2">
+                      <div className="flex flex-col gap-8 pb-1">
+                        {historyMilestones.map((milestone, i) => (
+                          <MilestoneCard key={milestone.period} milestone={milestone} index={i} />
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <div className="flex flex-col gap-12">
+                    {historyMilestones.map((milestone, i) => (
+                      <div
+                        key={milestone.period}
+                        className={isCardVisible(i) ? "block" : "hidden"}
+                        aria-hidden={!isCardVisible(i)}
+                      >
+                        <MilestoneCard milestone={milestone} index={i} />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -410,7 +453,10 @@ function RightCardContent({ milestone }: { milestone: (typeof historyMilestones)
       whileInView="visible"
       viewport={{ once: true, margin: "-40px" }}
     >
-      <motion.div className="flex-shrink-0 md:w-48" variants={reduceMotion ? undefined : cardItemVariants}>
+      <motion.div
+        className="flex-shrink-0 md:w-48"
+        variants={reduceMotion ? undefined : cardItemVariants}
+      >
         <div className="flex items-center gap-3">
           <motion.div
             className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary"
@@ -421,7 +467,7 @@ function RightCardContent({ milestone }: { milestone: (typeof historyMilestones)
           </motion.div>
           <div className="min-w-0">
             <div className="text-xs text-muted-foreground">{milestone.period}</div>
-            <div className="font-display text-lg font-semibold text-foreground sm:text-xl">
+            <div className="font-display text-lg font-bold text-foreground sm:text-xl">
               {milestone.title}
             </div>
           </div>

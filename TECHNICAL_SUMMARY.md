@@ -8,18 +8,18 @@
 
 ## Technology stack used
 
-| Layer | Technologies |
-|-------|----------------|
-| **UI** | React 19, TypeScript |
-| **Build & dev** | Vite 7 |
-| **Routing** | TanStack Router (file-based routes) |
-| **Styling** | Tailwind CSS 4, custom CSS (glass effects, heritage/hero utilities) |
-| **Animation** | Framer Motion |
-| **3D (hero)** | Three.js, React Three Fiber, Drei — lazy-loaded on capable devices |
-| **Forms & data** | Client-side validation; Supabase REST API (optional) for contact submissions |
-| **Icons & UI primitives** | Lucide React, Radix UI (shared components) |
-| **Assets** | Optimized WebP images |
-| **Deployment** | Vercel (static SPA from `dist`) |
+| Layer                     | Technologies                                                                 |
+| ------------------------- | ---------------------------------------------------------------------------- |
+| **UI**                    | React 19, TypeScript                                                         |
+| **Build & dev**           | Vite 7                                                                       |
+| **Routing**               | TanStack Router (file-based routes)                                          |
+| **Styling**               | Tailwind CSS 4, custom CSS (glass effects, heritage/hero utilities)          |
+| **Animation**             | Framer Motion                                                                |
+| **3D (hero)**             | Three.js, React Three Fiber, Drei — lazy-loaded on capable devices           |
+| **Forms & data**          | Client-side validation; Supabase REST API (optional) for contact submissions |
+| **Icons & UI primitives** | Lucide React, Radix UI (shared components)                                   |
+| **Assets**                | Optimized WebP images                                                        |
+| **Deployment**            | Vercel (static SPA from `dist`)                                              |
 
 **Pages delivered:** Homepage (`/`), Ventures (`/ventures`), About (`/about`), History (`/history`).
 
@@ -80,4 +80,4 @@ Hero (positioning + CTAs + stats) → value statements → heritage/impact strip
 
 ---
 
-*Submitted as part of the BRP Group Homepage Redesign assignment.*
+_Submitted as part of the BRP Group Homepage Redesign assignment._

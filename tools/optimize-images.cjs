@@ -1,9 +1,9 @@
-const fs = require('fs');
-const path = require('path');
-const sharp = require('sharp');
+const fs = require("fs");
+const path = require("path");
+const sharp = require("sharp");
 
-const SRC = path.join(__dirname, '..', 'src', 'assets', 'brp');
-const DEST = path.join(__dirname, '..', 'src', 'assets', 'optimized');
+const SRC = path.join(__dirname, "..", "src", "assets", "brp");
+const DEST = path.join(__dirname, "..", "src", "assets", "optimized");
 const widths = [480, 768, 1200];
 
 if (!fs.existsSync(DEST)) fs.mkdirSync(DEST, { recursive: true });
@@ -24,14 +24,14 @@ async function processFile(file) {
     // also produce a default optimized WebP without resize
     const outWebpDefault = path.join(DEST, `${name}.webp`);
     await sharp(infile).webp({ quality: 78 }).toFile(outWebpDefault);
-    console.log('Optimized', file);
+    console.log("Optimized", file);
   } catch (err) {
-    console.error('Failed', file, err && err.message ? err.message : err);
+    console.error("Failed", file, err && err.message ? err.message : err);
   }
 }
 
 (async () => {
   const files = fs.readdirSync(SRC).filter((f) => /\.(png|jpe?g|webp)$/i.test(f));
   for (const f of files) await processFile(f);
-  console.log('Done');
+  console.log("Done");
 })();

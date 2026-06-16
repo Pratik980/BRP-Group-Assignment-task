@@ -16,12 +16,12 @@ Modern, responsive marketing site for [BRP Group](https://www.brpgroup.com.np), 
 
 The homepage presents BRP Group’s diversified venture ecosystem with a polished hero, heritage highlights, an interactive ventures hub, leadership and community storytelling, values, contact, and footer. Additional routes extend the experience:
 
-| Route | Description |
-|-------|-------------|
-| `/` | Homepage — hero, about content, ventures ecosystem, gallery, values, contact |
-| `/ventures` | Full portfolio of all business verticals |
-| `/about` | Vision, mission, leadership, community |
-| `/history` | Company history timeline |
+| Route       | Description                                                                  |
+| ----------- | ---------------------------------------------------------------------------- |
+| `/`         | Homepage — hero, about content, ventures ecosystem, gallery, values, contact |
+| `/ventures` | Full portfolio of all business verticals                                     |
+| `/about`    | Vision, mission, leadership, community                                       |
+| `/history`  | Company history timeline                                                     |
 
 Content is aligned with the official site at [brpgroup.com.np](https://www.brpgroup.com.np).
 
@@ -112,4 +112,4 @@ To deploy your own fork:
 
 ---
 
-*Web Developer Intern — Technical Assessment · BRP Group / UB Ventures*
+_Web Developer Intern — Technical Assessment · BRP Group / UB Ventures_

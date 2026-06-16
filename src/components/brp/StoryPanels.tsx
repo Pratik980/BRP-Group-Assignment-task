@@ -4,16 +4,24 @@ import { ArrowRight, Landmark, Heart } from "lucide-react";
 
 import legacyImg from "@/assets/optimized/legacy-image-1200.webp";
 import childrenImg from "@/assets/optimized/childrents-1200.webp";
-import { ourLegacy, ourCommunity } from "@/data/brp-site-content";
+import { resolveCommunityStory, resolveLegacyStory } from "@/lib/cms/about-content";
+import { usePublicAboutSections } from "@/hooks/usePublicContent";
 import { splitSlideIn, slideEase } from "@/lib/alternate-slide";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 export function StoryPanels() {
+  const { data: aboutSections } = usePublicAboutSections();
+  const legacy = resolveLegacyStory(aboutSections);
+  const community = resolveCommunityStory(aboutSections);
+
   return (
-    <section id="story" className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/20 to-background py-24 md:py-32">
+    <section
+      id="story"
+      className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/20 to-background py-24 md:py-32"
+    >
       <ThemeBackdrop variant="section" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6 flex flex-col gap-24 md:gap-36">
+      <div className="relative z-10 brp-container flex flex-col gap-24 md:gap-36">
         {/* Section 1: Our Legacy */}
         <div className="grid gap-12 lg:grid-cols-12 items-center">
           {/* Text block */}
@@ -24,13 +32,13 @@ export function StoryPanels() {
           >
             <div className="glass mb-6 inline-flex rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary self-center md:self-start shadow-sm">
               <Landmark className="h-3 w-3 text-primary shrink-0 mr-1.5" />
-              {ourLegacy.label}
+              {legacy.label}
             </div>
-            <h2 className="font-display text-4xl sm:text-5xl leading-tight tracking-tight text-foreground mb-6">
+            <h2 className="font-display text-4xl sm:text-5xl xl:text-6xl leading-tight tracking-tight text-foreground mb-6">
               Compounding governance, <span className="text-gradient italic">ethical growth.</span>
             </h2>
-            <div className="space-y-4 text-sm font-light text-muted-foreground leading-relaxed text-pretty">
-              {ourLegacy.paragraphs.map((p) => (
+            <div className="space-y-4 text-sm font-light text-muted-foreground leading-relaxed text-pretty md:text-base xl:text-lg">
+              {legacy.paragraphs.map((p) => (
                 <p key={p.slice(0, 32)}>{p}</p>
               ))}
             </div>
@@ -98,13 +106,13 @@ export function StoryPanels() {
           >
             <div className="glass mb-6 inline-flex rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary self-center md:self-start shadow-sm">
               <Heart className="h-3 w-3 text-primary shrink-0 mr-1.5" />
-              {ourCommunity.label}
+              {community.label}
             </div>
-            <h2 className="font-display text-4xl sm:text-5xl leading-tight tracking-tight text-foreground mb-6">
+            <h2 className="font-display text-4xl sm:text-5xl xl:text-6xl leading-tight tracking-tight text-foreground mb-6">
               Empowering through health and <span className="text-gradient italic">education.</span>
             </h2>
             <div className="space-y-4 text-sm font-light text-muted-foreground leading-relaxed text-pretty">
-              {ourCommunity.paragraphs.map((p) => (
+              {community.paragraphs.map((p) => (
                 <p key={p.slice(0, 32)}>{p}</p>
               ))}
             </div>

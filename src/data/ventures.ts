@@ -1,9 +1,8 @@
 import type { LucideIcon } from "lucide-react";
-import { Cpu, GraduationCap, Building2, Compass, TrendingUp } from "lucide-react";
+import { GraduationCap, Building2, Compass, TrendingUp } from "lucide-react";
 
 import reddotLogo from "@/assets/optimized/reddot.webp";
 import shsLogo from "@/assets/optimized/shs.webp";
-import assabetLogo from "@/assets/optimized/Assabet.webp";
 import satinLeafLogo from "@/assets/optimized/satin-leaf.webp";
 import brpVenturesLogo from "@/assets/optimized/logo-BRP.webp";
 import ubVenturesLogo from "@/assets/optimized/uv-ventures.webp";
@@ -49,19 +48,6 @@ export const ventures: Venture[] = [
     logo: shsLogo,
     accent: "oklch(0.55 0.14 240)",
     tags: ["K–12", "Holistic Growth", "Nepal"],
-  },
-  {
-    name: "Assabet Technologies",
-    slug: "assabet-technologies",
-    code: "ASSABET",
-    category: "Technology",
-    desc: "Assabet assists businesses to build efficiency and security.",
-    longDesc:
-      "Designing and developing tech-powered solutions for businesses. Enterprise software, data science, cybersecurity, and automation. Proud offshore technology partner for U.S.-based ESR LLC.",
-    icon: Cpu,
-    logo: assabetLogo,
-    accent: "oklch(0.55 0.14 180)",
-    tags: ["Enterprise", "Data Science", "Cybersecurity"],
   },
   {
     name: "Satin Leaf Investment",

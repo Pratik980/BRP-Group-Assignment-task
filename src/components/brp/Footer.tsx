@@ -3,7 +3,8 @@ import { ArrowUp, Mail, Linkedin, Facebook, Instagram, Send, Phone, MapPin } fro
 import { useState } from "react";
 import { toast } from "sonner";
 import { Link } from "@tanstack/react-router";
-import { ventures } from "@/data/ventures";
+import { usePublicVentures } from "@/hooks/usePublicVentures";
+import { usePublicSiteMeta } from "@/hooks/usePublicContent";
 import { siteMeta } from "@/data/brp-site-content";
 import { FooterNavLink, useHashScroll } from "@/components/brp/FooterNavLink";
 import { cn } from "@/lib/utils";
@@ -19,11 +20,13 @@ const exploreLinks = [
   { label: "Contact", to: "/" as const, hash: "contact" },
 ] as const;
 
-const socialLinks = [
-  { icon: Linkedin, href: siteMeta.linkedIn, label: "LinkedIn" },
-  { icon: Facebook, href: siteMeta.facebook, label: "Facebook" },
-  { icon: Instagram, href: siteMeta.instagram, label: "Instagram" },
-] as const;
+function useFooterSocialLinks(meta: typeof siteMeta) {
+  return [
+    { icon: Linkedin, href: meta.linkedIn, label: "LinkedIn" },
+    { icon: Facebook, href: meta.facebook, label: "Facebook" },
+    { icon: Instagram, href: meta.instagram, label: "Instagram" },
+  ] as const;
+}
 
 function FooterHeading({
   children,
@@ -47,7 +50,15 @@ function FooterHeading({
   );
 }
 
-function SocialRow({ className, compact }: { className?: string; compact?: boolean }) {
+function SocialRow({
+  className,
+  compact,
+  socialLinks,
+}: {
+  className?: string;
+  compact?: boolean;
+  socialLinks: ReturnType<typeof useFooterSocialLinks>;
+}) {
   return (
     <div className={cn("flex flex-wrap items-center gap-2.5", className)}>
       {socialLinks.map((item) => {
@@ -118,6 +129,9 @@ function NewsletterBlock({
 
 export function Footer() {
   useHashScroll();
+  const { data: ventures = [] } = usePublicVentures();
+  const { data: siteMetaLive = siteMeta } = usePublicSiteMeta();
+  const socialLinks = useFooterSocialLinks(siteMetaLive);
   const [email, setEmail] = useState("");
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -126,7 +140,7 @@ export function Footer() {
       toast.error("Please enter a valid email address.");
       return;
     }
-    toast.success("Thank you for subscribing to BRP Group updates!");
+    toast.info("Newsletter signup is coming soon — thank you for your interest.");
     setEmail("");
   };
 
@@ -134,12 +148,12 @@ export function Footer() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const phoneNumbers = siteMeta.phone.split(",").map((p) => p.trim());
+  const phoneNumbers = siteMetaLive.phone.split(",").map((p) => p.trim());
 
   return (
     <footer className="relative overflow-hidden border-t border-border/40 bg-background">
       <ThemeBackdrop variant="footer" />
-      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6">
+      <div className="relative z-10 brp-container">
         {/* ——— Mobile: clean two-column nav + stacked sections ——— */}
         <div className="space-y-8 pt-10 pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] md:hidden">
           {/* Brand */}
@@ -147,7 +161,7 @@ export function Footer() {
             <Link to="/" className="flex flex-col items-center gap-3" aria-label="BRP Group home">
               <img src={logo as string} alt="" className="h-11 w-auto object-contain" />
             </Link>
-            <SocialRow className="justify-center" compact />
+            <SocialRow className="justify-center" compact socialLinks={socialLinks} />
           </div>
 
           {/* Balanced 2 columns — short link lists only */}
@@ -207,12 +221,12 @@ export function Footer() {
             <FooterHeading id="footer-contact-mobile">Contact</FooterHeading>
             <div className="mt-4 space-y-4">
               <a
-                href={`mailto:${siteMeta.email}`}
+                href={`mailto:${siteMetaLive.email}`}
                 className="flex items-center gap-3 rounded-xl bg-secondary/25 px-3 py-3 active:bg-secondary/40"
               >
                 <Mail className="h-4 w-4 shrink-0 text-primary" />
                 <span className="min-w-0 text-sm font-medium text-foreground break-all">
-                  {siteMeta.email}
+                  {siteMetaLive.email}
                 </span>
               </a>
               <div className="rounded-xl bg-secondary/25 px-3 py-3">
@@ -234,7 +248,7 @@ export function Footer() {
               <div className="flex items-start gap-3 rounded-xl bg-secondary/25 px-3 py-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                 <span className="text-sm font-medium leading-relaxed text-foreground">
-                  {siteMeta.headquarters}
+                  {siteMetaLive.headquarters}
                 </span>
               </div>
             </div>
@@ -261,10 +275,9 @@ export function Footer() {
             <Link to="/" className="flex items-center gap-3" aria-label="BRP Group home">
               <img src={logo as string} alt="" className="h-10 w-auto object-contain" />
               <div className="min-w-0">
-                <div className="text-sm font-semibold tracking-[0.18em] text-foreground">
-                </div>
+                <div className="text-sm font-semibold tracking-[0.18em] text-foreground"></div>
                 <div className="text-xs font-light text-muted-foreground">
-                  Diversified ventures · Since {siteMeta.foundedYear}
+                  Diversified ventures · Since {siteMetaLive.foundedYear}
                 </div>
               </div>
             </Link>
@@ -272,7 +285,7 @@ export function Footer() {
               A business enterprise focused on technology, real estate, education, and healthcare —
               combining the digital and physical worlds to transform daily life.
             </p>
-            <SocialRow className="mt-6" />
+            <SocialRow className="mt-6" socialLinks={socialLinks} />
           </div>
 
           <div className="md:col-span-1">
@@ -312,8 +325,11 @@ export function Footer() {
           <div className="md:col-span-2">
             <NewsletterBlock email={email} setEmail={setEmail} onSubmit={handleSubscribe} />
             <p className="mt-5 text-sm text-muted-foreground">
-              <a href={`mailto:${siteMeta.email}`} className="hover:text-primary transition-colors">
-                {siteMeta.email}
+              <a
+                href={`mailto:${siteMetaLive.email}`}
+                className="hover:text-primary transition-colors"
+              >
+                {siteMetaLive.email}
               </a>
             </p>
           </div>

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ContactForm } from "./ContactForm";
 import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { siteMeta } from "@/data/brp-site-content";
+import { usePublicSiteMeta } from "@/hooks/usePublicContent";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 const fadeSlide = {
@@ -13,32 +14,36 @@ const fadeSlide = {
   }),
 };
 
-const contactItems = [
-  {
-    icon: Mail,
-    label: "Email us",
-    value: siteMeta.email,
-    href: `mailto:${siteMeta.email}`,
-  },
-  {
-    icon: Phone,
-    label: "Call office",
-    value: siteMeta.phone,
-    href: `tel:${siteMeta.phone.split(",")[0].trim().replace(/\s/g, "")}`,
-  },
-  {
-    icon: MapPin,
-    label: "Headquarters",
-    value: siteMeta.headquarters,
-  },
-];
-
 export function CTA() {
+  const { data: siteMetaLive = siteMeta } = usePublicSiteMeta();
+  const contactItems = [
+    {
+      icon: Mail,
+      label: "Email us",
+      value: siteMetaLive.email,
+      href: `mailto:${siteMetaLive.email}`,
+    },
+    {
+      icon: Phone,
+      label: "Call office",
+      value: siteMetaLive.phone,
+      href: `tel:${siteMetaLive.phone.split(",")[0].trim().replace(/\s/g, "")}`,
+    },
+    {
+      icon: MapPin,
+      label: "Headquarters",
+      value: siteMetaLive.headquarters,
+    },
+  ];
+
   return (
-    <section id="contact" className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/25 to-background py-20 sm:py-28 md:py-36">
+    <section
+      id="contact"
+      className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/25 to-background py-20 sm:py-28 md:py-36 scroll-mt-[7.5rem]"
+    >
       <ThemeBackdrop variant="section" />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 xl:max-w-[88rem]">
         {/* Centered header */}
         <div className="mx-auto mb-16 max-w-3xl text-center md:mb-20">
           <motion.div
@@ -59,7 +64,7 @@ export function CTA() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
-            className="font-display text-4xl leading-[1.08] tracking-tight sm:text-5xl md:text-[3.25rem]"
+            className="font-display text-4xl leading-[1.08] tracking-tight sm:text-5xl md:text-[3.25rem] xl:text-[4rem] 2xl:text-[4.5rem]"
           >
             Building{" "}
             <span className="relative inline-block">
@@ -82,8 +87,8 @@ export function CTA() {
             viewport={{ once: true, margin: "-80px" }}
             className="mx-auto mt-7 max-w-xl text-base font-light leading-[1.75] text-muted-foreground md:text-lg"
           >
-            Whether you are a founder seeking capital, a prospective business partner, or
-            looking to join our growing team — we'd love to hear from you.
+            Whether you are a founder seeking capital, a prospective business partner, or looking to
+            join our growing team — we'd love to hear from you.
           </motion.p>
         </div>
 

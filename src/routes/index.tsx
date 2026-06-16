@@ -11,9 +11,10 @@ import { ScrollTickers } from "@/components/brp/ScrollTickers";
 import { CorporateGallery } from "@/components/brp/CorporateGallery";
 import { motion } from "framer-motion";
 import { Sparkles, ArrowRight, Target, Compass } from "lucide-react";
-import { aboutUs } from "@/data/brp-site-content";
+import { resolveCommunityIntro, resolveVisionMission } from "@/lib/cms/about-content";
+import { usePublicAboutSections } from "@/hooks/usePublicContent";
 import aboutSideImg from "@/assets/optimized/Brp-Group-1200.webp";
-import { alternateSlideIn, splitSlideIn, slideEase } from "@/lib/alternate-slide";
+import { splitSlideIn, slideEase } from "@/lib/alternate-slide";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,21 +38,23 @@ export const Route = createFileRoute("/")({
 });
 
 function IntroSection() {
+  const { data: aboutSections } = usePublicAboutSections();
+  const communityIntro = resolveCommunityIntro(aboutSections);
+  const { vision, mission } = resolveVisionMission(aboutSections);
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/30 to-background py-8 sm:py-16 lg:py-24">
+    <section className="intro-section relative overflow-x-hidden bg-gradient-to-b from-background via-secondary to-background py-8 sm:py-10 lg:py-12">
       <ThemeBackdrop variant="subtle" />
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="grid gap-6 lg:gap-12 lg:grid-cols-12 items-center">
+      <div className="relative z-10 brp-container">
+        <div className="grid gap-8 lg:gap-10 xl:gap-12 lg:grid-cols-12 items-start lg:items-center">
           {/* Header block */}
           <div className="lg:col-span-5">
-            <motion.div
-              {...splitSlideIn(0, "visual", { margin: "-60px", duration: 0.85 })}
-            >
-              <div className="glass mb-3 lg:mb-4 inline-flex rounded-full px-3 py-1 lg:px-4 lg:py-1.5 text-[10px] lg:text-xs font-semibold uppercase tracking-[0.24em] text-primary shadow-sm">
+            <motion.div {...splitSlideIn(0, "visual", { margin: "-60px", duration: 0.85 })}>
+              <div className="glass mb-4 lg:mb-5 inline-flex rounded-full px-3 py-1 lg:px-4 lg:py-1.5 text-[10px] lg:text-xs font-semibold uppercase tracking-[0.24em] text-primary shadow-sm">
                 <Sparkles className="h-3 w-3 text-primary shrink-0 mr-1.5" />
                 About Us
               </div>
-              <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-foreground">
+              <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl leading-[1.05] tracking-tight text-foreground">
                 Who We <span className="text-gradient italic">Are</span>
               </h2>
             </motion.div>
@@ -82,18 +85,22 @@ function IntroSection() {
             <motion.div
               {...splitSlideIn(0, "content", { margin: "-60px", duration: 0.9 })}
               transition={{ duration: 0.9, ease: slideEase, delay: 0.08 }}
-              className="glass-strong border border-border/40 p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl shadow-glass flex flex-col justify-center h-full relative overflow-hidden"
+              className="glass-strong border border-border/40 p-5 sm:p-7 md:p-8 lg:p-9 rounded-2xl sm:rounded-3xl shadow-glass flex flex-col justify-center h-full relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
-              <div className="space-y-3 lg:space-y-4 relative z-10 text-sm sm:text-lg font-light text-muted-foreground leading-relaxed text-pretty">
-                {aboutUs.communityIntro.map((paragraph, idx) => (
+              <div className="space-y-3 sm:space-y-4 relative z-10 text-sm sm:text-base lg:text-lg font-light text-muted-foreground leading-relaxed text-pretty">
+                {communityIntro.map((paragraph, idx) => (
                   <motion.p
                     key={idx}
                     initial={{ opacity: 0, y: 25 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: 0.25 + idx * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{
+                      duration: 0.7,
+                      delay: 0.25 + idx * 0.12,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
                   >
                     {paragraph}
                   </motion.p>
@@ -105,7 +112,7 @@ function IntroSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="mt-4 sm:mt-8 relative z-10"
+                className="mt-5 sm:mt-6 relative z-10"
               >
                 <Link
                   to="/about"
@@ -119,43 +126,37 @@ function IntroSection() {
           </div>
         </div>
 
-        {/* Vision & Mission Cards */}
-        <div className="mt-6 sm:mt-8 grid gap-4 sm:gap-6 md:grid-cols-2">
-          <motion.div
-            {...alternateSlideIn(0, { margin: "-40px", duration: 0.85 })}
-            transition={{ duration: 0.85, ease: slideEase, delay: 0.1 }}
-            className="glass-strong border border-border/40 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl shadow-sm flex flex-col"
-          >
-            <div className="flex items-center gap-3 mb-2 sm:mb-4">
-              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl bg-primary/10 text-primary">
-                <Target className="h-4 sm:h-5 w-4 sm:w-5" />
+        {/* Vision & Mission — avoid opacity-only whileInView; covered by parallax on short laptops */}
+        <div className="mt-10 sm:mt-12 lg:mt-14 pt-8 sm:pt-10 border-t border-border/30">
+          <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
+            <div className="glass-strong border border-border/40 p-5 sm:p-6 lg:p-7 rounded-2xl sm:rounded-3xl shadow-sm flex flex-col h-full">
+              <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl bg-primary/10 text-primary shrink-0">
+                  <Target className="h-4 w-4 sm:h-5 sm:w-5" />
+                </div>
+                <h3 className="font-display text-lg sm:text-xl text-foreground font-bold">
+                  {vision.title}
+                </h3>
               </div>
-              <h3 className="font-display text-lg sm:text-xl text-foreground font-semibold">
-                {aboutUs.vision.title}
-              </h3>
+              <p className="text-sm sm:text-base font-light text-muted-foreground leading-relaxed text-pretty">
+                {vision.body}
+              </p>
             </div>
-            <p className="text-xs sm:text-sm font-light text-muted-foreground leading-relaxed text-pretty">
-              {aboutUs.vision.body}
-            </p>
-          </motion.div>
 
-          <motion.div
-            {...alternateSlideIn(1, { margin: "-40px", duration: 0.85 })}
-            transition={{ duration: 0.85, ease: slideEase, delay: 0.18 }}
-            className="glass-strong border border-border/40 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl shadow-sm flex flex-col"
-          >
-            <div className="flex items-center gap-3 mb-2 sm:mb-4">
-              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl bg-primary/10 text-primary">
-                <Compass className="h-4 sm:h-5 w-4 sm:w-5" />
+            <div className="glass-strong border border-border/40 p-5 sm:p-6 lg:p-7 rounded-2xl sm:rounded-3xl shadow-sm flex flex-col h-full">
+              <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl bg-primary/10 text-primary shrink-0">
+                  <Compass className="h-4 w-4 sm:h-5 sm:w-5" />
+                </div>
+                <h3 className="font-display text-lg sm:text-xl text-foreground font-bold">
+                  {mission.title}
+                </h3>
               </div>
-              <h3 className="font-display text-lg sm:text-xl text-foreground font-semibold">
-                {aboutUs.mission.title}
-              </h3>
+              <p className="text-sm sm:text-base font-light text-muted-foreground leading-relaxed text-pretty">
+                {mission.body}
+              </p>
             </div>
-            <p className="text-xs sm:text-sm font-light text-muted-foreground leading-relaxed text-pretty">
-              {aboutUs.mission.body}
-            </p>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
@@ -186,17 +187,13 @@ function Index() {
         </div>
       </div>
 
-      {/* ── Who We Are (IntroSection) track ── */}
-      {/* On desktop: slides up over Hero, then sticks */}
-      <div className="intro-parallax-track">
-        <div className="intro-parallax-sticky">
-          <IntroSection />
-        </div>
+      {/* ── Who We Are (IntroSection) ── */}
+      <div className="relative z-5 -mt-[100svh]">
+        <IntroSection />
       </div>
 
       {/* ── Heritage & Impact and remaining sections ── */}
-      {/* On desktop: slides up over Who We Are, then scrolls normally */}
-      <div className="intro-slide-panel relative overflow-hidden">
+      <div className="relative z-10 bg-background">
         <ThemeBackdrop variant="page" className="opacity-60" />
         <div className="relative z-10">
           <ScrollTickers />

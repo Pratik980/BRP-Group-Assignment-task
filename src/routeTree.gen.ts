@@ -14,7 +14,28 @@ import { Route as HistoryRouteImport } from './routes/history'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CareerRouteImport } from './routes/career'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
+import { Route as AdminVenturesIndexRouteImport } from './routes/admin/ventures/index'
+import { Route as AdminTeamIndexRouteImport } from './routes/admin/team/index'
+import { Route as AdminStatsIndexRouteImport } from './routes/admin/stats/index'
+import { Route as AdminSettingsIndexRouteImport } from './routes/admin/settings/index'
+import { Route as AdminMediaIndexRouteImport } from './routes/admin/media/index'
+import { Route as AdminHeroIndexRouteImport } from './routes/admin/hero/index'
+import { Route as AdminCommunityIndexRouteImport } from './routes/admin/community/index'
+import { Route as AdminCareersIndexRouteImport } from './routes/admin/careers/index'
+import { Route as AdminAboutIndexRouteImport } from './routes/admin/about/index'
+import { Route as AdminVenturesNewRouteImport } from './routes/admin/ventures/new'
+import { Route as AdminVenturesIdRouteImport } from './routes/admin/ventures/$id'
+import { Route as AdminTeamNewRouteImport } from './routes/admin/team/new'
+import { Route as AdminTeamIdRouteImport } from './routes/admin/team/$id'
+import { Route as AdminHeroNewRouteImport } from './routes/admin/hero/new'
+import { Route as AdminHeroIdRouteImport } from './routes/admin/hero/$id'
+import { Route as AdminCareersNewRouteImport } from './routes/admin/careers/new'
+import { Route as AdminCareersIdRouteImport } from './routes/admin/careers/$id'
+import { Route as AdminAboutKeyRouteImport } from './routes/admin/about/$key'
 
 const VenturesRoute = VenturesRouteImport.update({
   id: '/ventures',
@@ -41,19 +62,145 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminVenturesIndexRoute = AdminVenturesIndexRouteImport.update({
+  id: '/ventures/',
+  path: '/ventures/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminTeamIndexRoute = AdminTeamIndexRouteImport.update({
+  id: '/team/',
+  path: '/team/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminStatsIndexRoute = AdminStatsIndexRouteImport.update({
+  id: '/stats/',
+  path: '/stats/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminSettingsIndexRoute = AdminSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminMediaIndexRoute = AdminMediaIndexRouteImport.update({
+  id: '/media/',
+  path: '/media/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminHeroIndexRoute = AdminHeroIndexRouteImport.update({
+  id: '/hero/',
+  path: '/hero/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminCommunityIndexRoute = AdminCommunityIndexRouteImport.update({
+  id: '/community/',
+  path: '/community/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminCareersIndexRoute = AdminCareersIndexRouteImport.update({
+  id: '/careers/',
+  path: '/careers/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminAboutIndexRoute = AdminAboutIndexRouteImport.update({
+  id: '/about/',
+  path: '/about/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminVenturesNewRoute = AdminVenturesNewRouteImport.update({
+  id: '/ventures/new',
+  path: '/ventures/new',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminVenturesIdRoute = AdminVenturesIdRouteImport.update({
+  id: '/ventures/$id',
+  path: '/ventures/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminTeamNewRoute = AdminTeamNewRouteImport.update({
+  id: '/team/new',
+  path: '/team/new',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminTeamIdRoute = AdminTeamIdRouteImport.update({
+  id: '/team/$id',
+  path: '/team/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminHeroNewRoute = AdminHeroNewRouteImport.update({
+  id: '/hero/new',
+  path: '/hero/new',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminHeroIdRoute = AdminHeroIdRouteImport.update({
+  id: '/hero/$id',
+  path: '/hero/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminCareersNewRoute = AdminCareersNewRouteImport.update({
+  id: '/careers/new',
+  path: '/careers/new',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminCareersIdRoute = AdminCareersIdRouteImport.update({
+  id: '/careers/$id',
+  path: '/careers/$id',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminAboutKeyRoute = AdminAboutKeyRouteImport.update({
+  id: '/about/$key',
+  path: '/about/$key',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/career': typeof CareerRoute
   '/community': typeof CommunityRoute
   '/history': typeof HistoryRoute
   '/ventures': typeof VenturesRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/about/$key': typeof AdminAboutKeyRoute
+  '/admin/careers/$id': typeof AdminCareersIdRoute
+  '/admin/careers/new': typeof AdminCareersNewRoute
+  '/admin/hero/$id': typeof AdminHeroIdRoute
+  '/admin/hero/new': typeof AdminHeroNewRoute
+  '/admin/team/$id': typeof AdminTeamIdRoute
+  '/admin/team/new': typeof AdminTeamNewRoute
+  '/admin/ventures/$id': typeof AdminVenturesIdRoute
+  '/admin/ventures/new': typeof AdminVenturesNewRoute
+  '/admin/about/': typeof AdminAboutIndexRoute
+  '/admin/careers/': typeof AdminCareersIndexRoute
+  '/admin/community/': typeof AdminCommunityIndexRoute
+  '/admin/hero/': typeof AdminHeroIndexRoute
+  '/admin/media/': typeof AdminMediaIndexRoute
+  '/admin/settings/': typeof AdminSettingsIndexRoute
+  '/admin/stats/': typeof AdminStatsIndexRoute
+  '/admin/team/': typeof AdminTeamIndexRoute
+  '/admin/ventures/': typeof AdminVenturesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,39 +209,149 @@ export interface FileRoutesByTo {
   '/community': typeof CommunityRoute
   '/history': typeof HistoryRoute
   '/ventures': typeof VenturesRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin': typeof AdminIndexRoute
+  '/admin/about/$key': typeof AdminAboutKeyRoute
+  '/admin/careers/$id': typeof AdminCareersIdRoute
+  '/admin/careers/new': typeof AdminCareersNewRoute
+  '/admin/hero/$id': typeof AdminHeroIdRoute
+  '/admin/hero/new': typeof AdminHeroNewRoute
+  '/admin/team/$id': typeof AdminTeamIdRoute
+  '/admin/team/new': typeof AdminTeamNewRoute
+  '/admin/ventures/$id': typeof AdminVenturesIdRoute
+  '/admin/ventures/new': typeof AdminVenturesNewRoute
+  '/admin/about': typeof AdminAboutIndexRoute
+  '/admin/careers': typeof AdminCareersIndexRoute
+  '/admin/community': typeof AdminCommunityIndexRoute
+  '/admin/hero': typeof AdminHeroIndexRoute
+  '/admin/media': typeof AdminMediaIndexRoute
+  '/admin/settings': typeof AdminSettingsIndexRoute
+  '/admin/stats': typeof AdminStatsIndexRoute
+  '/admin/team': typeof AdminTeamIndexRoute
+  '/admin/ventures': typeof AdminVenturesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/career': typeof CareerRoute
   '/community': typeof CommunityRoute
   '/history': typeof HistoryRoute
   '/ventures': typeof VenturesRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/about/$key': typeof AdminAboutKeyRoute
+  '/admin/careers/$id': typeof AdminCareersIdRoute
+  '/admin/careers/new': typeof AdminCareersNewRoute
+  '/admin/hero/$id': typeof AdminHeroIdRoute
+  '/admin/hero/new': typeof AdminHeroNewRoute
+  '/admin/team/$id': typeof AdminTeamIdRoute
+  '/admin/team/new': typeof AdminTeamNewRoute
+  '/admin/ventures/$id': typeof AdminVenturesIdRoute
+  '/admin/ventures/new': typeof AdminVenturesNewRoute
+  '/admin/about/': typeof AdminAboutIndexRoute
+  '/admin/careers/': typeof AdminCareersIndexRoute
+  '/admin/community/': typeof AdminCommunityIndexRoute
+  '/admin/hero/': typeof AdminHeroIndexRoute
+  '/admin/media/': typeof AdminMediaIndexRoute
+  '/admin/settings/': typeof AdminSettingsIndexRoute
+  '/admin/stats/': typeof AdminStatsIndexRoute
+  '/admin/team/': typeof AdminTeamIndexRoute
+  '/admin/ventures/': typeof AdminVenturesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/about'
     | '/career'
     | '/community'
     | '/history'
     | '/ventures'
+    | '/admin/login'
+    | '/admin/'
+    | '/admin/about/$key'
+    | '/admin/careers/$id'
+    | '/admin/careers/new'
+    | '/admin/hero/$id'
+    | '/admin/hero/new'
+    | '/admin/team/$id'
+    | '/admin/team/new'
+    | '/admin/ventures/$id'
+    | '/admin/ventures/new'
+    | '/admin/about/'
+    | '/admin/careers/'
+    | '/admin/community/'
+    | '/admin/hero/'
+    | '/admin/media/'
+    | '/admin/settings/'
+    | '/admin/stats/'
+    | '/admin/team/'
+    | '/admin/ventures/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/career' | '/community' | '/history' | '/ventures'
-  id:
-    | '__root__'
+  to:
     | '/'
     | '/about'
     | '/career'
     | '/community'
     | '/history'
     | '/ventures'
+    | '/admin/login'
+    | '/admin'
+    | '/admin/about/$key'
+    | '/admin/careers/$id'
+    | '/admin/careers/new'
+    | '/admin/hero/$id'
+    | '/admin/hero/new'
+    | '/admin/team/$id'
+    | '/admin/team/new'
+    | '/admin/ventures/$id'
+    | '/admin/ventures/new'
+    | '/admin/about'
+    | '/admin/careers'
+    | '/admin/community'
+    | '/admin/hero'
+    | '/admin/media'
+    | '/admin/settings'
+    | '/admin/stats'
+    | '/admin/team'
+    | '/admin/ventures'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/about'
+    | '/career'
+    | '/community'
+    | '/history'
+    | '/ventures'
+    | '/admin/login'
+    | '/admin/'
+    | '/admin/about/$key'
+    | '/admin/careers/$id'
+    | '/admin/careers/new'
+    | '/admin/hero/$id'
+    | '/admin/hero/new'
+    | '/admin/team/$id'
+    | '/admin/team/new'
+    | '/admin/ventures/$id'
+    | '/admin/ventures/new'
+    | '/admin/about/'
+    | '/admin/careers/'
+    | '/admin/community/'
+    | '/admin/hero/'
+    | '/admin/media/'
+    | '/admin/settings/'
+    | '/admin/stats/'
+    | '/admin/team/'
+    | '/admin/ventures/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   CareerRoute: typeof CareerRoute
   CommunityRoute: typeof CommunityRoute
@@ -139,6 +396,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -146,11 +410,202 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/ventures/': {
+      id: '/admin/ventures/'
+      path: '/ventures'
+      fullPath: '/admin/ventures/'
+      preLoaderRoute: typeof AdminVenturesIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/team/': {
+      id: '/admin/team/'
+      path: '/team'
+      fullPath: '/admin/team/'
+      preLoaderRoute: typeof AdminTeamIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/stats/': {
+      id: '/admin/stats/'
+      path: '/stats'
+      fullPath: '/admin/stats/'
+      preLoaderRoute: typeof AdminStatsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/settings/': {
+      id: '/admin/settings/'
+      path: '/settings'
+      fullPath: '/admin/settings/'
+      preLoaderRoute: typeof AdminSettingsIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/media/': {
+      id: '/admin/media/'
+      path: '/media'
+      fullPath: '/admin/media/'
+      preLoaderRoute: typeof AdminMediaIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/hero/': {
+      id: '/admin/hero/'
+      path: '/hero'
+      fullPath: '/admin/hero/'
+      preLoaderRoute: typeof AdminHeroIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/community/': {
+      id: '/admin/community/'
+      path: '/community'
+      fullPath: '/admin/community/'
+      preLoaderRoute: typeof AdminCommunityIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/careers/': {
+      id: '/admin/careers/'
+      path: '/careers'
+      fullPath: '/admin/careers/'
+      preLoaderRoute: typeof AdminCareersIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/about/': {
+      id: '/admin/about/'
+      path: '/about'
+      fullPath: '/admin/about/'
+      preLoaderRoute: typeof AdminAboutIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/ventures/new': {
+      id: '/admin/ventures/new'
+      path: '/ventures/new'
+      fullPath: '/admin/ventures/new'
+      preLoaderRoute: typeof AdminVenturesNewRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/ventures/$id': {
+      id: '/admin/ventures/$id'
+      path: '/ventures/$id'
+      fullPath: '/admin/ventures/$id'
+      preLoaderRoute: typeof AdminVenturesIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/team/new': {
+      id: '/admin/team/new'
+      path: '/team/new'
+      fullPath: '/admin/team/new'
+      preLoaderRoute: typeof AdminTeamNewRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/team/$id': {
+      id: '/admin/team/$id'
+      path: '/team/$id'
+      fullPath: '/admin/team/$id'
+      preLoaderRoute: typeof AdminTeamIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/hero/new': {
+      id: '/admin/hero/new'
+      path: '/hero/new'
+      fullPath: '/admin/hero/new'
+      preLoaderRoute: typeof AdminHeroNewRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/hero/$id': {
+      id: '/admin/hero/$id'
+      path: '/hero/$id'
+      fullPath: '/admin/hero/$id'
+      preLoaderRoute: typeof AdminHeroIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/careers/new': {
+      id: '/admin/careers/new'
+      path: '/careers/new'
+      fullPath: '/admin/careers/new'
+      preLoaderRoute: typeof AdminCareersNewRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/careers/$id': {
+      id: '/admin/careers/$id'
+      path: '/careers/$id'
+      fullPath: '/admin/careers/$id'
+      preLoaderRoute: typeof AdminCareersIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/about/$key': {
+      id: '/admin/about/$key'
+      path: '/about/$key'
+      fullPath: '/admin/about/$key'
+      preLoaderRoute: typeof AdminAboutKeyRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
   }
 }
 
+interface AdminRouteRouteChildren {
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminAboutKeyRoute: typeof AdminAboutKeyRoute
+  AdminCareersIdRoute: typeof AdminCareersIdRoute
+  AdminCareersNewRoute: typeof AdminCareersNewRoute
+  AdminHeroIdRoute: typeof AdminHeroIdRoute
+  AdminHeroNewRoute: typeof AdminHeroNewRoute
+  AdminTeamIdRoute: typeof AdminTeamIdRoute
+  AdminTeamNewRoute: typeof AdminTeamNewRoute
+  AdminVenturesIdRoute: typeof AdminVenturesIdRoute
+  AdminVenturesNewRoute: typeof AdminVenturesNewRoute
+  AdminAboutIndexRoute: typeof AdminAboutIndexRoute
+  AdminCareersIndexRoute: typeof AdminCareersIndexRoute
+  AdminCommunityIndexRoute: typeof AdminCommunityIndexRoute
+  AdminHeroIndexRoute: typeof AdminHeroIndexRoute
+  AdminMediaIndexRoute: typeof AdminMediaIndexRoute
+  AdminSettingsIndexRoute: typeof AdminSettingsIndexRoute
+  AdminStatsIndexRoute: typeof AdminStatsIndexRoute
+  AdminTeamIndexRoute: typeof AdminTeamIndexRoute
+  AdminVenturesIndexRoute: typeof AdminVenturesIndexRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminLoginRoute: AdminLoginRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminAboutKeyRoute: AdminAboutKeyRoute,
+  AdminCareersIdRoute: AdminCareersIdRoute,
+  AdminCareersNewRoute: AdminCareersNewRoute,
+  AdminHeroIdRoute: AdminHeroIdRoute,
+  AdminHeroNewRoute: AdminHeroNewRoute,
+  AdminTeamIdRoute: AdminTeamIdRoute,
+  AdminTeamNewRoute: AdminTeamNewRoute,
+  AdminVenturesIdRoute: AdminVenturesIdRoute,
+  AdminVenturesNewRoute: AdminVenturesNewRoute,
+  AdminAboutIndexRoute: AdminAboutIndexRoute,
+  AdminCareersIndexRoute: AdminCareersIndexRoute,
+  AdminCommunityIndexRoute: AdminCommunityIndexRoute,
+  AdminHeroIndexRoute: AdminHeroIndexRoute,
+  AdminMediaIndexRoute: AdminMediaIndexRoute,
+  AdminSettingsIndexRoute: AdminSettingsIndexRoute,
+  AdminStatsIndexRoute: AdminStatsIndexRoute,
+  AdminTeamIndexRoute: AdminTeamIndexRoute,
+  AdminVenturesIndexRoute: AdminVenturesIndexRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   CareerRoute: CareerRoute,
   CommunityRoute: CommunityRoute,

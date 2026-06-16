@@ -1,0 +1,33 @@
+# BRP Group CMS — Supabase local/linked project config
+# Docs: https://supabase.com/docs/guides/cli/config
+
+project_id = "tjlfsknqrhyyafjlpxud"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[db.migrations]
+enabled = true
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[storage]
+enabled = true
+file_size_limit = "10MiB"
+
+[auth]
+enabled = true
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173/admin/login"]
+jwt_expiry = 3600
+enable_signup = false

@@ -4,19 +4,17 @@ import { useMemo } from "react";
 import brpVenturesLogo from "@/assets/optimized/logo-BRP.webp";
 import reddotLogo from "@/assets/optimized/reddot.webp";
 import shsLogo from "@/assets/optimized/shs.webp";
-import assabetLogo from "@/assets/optimized/Assabet.webp";
 import satinLeafLogo from "@/assets/optimized/satin-leaf.webp";
 import ubVenturesLogo from "@/assets/optimized/uv-ventures.webp";
 import brpToursLogo from "@/assets/optimized/Brp-tours-and-travel.webp";
 
 const ventures = [
   { title: "Reddot", logo: reddotLogo, angle: 0 },
-  { title: "Small Heaven School", logo: shsLogo, angle: 45 },
-  { title: "Assabet Technologies", logo: assabetLogo, angle: 90 },
-  { title: "Satin Leaf Investment", logo: satinLeafLogo, angle: 135 },
+  { title: "Small Heaven School", logo: shsLogo, angle: 60 },
+  { title: "Satin Leaf Investment", logo: satinLeafLogo, angle: 120 },
   { title: "B.R.P. Ventures", logo: brpVenturesLogo, angle: 180 },
-  { title: "U.B. Ventures", logo: ubVenturesLogo, angle: 225 },
-  { title: "BRP Tours & Travels", logo: brpToursLogo, angle: 270 },
+  { title: "U.B. Ventures", logo: ubVenturesLogo, angle: 240 },
+  { title: "BRP Tours & Travels", logo: brpToursLogo, angle: 300 },
 ];
 
 export function EcosystemMap() {
@@ -48,11 +46,7 @@ export function EcosystemMap() {
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
         >
-          <img
-            src={brpVenturesLogo}
-            alt="BRP"
-            className="w-full h-full object-contain p-3"
-          />
+          <img src={brpVenturesLogo} alt="BRP" className="w-full h-full object-contain p-3" />
         </motion.div>
 
         {/* Orbiting venture icons */}

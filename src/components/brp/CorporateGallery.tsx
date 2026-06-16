@@ -68,18 +68,21 @@ export function CorporateGallery() {
   }, [handleNext]);
 
   return (
-    <section id="gallery" className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/20 to-background py-16 sm:py-24">
+    <section
+      id="gallery"
+      className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/20 to-background py-16 sm:py-24"
+    >
       <ThemeBackdrop variant="section" />
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="relative z-10 brp-container">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12">
           <motion.div {...splitSlideIn(0, "visual", { margin: "-60px" })}>
             <div className="glass mb-4 inline-flex rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground shadow-sm">
               Corporate Gallery
             </div>
-            <h2 className="font-display text-4xl leading-[1.05] tracking-tight text-foreground md:text-6xl">
+            <h2 className="font-display text-4xl leading-[1.05] tracking-tight text-foreground md:text-6xl xl:text-7xl">
               BRP Group <span className="text-gradient italic">In Action</span>
             </h2>
-            <p className="mt-3 max-w-xl text-sm font-light text-muted-foreground md:text-base">
+            <p className="mt-3 max-w-xl text-sm font-light text-muted-foreground md:text-base xl:text-lg">
               Browse the full gallery below — select any photo to view it without cropping.
             </p>
           </motion.div>

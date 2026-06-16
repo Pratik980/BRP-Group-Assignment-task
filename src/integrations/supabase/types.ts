@@ -1,83 +1,319 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "14.5";
   };
   public: {
     Tables: {
-      contact_submissions: {
+      about_content: {
         Row: {
-          created_at: string;
-          email: string;
-          id: string;
-          message: string;
-          name: string;
-          organization: string | null;
+          section_key: string;
+          title: string | null;
+          content: string | null;
+          image_url: string | null;
+          metadata: Json;
+          updated_at: string;
         };
         Insert: {
-          created_at?: string;
-          email: string;
-          id?: string;
-          message: string;
-          name: string;
-          organization?: string | null;
+          section_key: string;
+          title?: string | null;
+          content?: string | null;
+          image_url?: string | null;
+          metadata?: Json;
+          updated_at?: string;
         };
         Update: {
-          created_at?: string;
-          email?: string;
-          id?: string;
-          message?: string;
-          name?: string;
-          organization?: string | null;
+          section_key?: string;
+          title?: string | null;
+          content?: string | null;
+          image_url?: string | null;
+          metadata?: Json;
+          updated_at?: string;
         };
         Relationships: [];
       };
-      job_vacancies: {
+      blog_categories: {
+        Row: {
+          id: string;
+          name: string;
+          slug: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          slug: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          slug?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      blog_posts: {
         Row: {
           id: string;
           title: string;
-          department: string;
-          location: string;
-          employment_type: string;
-          experience_required: string;
-          description: string;
-          requirements: string[];
-          salary_range: string;
-          is_active: boolean;
-          application_deadline: string;
+          slug: string;
+          content: string | null;
+          featured_image_url: string | null;
+          category_id: string | null;
+          tags: string[];
+          status: string;
+          published_at: string | null;
+          seo_title: string | null;
+          seo_description: string | null;
+          og_image_url: string | null;
           created_at: string;
           updated_at: string;
         };
         Insert: {
           id?: string;
           title: string;
-          department: string;
-          location: string;
-          employment_type: string;
-          experience_required: string;
-          description: string;
-          requirements?: string[];
-          salary_range?: string;
-          is_active?: boolean;
-          application_deadline: string;
+          slug: string;
+          content?: string | null;
+          featured_image_url?: string | null;
+          category_id?: string | null;
+          tags?: string[];
+          status?: string;
+          published_at?: string | null;
+          seo_title?: string | null;
+          seo_description?: string | null;
+          og_image_url?: string | null;
           created_at?: string;
           updated_at?: string;
         };
         Update: {
           id?: string;
           title?: string;
-          department?: string;
-          location?: string;
-          employment_type?: string;
-          experience_required?: string;
-          description?: string;
-          requirements?: string[];
-          salary_range?: string;
+          slug?: string;
+          content?: string | null;
+          featured_image_url?: string | null;
+          category_id?: string | null;
+          tags?: string[];
+          status?: string;
+          published_at?: string | null;
+          seo_title?: string | null;
+          seo_description?: string | null;
+          og_image_url?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "blog_posts_category_id_fkey";
+            columns: ["category_id"];
+            isOneToOne: false;
+            referencedRelation: "blog_categories";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      contact_submissions: {
+        Row: {
+          id: string;
+          name: string;
+          email: string;
+          message: string;
+          organization: string | null;
+          phone: string | null;
+          subject: string | null;
+          is_read: boolean;
+          is_starred: boolean;
+          admin_note: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          email: string;
+          message: string;
+          organization?: string | null;
+          phone?: string | null;
+          subject?: string | null;
+          is_read?: boolean;
+          is_starred?: boolean;
+          admin_note?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          email?: string;
+          message?: string;
+          organization?: string | null;
+          phone?: string | null;
+          subject?: string | null;
+          is_read?: boolean;
+          is_starred?: boolean;
+          admin_note?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      footer_link_groups: {
+        Row: {
+          id: string;
+          title: string;
+          links: Json;
+          display_order: number;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          links?: Json;
+          display_order?: number;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          links?: Json;
+          display_order?: number;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      gallery_albums: {
+        Row: {
+          id: string;
+          name: string;
+          slug: string;
+          description: string | null;
+          display_order: number;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          slug: string;
+          description?: string | null;
+          display_order?: number;
           is_active?: boolean;
-          application_deadline?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          slug?: string;
+          description?: string | null;
+          display_order?: number;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      gallery_images: {
+        Row: {
+          id: string;
+          album_id: string;
+          image_url: string;
+          caption: string | null;
+          alt_text: string | null;
+          display_order: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          album_id: string;
+          image_url: string;
+          caption?: string | null;
+          alt_text?: string | null;
+          display_order?: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          album_id?: string;
+          image_url?: string;
+          caption?: string | null;
+          alt_text?: string | null;
+          display_order?: number;
+          created_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "gallery_images_album_id_fkey";
+            columns: ["album_id"];
+            isOneToOne: false;
+            referencedRelation: "gallery_albums";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      hero_slides: {
+        Row: {
+          id: string;
+          headline: string;
+          subheadline: string | null;
+          cta_text: string | null;
+          cta_url: string | null;
+          background_image_url: string | null;
+          display_order: number;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          headline: string;
+          subheadline?: string | null;
+          cta_text?: string | null;
+          cta_url?: string | null;
+          background_image_url?: string | null;
+          display_order?: number;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          headline?: string;
+          subheadline?: string | null;
+          cta_text?: string | null;
+          cta_url?: string | null;
+          background_image_url?: string | null;
+          display_order?: number;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      impact_stats: {
+        Row: {
+          id: string;
+          label: string;
+          value: string;
+          display_order: number;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          label: string;
+          value: string;
+          display_order?: number;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          label?: string;
+          value?: string;
+          display_order?: number;
+          is_active?: boolean;
           created_at?: string;
           updated_at?: string;
         };
@@ -136,8 +372,227 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "job_vacancies";
             referencedColumns: ["id"];
-          }
+          },
         ];
+      };
+      job_vacancies: {
+        Row: {
+          id: string;
+          title: string;
+          department: string;
+          location: string;
+          employment_type: string;
+          experience_required: string;
+          description: string;
+          requirements: string[];
+          salary_range: string;
+          is_active: boolean;
+          application_deadline: string;
+          apply_email: string | null;
+          apply_url: string | null;
+          status: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          department: string;
+          location: string;
+          employment_type: string;
+          experience_required: string;
+          description: string;
+          requirements?: string[];
+          salary_range?: string;
+          is_active?: boolean;
+          application_deadline: string;
+          apply_email?: string | null;
+          apply_url?: string | null;
+          status?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          department?: string;
+          location?: string;
+          employment_type?: string;
+          experience_required?: string;
+          description?: string;
+          requirements?: string[];
+          salary_range?: string;
+          is_active?: boolean;
+          application_deadline?: string;
+          apply_email?: string | null;
+          apply_url?: string | null;
+          status?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      media_files: {
+        Row: {
+          id: string;
+          file_name: string;
+          storage_path: string;
+          public_url: string;
+          mime_type: string | null;
+          file_size_bytes: number | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          file_name: string;
+          storage_path: string;
+          public_url: string;
+          mime_type?: string | null;
+          file_size_bytes?: number | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          file_name?: string;
+          storage_path?: string;
+          public_url?: string;
+          mime_type?: string | null;
+          file_size_bytes?: number | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      seo_settings: {
+        Row: {
+          page_slug: string;
+          meta_title: string | null;
+          meta_description: string | null;
+          og_image_url: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          page_slug: string;
+          meta_title?: string | null;
+          meta_description?: string | null;
+          og_image_url?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          page_slug?: string;
+          meta_title?: string | null;
+          meta_description?: string | null;
+          og_image_url?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      site_settings: {
+        Row: {
+          key: string;
+          value: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          key: string;
+          value?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          key?: string;
+          value?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      team_members: {
+        Row: {
+          id: string;
+          full_name: string;
+          role: string;
+          department: string;
+          bio: string | null;
+          photo_url: string | null;
+          linkedin_url: string | null;
+          display_order: number;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          full_name: string;
+          role: string;
+          department?: string;
+          bio?: string | null;
+          photo_url?: string | null;
+          linkedin_url?: string | null;
+          display_order?: number;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          full_name?: string;
+          role?: string;
+          department?: string;
+          bio?: string | null;
+          photo_url?: string | null;
+          linkedin_url?: string | null;
+          display_order?: number;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      ventures: {
+        Row: {
+          id: string;
+          name: string;
+          slug: string;
+          tagline: string | null;
+          description: string | null;
+          logo_url: string | null;
+          cover_image_url: string | null;
+          category: string;
+          external_url: string | null;
+          display_order: number;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          slug: string;
+          tagline?: string | null;
+          description?: string | null;
+          logo_url?: string | null;
+          cover_image_url?: string | null;
+          category?: string;
+          external_url?: string | null;
+          display_order?: number;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          slug?: string;
+          tagline?: string | null;
+          description?: string | null;
+          logo_url?: string | null;
+          cover_image_url?: string | null;
+          category?: string;
+          external_url?: string | null;
+          display_order?: number;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
       };
     };
     Views: {
@@ -156,7 +611,6 @@ export type Database = {
 };
 
 type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">;
-
 type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">];
 
 export type Tables<
@@ -235,43 +689,3 @@ export type TablesUpdate<
       ? U
       : never
     : never;
-
-export type Enums<
-  DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
-    | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
-  }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
-> = DefaultSchemaEnumNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
-}
-  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-    : never;
-
-export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
-    | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals;
-  }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
-> = PublicCompositeTypeNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals;
-}
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never;
-
-export const Constants = {
-  public: {
-    Enums: {},
-  },
-} as const;

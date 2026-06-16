@@ -25,7 +25,9 @@ const applicationSchema = z.object({
 export type ApplicationInput = z.infer<typeof applicationSchema>;
 
 function hasSupabaseConfig() {
-  return Boolean(import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY);
+  return Boolean(
+    import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+  );
 }
 
 /** Fetch active job vacancies (client-safe — no createServerFn). */

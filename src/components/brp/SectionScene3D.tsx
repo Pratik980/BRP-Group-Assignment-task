@@ -106,9 +106,7 @@ function SlowWavePlane({
     for (let i = 0; i < pos.length; i += 3) {
       const x = original[i];
       const y = original[i + 1];
-      pos[i + 2] =
-        Math.sin(x * 0.35 + t * 0.5) * 0.22 +
-        Math.cos(y * 0.4 + t * 0.38) * 0.18;
+      pos[i + 2] = Math.sin(x * 0.35 + t * 0.5) * 0.22 + Math.cos(y * 0.4 + t * 0.38) * 0.18;
     }
     ref.current.geometry.attributes.position.needsUpdate = true;
   });
@@ -127,7 +125,15 @@ function SlowWavePlane({
   );
 }
 
-function SlowGlobe({ active, reduced, accent }: { active: boolean; reduced: boolean; accent: string }) {
+function SlowGlobe({
+  active,
+  reduced,
+  accent,
+}: {
+  active: boolean;
+  reduced: boolean;
+  accent: string;
+}) {
   const ref = useRef<THREE.Group>(null);
   useFrame((state) => {
     if (!active || !ref.current) return;

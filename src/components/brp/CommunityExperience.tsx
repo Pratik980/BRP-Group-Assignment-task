@@ -1,7 +1,7 @@
-import { communityPage } from "@/data/brp-site-content";
+import { resolveCommunityPage } from "@/lib/cms/about-content";
+import { usePublicAboutSections } from "@/hooks/usePublicContent";
 import { motion, useMotionValue } from "framer-motion";
 import {
-  ArrowRight,
   Building2,
   ChevronLeft,
   ChevronRight,
@@ -12,7 +12,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { splitSlideIn } from "@/lib/alternate-slide";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
@@ -21,36 +20,22 @@ import educationImg from "@/assets/optimized/image-5-1200.webp";
 import healthcareImg from "@/assets/optimized/image-1-1200.webp";
 import communityCentreImg from "@/assets/optimized/image-2-1200.webp";
 
-import galleryImg3 from "@/assets/optimized/image-3-1200.webp";
-import galleryImg4 from "@/assets/optimized/image-4-1200.webp";
-import galleryImg5 from "@/assets/optimized/image-5-1200.webp";
-import galleryImg6 from "@/assets/optimized/image-6-1200.webp";
-import galleryChildren from "@/assets/optimized/childrents-1200.webp";
-import galleryEducation1 from "@/assets/optimized/education-1-1200.webp";
-import galleryEducation2 from "@/assets/optimized/education-2-1200.webp";
-
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const pillars = [
+const pillarThemes = [
   {
-    headline: communityPage.sections[0].headline,
-    paragraphs: communityPage.sections[0].paragraphs,
     image: educationImg,
     icon: GraduationCap,
     themeColor: "rgba(42, 69, 128, 0.12)",
     accent: "#2A4580",
   },
   {
-    headline: communityPage.sections[1].headline,
-    paragraphs: communityPage.sections[1].paragraphs,
     image: healthcareImg,
     icon: HeartPulse,
     themeColor: "rgba(13, 148, 136, 0.12)",
     accent: "#0d9488",
   },
   {
-    headline: communityPage.sections[2].headline,
-    paragraphs: communityPage.sections[2].paragraphs,
     image: communityCentreImg,
     icon: Building2,
     themeColor: "rgba(99, 102, 241, 0.12)",
@@ -58,25 +43,27 @@ const pillars = [
   },
 ] as const;
 
-const galleryImages = [
-  { src: galleryChildren, label: "Supporting the next generation" },
-  { src: galleryEducation1, label: "School infrastructure & resources" },
-  { src: galleryEducation2, label: "Learning environments in Gorkha" },
-  { src: galleryImg3, label: "Community outreach programs" },
-  { src: galleryImg4, label: "Local partnerships" },
-  { src: galleryImg5, label: "Regional initiatives" },
-  { src: galleryImg6, label: "Village community programs" },
-] as const;
+type CommunityPillar = {
+  headline: string;
+  paragraphs: string[];
+  image: string;
+  icon: typeof GraduationCap;
+  themeColor: string;
+  accent: string;
+};
 
 const DRAG_BUFFER = 50;
 const AUTO_INTERVAL_MS = 6500;
 
 function CommunityHero() {
+  const { data: aboutSections } = usePublicAboutSections();
+  const content = resolveCommunityPage(aboutSections);
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background py-28 md:py-36">
       <ThemeBackdrop variant="hero" />
 
-      <div className="relative z-10 mx-auto max-w-4xl px-6 pt-16 text-center sm:px-6">
+      <div className="relative z-10 brp-container pt-16 text-center">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
@@ -84,21 +71,20 @@ function CommunityHero() {
         >
           <span className="glass mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground shadow-sm">
             <Heart className="h-3 w-3 text-primary" />
-            {communityPage.heroTitle}
+            {content.heroTitle}
           </span>
 
           <h1 className="font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
-            Empowering through{" "}
-            <span className="text-gradient italic">health & education</span>
+            {content.heroHeadline}
           </h1>
 
           <p className="mx-auto mt-6 max-w-3xl text-balance text-base font-light leading-relaxed text-muted-foreground md:text-lg">
-            {communityPage.heroIntro}
+            {content.heroIntro}
           </p>
 
           <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-border/50 bg-background/60 px-4 py-2 text-xs text-muted-foreground backdrop-blur-sm">
             <MapPin className="h-3.5 w-3.5 text-primary" />
-            Chhoprak · Siranchok Rural Municipality, Gorkha
+            {content.heroLocation}
           </div>
         </motion.div>
       </div>
@@ -107,8 +93,11 @@ function CommunityHero() {
 }
 
 function ImpactStats() {
+  const { data: aboutSections } = usePublicAboutSections();
+  const content = resolveCommunityPage(aboutSections);
+
   return (
-    <section className="relative z-10 -mt-10 px-6 pb-4 md:-mt-14">
+    <section className="relative z-10 -mt-10 px-4 pb-4 md:-mt-14 sm:px-6">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -116,7 +105,7 @@ function ImpactStats() {
         transition={{ duration: 0.75, ease }}
         className="mx-auto grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-3xl border border-border/40 bg-border/30 shadow-float glass-strong"
       >
-        {communityPage.highlights.map((item) => (
+        {content.highlights.map((item) => (
           <div
             key={item.label}
             className="flex flex-col items-center justify-center bg-background/90 px-6 py-8 text-center"
@@ -132,13 +121,7 @@ function ImpactStats() {
   );
 }
 
-function PillarStory({
-  pillar,
-  index,
-}: {
-  pillar: (typeof pillars)[number];
-  index: number;
-}) {
+function PillarStory({ pillar, index }: { pillar: CommunityPillar; index: number }) {
   const reverse = index % 2 === 1;
   const Icon = pillar.icon;
   const shadow = reverse
@@ -149,10 +132,7 @@ function PillarStory({
     <article className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
       <motion.div
         {...splitSlideIn(index, "visual")}
-        className={cn(
-          "lg:col-span-6 flex justify-center",
-          reverse ? "lg:order-2" : "lg:order-1",
-        )}
+        className={cn("lg:col-span-6 flex justify-center", reverse ? "lg:order-2" : "lg:order-1")}
       >
         <div
           className="relative w-full max-w-lg overflow-hidden rounded-3xl border bg-white p-2"
@@ -202,11 +182,25 @@ function PillarStory({
 }
 
 function ImpactStories() {
+  const { data: aboutSections } = usePublicAboutSections();
+  const content = resolveCommunityPage(aboutSections);
+  const pillars: CommunityPillar[] = content.sections.map((section, index) => {
+    const theme = pillarThemes[index] ?? pillarThemes[0];
+    return {
+      headline: section.headline,
+      paragraphs: section.paragraphs,
+      image: section.imageUrl || theme.image,
+      icon: theme.icon,
+      themeColor: theme.themeColor,
+      accent: theme.accent,
+    };
+  });
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/20 to-background py-20 md:py-28">
       <ThemeBackdrop variant="section" />
 
-      <div className="relative z-10 mx-auto max-w-7xl space-y-20 px-6 md:space-y-28 md:px-6">
+      <div className="relative z-10 brp-container space-y-20 md:space-y-28">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -216,14 +210,13 @@ function ImpactStories() {
         >
           <span className="glass mb-4 inline-flex items-center gap-1.5 rounded-full px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
             <Sparkles className="h-3 w-3" />
-            Our initiatives
+            {content.initiativesBadge}
           </span>
           <h2 className="font-display text-4xl tracking-tight sm:text-5xl">
-            Impact in <span className="text-gradient italic">Chhoprak</span>
+            {content.initiativesTitle}
           </h2>
           <p className="mt-4 text-sm font-light text-muted-foreground">
-            Continuing the legacy of Dr. Babu Ram Pokharel through education, healthcare, and
-            community infrastructure.
+            {content.initiativesDescription}
           </p>
         </motion.div>
 
@@ -236,6 +229,9 @@ function ImpactStories() {
 }
 
 function CommunityGallery() {
+  const { data: aboutSections } = usePublicAboutSections();
+  const content = resolveCommunityPage(aboutSections);
+  const images = content.galleryImages;
   const [imgIndex, setImgIndex] = useState(0);
   const dragX = useMotionValue(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -249,14 +245,14 @@ function CommunityGallery() {
   );
 
   const handleNext = useCallback(() => {
-    setImgIndex((prev) => (prev + 1) % galleryImages.length);
+    setImgIndex((prev) => (prev + 1) % images.length);
     dragX.set(0);
-  }, [dragX]);
+  }, [dragX, images.length]);
 
   const handlePrev = useCallback(() => {
-    setImgIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+    setImgIndex((prev) => (prev - 1 + images.length) % images.length);
     dragX.set(0);
-  }, [dragX]);
+  }, [dragX, images.length]);
 
   const onDragEnd = () => {
     const x = dragX.get();
@@ -273,14 +269,14 @@ function CommunityGallery() {
   return (
     <section className="relative overflow-hidden border-t border-border/30 bg-gradient-to-b from-background via-secondary/15 to-background py-16 sm:py-24">
       <ThemeBackdrop variant="subtle" />
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="relative z-10 brp-container">
         <div className="mb-10 flex flex-col justify-between gap-6 md:mb-12 md:flex-row md:items-end">
           <div>
             <div className="glass mb-4 inline-flex rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground shadow-sm">
-              Gallery
+              {content.galleryBadge}
             </div>
             <h2 className="font-display text-4xl leading-[1.05] tracking-tight md:text-5xl">
-              Community <span className="text-gradient italic">in action</span>
+              {content.galleryTitle}
             </h2>
           </div>
 
@@ -294,7 +290,7 @@ function CommunityGallery() {
               <ChevronLeft className="h-5 w-5" />
             </button>
             <span className="min-w-[4rem] text-center text-xs font-semibold tabular-nums text-muted-foreground">
-              {imgIndex + 1} / {galleryImages.length}
+              {imgIndex + 1} / {images.length}
             </span>
             <button
               type="button"
@@ -321,8 +317,8 @@ function CommunityGallery() {
             onDragEnd={onDragEnd}
             className="flex cursor-grab active:cursor-grabbing"
           >
-            {galleryImages.map((img, idx) => (
-              <div key={img.src} className="w-full shrink-0">
+            {images.map((img, idx) => (
+              <div key={img.src + idx} className="w-full shrink-0">
                 <div className="flex min-h-[260px] max-h-[min(70vh,640px)] items-center justify-center bg-muted/20 p-4 sm:min-h-[360px] sm:p-6">
                   <img
                     src={img.src}
@@ -333,7 +329,7 @@ function CommunityGallery() {
                 </div>
                 <div className="border-t border-border/30 bg-gradient-to-t from-foreground/90 to-foreground/75 px-6 py-5 text-white sm:px-8">
                   <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/60">
-                    Photo {idx + 1} of {galleryImages.length}
+                    Photo {idx + 1} of {images.length}
                   </span>
                   <h3 className="font-display mt-1.5 text-xl sm:text-2xl">{img.label}</h3>
                 </div>
@@ -343,9 +339,9 @@ function CommunityGallery() {
         </div>
 
         <div className="mt-5 grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-7 md:gap-3">
-          {galleryImages.map((img, idx) => (
+          {images.map((img, idx) => (
             <button
-              key={img.src}
+              key={img.src + idx}
               type="button"
               onClick={() => goTo(idx)}
               className={cn(
@@ -366,31 +362,29 @@ function CommunityGallery() {
 }
 
 function CommunityCTA() {
+  const { data: aboutSections } = usePublicAboutSections();
+  const content = resolveCommunityPage(aboutSections);
+
   return (
     <section className="relative overflow-hidden border-t border-border/30 bg-gradient-to-b from-secondary/20 via-background to-background py-16 md:py-20">
       <ThemeBackdrop variant="section" />
-      <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
-        <h2 className="font-display text-3xl tracking-tight sm:text-4xl">
-          Explore our <span className="text-gradient italic">legacy</span>
+      <div className="relative z-10 mx-auto max-w-3xl px-4 text-center sm:px-6">
+        <h2 className="font-display text-3xl tracking-tight sm:text-4xl xl:text-5xl">
+          {content.ctaTitle}
         </h2>
         <p className="mt-4 text-sm font-light text-muted-foreground md:text-base">
-          Learn how BRP Group&apos;s history and leadership shape our commitment to Nepal&apos;s
-          communities.
+          {content.ctaDescription}
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <Link
-            to="/history"
-            className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background shadow-float transition hover:scale-[1.02]"
-          >
-            Our history
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-          <Link
-            to="/about"
-            className="glass-strong inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-medium text-foreground transition hover:scale-[1.02]"
-          >
-            About BRP Group
-          </Link>
+          {content.ctaButtons.map((btn) => (
+            <a
+              key={btn.href + btn.label}
+              href={btn.href}
+              className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background shadow-float transition hover:scale-[1.02]"
+            >
+              {btn.label}
+            </a>
+          ))}
         </div>
       </div>
     </section>

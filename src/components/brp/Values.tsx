@@ -60,10 +60,13 @@ const values: ValueItem[] = [
 
 export function Values() {
   return (
-    <section id="values" className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/25 to-background py-20 sm:py-28 md:py-32">
+    <section
+      id="values"
+      className="relative overflow-hidden bg-gradient-to-b from-background via-secondary/25 to-background py-20 sm:py-28 md:py-32"
+    >
       <ThemeBackdrop variant="subtle" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="relative z-10 brp-container">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -74,7 +77,7 @@ export function Values() {
           <div className="glass mb-6 inline-flex rounded-full px-4 py-1.5 text-xs font-medium text-muted-foreground">
             What we stand for
           </div>
-          <h2 className="font-display text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-6xl">
+          <h2 className="font-display text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-6xl xl:text-7xl">
             The principles that <span className="text-gradient italic">compound over decades.</span>
           </h2>
         </motion.div>

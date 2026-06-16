@@ -325,9 +325,7 @@ export function Scene3D({ className }: { className?: string }) {
   }, []);
 
   if (useFallback) {
-    return (
-      <div ref={containerRef} className={cn(className, SCENE_FALLBACK_CLASS)} aria-hidden />
-    );
+    return <div ref={containerRef} className={cn(className, SCENE_FALLBACK_CLASS)} aria-hidden />;
   }
 
   return (

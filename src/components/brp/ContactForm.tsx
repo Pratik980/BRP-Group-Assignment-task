@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { ArrowRight, Loader2, CheckCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { submitContact } from "@/lib/contact.functions";
 
 export function ContactForm() {
   const [loading, setLoading] = useState(false);
@@ -32,36 +33,24 @@ export function ContactForm() {
 
     setLoading(true);
     try {
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-      if (supabaseUrl && supabaseKey) {
-        const res = await fetch(`${supabaseUrl}/rest/v1/contact_submissions`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            apikey: supabaseKey,
-            Authorization: `Bearer ${supabaseKey}`,
-            Prefer: "return=minimal",
-          },
-          body: JSON.stringify({
-            name: data.name.trim(),
-            email: data.email.trim(),
-            phone: data.phone.trim() || null,
-            organization: data.organization.trim() || null,
-            message: data.message.trim(),
-          }),
-        });
-        if (!res.ok) throw new Error("Submission failed");
-      }
+      await submitContact({
+        data: {
+          name: data.name.trim(),
+          email: data.email.trim(),
+          phone: data.phone.trim(),
+          organization: data.organization.trim(),
+          message: data.message.trim(),
+        },
+      });
 
       setDone(true);
       toast.success("Thank you — we'll be in touch soon.");
       (e.target as HTMLFormElement).reset();
     } catch (err) {
       console.error(err);
-      setDone(true);
-      toast.success("Thank you — we'll be in touch soon.");
+      toast.error(
+        err instanceof Error ? err.message : "Could not send your message. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -245,10 +234,7 @@ function Field({
       <label className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
         {label}
       </label>
-      <motion.div
-        animate={focused ? { y: -1 } : { y: 0 }}
-        transition={{ duration: 0.2 }}
-      >
+      <motion.div animate={focused ? { y: -1 } : { y: 0 }} transition={{ duration: 0.2 }}>
         <input
           name={name}
           type={type}

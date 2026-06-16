@@ -1,42 +1,44 @@
-import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 import { Landmark } from "lucide-react";
-import { heritageStrip } from "@/data/brp-site-content";
+import {
+  findImpactStatValue,
+  legacyNumeralFromStats,
+  resolveHeritageStripLabel,
+  resolveImpactStatItems,
+} from "@/lib/cms/about-content";
+import { usePublicAboutSections, usePublicImpactStats } from "@/hooks/usePublicContent";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const rotatingLines = [
-  "Second generation stewardship",
-  "45 years of family legacy · Founded 2019",
-  "10+ businesses · 1000+ networks",
-];
-
-const legacyStats = [
-  { value: "45+", label: "Years of legacy" },
-  { value: "10+", label: "Active businesses" },
-  { value: "1000+", label: "Networks built" },
-];
-
-const marqueeItems = [
-  "45 years of trust",
-  "2nd generation",
-  "10+ active businesses",
-  "1000+ networks built",
-];
-
 export function ScrollTickers() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const [lineIndex, setLineIndex] = useState(0);
   const prefersReducedMotion = useReducedMotion();
+  const { data: aboutSections } = usePublicAboutSections();
+  const { data: impactStats } = usePublicImpactStats();
+  const legacyStats = resolveImpactStatItems(impactStats ?? undefined);
+  const heritageLabel = resolveHeritageStripLabel(aboutSections);
+  const legacyNumeral = legacyNumeralFromStats(legacyStats);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
+  const rotatingLines = useMemo(
+    () => [
+      "Second generation stewardship",
+      `${findImpactStatValue(legacyStats, ["legacy", "years"], "45+")} of family legacy · Founded 2019`,
+      `${findImpactStatValue(legacyStats, ["business"], "10+")} businesses · ${findImpactStatValue(legacyStats, ["network"], "1000+")} networks`,
+    ],
+    [legacyStats],
+  );
 
-  const bandRotate = useTransform(scrollYProgress, [0, 1], [-2.5, 1.5]);
-  const numeralY = useTransform(scrollYProgress, [0, 1], [12, -12]);
+  const marqueeItems = useMemo(
+    () => [
+      `${findImpactStatValue(legacyStats, ["legacy", "years"], "45+")} years of trust`,
+      "2nd generation",
+      `${findImpactStatValue(legacyStats, ["business"], "10+")} active businesses`,
+      `${findImpactStatValue(legacyStats, ["network"], "1000+")} networks built`,
+    ],
+    [legacyStats],
+  );
 
   useEffect(() => {
     if (prefersReducedMotion) return;
@@ -48,7 +50,6 @@ export function ScrollTickers() {
 
   return (
     <section
-      ref={containerRef}
       className="relative z-10 overflow-hidden border-y border-border/25 bg-gradient-to-b from-secondary/20 via-background to-secondary/15 py-16 sm:py-20 md:py-28"
       aria-label="BRP heritage and impact highlights"
     >
@@ -59,39 +60,28 @@ export function ScrollTickers() {
         className="pointer-events-none absolute -right-16 top-1/3 h-64 w-64 rounded-full bg-primary/8 blur-3xl md:h-80 md:w-80"
       />
 
-      <motion.div
-        style={{ rotate: prefersReducedMotion ? 0 : bandRotate }}
-        className="heritage-band pointer-events-none absolute left-[-8%] right-[-8%] top-[72%] z-0 block h-[min(320px,50vw)] -translate-y-1/2 md:top-1/2 md:h-[min(480px,65vw)]"
-      />
+      <div className="heritage-band pointer-events-none absolute left-[-8%] right-[-8%] top-[72%] z-0 block h-[min(320px,50vw)] -translate-y-1/2 md:top-1/2 md:h-[min(480px,65vw)]" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75, ease }}
-        >
+      <div className="relative z-10 brp-container">
+        <div>
           <div className="glass mb-8 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-primary shadow-sm">
             <Landmark className="h-3 w-3 shrink-0" aria-hidden />
-            {heritageStrip.label}
+            {heritageLabel}
           </div>
 
           <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:gap-10 md:gap-12">
-              <motion.div
-                style={{ y: prefersReducedMotion ? 0 : numeralY }}
-                className="relative shrink-0"
-              >
+              <div className="relative shrink-0">
                 <span className="heritage-numeral font-display block leading-[0.82] tracking-[-0.06em]">
-                  45
+                  {legacyNumeral}
                 </span>
-              </motion.div>
+              </div>
 
               <div className="pb-1 sm:pb-3">
-                <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.32em] text-muted-foreground">
+                <p className="mb-1.5 text-xs font-semibold uppercase tracking-[0.32em] text-muted-foreground">
                   Years of
                 </p>
-                <h2 className="font-display text-[clamp(3rem,10vw,5.75rem)] leading-[0.95] tracking-tight">
+                <h2 className="font-display text-[clamp(3rem,10vw,5.75rem)] font-bold leading-[0.95] tracking-tight xl:text-[clamp(3.5rem,8vw,7rem)] 2xl:text-[clamp(4rem,7vw,8rem)]">
                   <span className="relative inline-block">
                     <span
                       className="pointer-events-none absolute inset-0 font-display italic text-gradient opacity-25 blur-[0.5px]"
@@ -126,47 +116,38 @@ export function ScrollTickers() {
               </div>
             </div>
 
-            {/* Desktop: mirrors Hero stat labels */}
-            <ul className="hidden lg:flex flex-col gap-5 border-l border-border/40 pl-8">
-              {legacyStats.map((stat, i) => (
-                <motion.li
-                  key={stat.label}
-                  initial={{ opacity: 0, x: 10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.1 + i * 0.08, duration: 0.55, ease }}
-                  className="text-right"
-                >
-                  <span className="font-display text-2xl text-gradient">{stat.value}</span>
-                  <span className="mt-0.5 block text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+            {/* Desktop: stat labels */}
+            <ul className="hidden lg:flex flex-col gap-8 border-l border-border/40 pl-10">
+              {legacyStats.map((stat) => (
+                <li key={stat.label} className="text-right">
+                  <span className="font-display text-4xl font-bold leading-none text-gradient xl:text-5xl">
+                    {stat.value}
+                  </span>
+                  <span className="mt-2 block text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground xl:text-sm">
                     {stat.label}
                   </span>
-                </motion.li>
+                </li>
               ))}
             </ul>
           </div>
 
-          {/* Mobile / tablet: glass stat chips aligned with Hero */}
+          {/* Mobile / tablet: stat chips */}
           <ul className="mt-8 flex flex-wrap gap-2 sm:gap-3 lg:hidden">
-            {legacyStats.map((stat, i) => (
-              <motion.li
+            {legacyStats.map((stat) => (
+              <li
                 key={stat.label}
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.05 + i * 0.06, duration: 0.5, ease }}
                 className="glass rounded-full border border-border/30 px-4 py-2 shadow-sm"
               >
-                <span className="font-display text-lg text-gradient">{stat.value}</span>
-                <span className="ml-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                <span className="font-display text-lg font-bold text-gradient">{stat.value}</span>
+                <span className="ml-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                   {stat.label}
                 </span>
-              </motion.li>
+              </li>
             ))}
           </ul>
-        </motion.div>
+        </div>
 
-        {/* Subtle marquee — echoes page rhythm without competing with headline */}
+        {/* Footer marquee */}
         <div className="heritage-marquee-fade relative mt-12 overflow-hidden border-t border-border/25 pt-8 md:mt-16">
           {prefersReducedMotion ? (
             <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground/50 md:text-xs">

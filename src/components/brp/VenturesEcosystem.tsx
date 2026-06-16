@@ -1,22 +1,44 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useMemo, useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { ArrowRight, Network, ExternalLink } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
-import { ventures, ventureCount, type Venture } from "@/data/ventures";
+import type { PublicVenture } from "@/lib/cms/venture-display";
+import { findImpactStatValue, resolveImpactStatItems } from "@/lib/cms/about-content";
+import { usePublicImpactStats } from "@/hooks/usePublicContent";
+import { usePublicVentures } from "@/hooks/usePublicVentures";
 import brpVenturesLogo from "@/assets/optimized/logo-BRP.webp";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const AUTO_ROTATE_MS = 6000;
 
+function VentureLogo({ src, className }: { src: string; className?: string }) {
+  if (!src) {
+    return (
+      <span
+        className={cn(
+          "flex items-center justify-center rounded-md bg-muted text-[10px] font-semibold text-muted-foreground",
+          className,
+        )}
+        aria-hidden
+      >
+        BRP
+      </span>
+    );
+  }
+  return <img src={src} alt="" className={className} />;
+}
+
 function VentureDetailPanel({
   venture,
   index,
+  totalCount,
   paused,
 }: {
-  venture: Venture;
+  venture: PublicVenture;
   index: number;
+  totalCount: number;
   paused: boolean;
 }) {
   const Icon = venture.icon;
@@ -51,7 +73,7 @@ function VentureDetailPanel({
                 {venture.category}
               </span>
               <span className="text-[10px] font-medium tabular-nums text-muted-foreground/70">
-                {String(index + 1).padStart(2, "0")} / {String(ventures.length).padStart(2, "0")}
+                {String(index + 1).padStart(2, "0")} / {String(totalCount).padStart(2, "0")}
               </span>
             </div>
 
@@ -61,9 +83,9 @@ function VentureDetailPanel({
             <p className="mt-2 text-sm font-medium text-muted-foreground">{venture.desc}</p>
           </div>
 
-            <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl border border-border/40 bg-white p-4 shadow-sm sm:h-28 sm:w-28">
-              <img src={venture.logo} alt="" className="max-h-full max-w-full object-contain" />
-            </div>
+          <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl border border-border/40 bg-white p-4 shadow-sm sm:h-28 sm:w-28">
+            <VentureLogo src={venture.logo} className="max-h-full max-w-full object-contain" />
+          </div>
         </div>
 
         <p className="mt-6 flex-1 text-base font-light leading-relaxed text-muted-foreground md:text-[1.05rem] md:leading-8">
@@ -103,11 +125,13 @@ function VentureDetailPanel({
 }
 
 export function VenturesEcosystem() {
+  const { data: ventures = [] } = usePublicVentures();
+  const { data: impactStats } = usePublicImpactStats();
+  const statItems = resolveImpactStatItems(impactStats ?? undefined);
+  const verticalCount = new Set(ventures.map((v) => v.filterCategory)).size || 4;
   const [activeIndex, setActiveIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const activeVenture = useMemo(() => ventures[activeIndex], [activeIndex]);
-
   const selectVenture = useCallback((index: number) => {
     setActiveIndex(index);
     setPaused(true);
@@ -116,18 +140,31 @@ export function VenturesEcosystem() {
   }, []);
 
   useEffect(() => {
-    if (paused) return;
+    if (paused || ventures.length === 0) return;
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % ventures.length);
     }, AUTO_ROTATE_MS);
     return () => clearInterval(timer);
-  }, [paused]);
+  }, [paused, ventures.length]);
 
   useEffect(() => {
     return () => {
       if (resumeTimer.current) clearTimeout(resumeTimer.current);
     };
   }, []);
+
+  if (ventures.length === 0) {
+    return (
+      <section id="ecosystem" className="relative py-24 md:py-32">
+        <div className="brp-container text-sm text-muted-foreground">
+          No ventures to display yet.
+        </div>
+      </section>
+    );
+  }
+
+  const safeIndex = activeIndex >= ventures.length ? 0 : activeIndex;
+  const currentVenture = ventures[safeIndex]!;
 
   return (
     <section
@@ -148,7 +185,7 @@ export function VenturesEcosystem() {
         }}
       />
 
-      <div className="relative mx-auto max-w-7xl px-6">
+      <div className="relative mx-auto brp-container">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 28 }}
@@ -161,11 +198,11 @@ export function VenturesEcosystem() {
             <Network className="h-3.5 w-3.5" />
             The Ecosystem
           </div>
-          <h2 className="font-display text-4xl leading-[1.08] tracking-tight text-balance text-foreground md:text-5xl lg:text-6xl">
+          <h2 className="font-display text-4xl leading-[1.08] tracking-tight text-balance text-foreground md:text-5xl lg:text-6xl xl:text-7xl">
             An interconnected network of <span className="text-gradient italic">ventures</span>{" "}
             driving innovation and growth.
           </h2>
-          <p className="mt-5 text-base font-light leading-relaxed text-muted-foreground md:text-lg md:leading-8">
+          <p className="mt-5 text-base font-light leading-relaxed text-muted-foreground md:text-lg md:leading-8 xl:text-xl">
             Each company in the BRP constellation operates independently — yet draws strength from a
             shared core of values, capital, and 45 years of compounding trust.
           </p>
@@ -200,7 +237,7 @@ export function VenturesEcosystem() {
                     </div>
                   </div>
                   <p className="mt-3 text-xs font-light leading-relaxed text-muted-foreground">
-                    {ventureCount} operating companies. One shared standard of governance and
+                    {ventures.length} operating companies. One shared standard of governance and
                     long-term capital discipline.
                   </p>
                 </div>
@@ -208,7 +245,7 @@ export function VenturesEcosystem() {
                 <nav className="p-2" aria-label="Venture portfolio">
                   <ul className="space-y-1">
                     {ventures.map((venture, index) => {
-                      const selected = index === activeIndex;
+                      const selected = index === safeIndex;
                       const Icon = venture.icon;
                       return (
                         <li key={venture.name}>
@@ -229,7 +266,10 @@ export function VenturesEcosystem() {
                                 selected ? "border-white/20 bg-white" : "border-border/50 bg-white",
                               )}
                             >
-                              <img src={venture.logo} alt="" className="h-full w-full object-contain" />
+                              <VentureLogo
+                                src={venture.logo}
+                                className="h-full w-full object-contain"
+                              />
                             </span>
                             <span className="min-w-0 flex-1">
                               <span
@@ -271,9 +311,10 @@ export function VenturesEcosystem() {
             <div className="lg:col-span-8 xl:col-span-8">
               <AnimatePresence mode="wait">
                 <VentureDetailPanel
-                  key={activeVenture.name}
-                  venture={activeVenture}
-                  index={activeIndex}
+                  key={currentVenture.name}
+                  venture={currentVenture}
+                  index={safeIndex}
+                  totalCount={ventures.length}
                   paused={paused}
                 />
               </AnimatePresence>
@@ -288,7 +329,7 @@ export function VenturesEcosystem() {
                       onClick={() => selectVenture(i)}
                       className={cn(
                         "h-1.5 rounded-full transition-all duration-300",
-                        i === activeIndex
+                        i === safeIndex
                           ? "w-8 bg-primary"
                           : "w-1.5 bg-border hover:bg-muted-foreground/40",
                       )}
@@ -312,12 +353,12 @@ export function VenturesEcosystem() {
                 onClick={() => selectVenture(index)}
                 className={cn(
                   "flex shrink-0 items-center gap-2 rounded-full border px-3 py-2 transition-all",
-                  index === activeIndex
+                  index === safeIndex
                     ? "border-primary bg-primary text-primary-foreground shadow-sm"
                     : "border-border/60 bg-background/80 text-muted-foreground",
                 )}
               >
-                <img src={venture.logo} alt="" className="h-5 w-5 object-contain" />
+                <VentureLogo src={venture.logo} className="h-5 w-5 object-contain" />
                 <span className="text-xs font-semibold whitespace-nowrap">{venture.name}</span>
               </button>
             ))}
@@ -333,10 +374,16 @@ export function VenturesEcosystem() {
           className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4 md:mt-12"
         >
           {[
-            { value: String(ventureCount), label: "Operating companies" },
-            { value: "4", label: "Industry verticals" },
-            { value: "45+", label: "Years of legacy" },
-            { value: "10+", label: "Businesses in group" },
+            { value: String(ventures.length), label: "Operating companies" },
+            { value: String(verticalCount), label: "Industry verticals" },
+            {
+              value: findImpactStatValue(statItems, ["legacy", "years"], "45+"),
+              label: "Years of legacy",
+            },
+            {
+              value: findImpactStatValue(statItems, ["business"], "10+"),
+              label: "Businesses in group",
+            },
           ].map((stat) => (
             <div
               key={stat.label}

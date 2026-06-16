@@ -5,17 +5,26 @@ import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 import { SectionScene3DLazy } from "@/components/brp/SectionScene3DLazy";
 import { CommunityExperience } from "@/components/brp/CommunityExperience";
 import { communityPage } from "@/data/brp-site-content";
+import { resolveCommunityPage } from "@/lib/cms/about-content";
+import { fetchPublicAboutSections } from "@/lib/cms/content.public";
 
 export const Route = createFileRoute("/community")({
-  head: () => ({
-    meta: [
-      { title: "BRP Group — Our Community" },
-      {
-        name: "description",
-        content: communityPage.heroIntro.slice(0, 160),
-      },
-    ],
-  }),
+  loader: async () => {
+    const sections = await fetchPublicAboutSections();
+    return resolveCommunityPage(sections);
+  },
+  head: ({ loaderData }) => {
+    const page = loaderData ?? communityPage;
+    return {
+      meta: [
+        { title: `BRP Group — ${page.heroTitle}` },
+        {
+          name: "description",
+          content: page.heroIntro.slice(0, 160),
+        },
+      ],
+    };
+  },
   component: CommunityPage,
 });
 
