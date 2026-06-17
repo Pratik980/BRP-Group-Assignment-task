@@ -4,8 +4,8 @@ import { Loader2, Plus, Trash2, Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { AdminPageLayout, AdminCard, AdminBadge } from "@/components/admin/AdminPageLayout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { invalidatePublicAbout } from "@/lib/admin/invalidate-public";
@@ -96,15 +96,11 @@ function AdminGalleryPage() {
 
   return (
     <AdminShell>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">Gallery</h1>
-            <p className="text-sm text-muted-foreground">
-              Manage images shown in the Corporate Gallery section on the homepage.
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
+      <AdminPageLayout
+        title="Gallery"
+        description="Manage images shown in the Corporate Gallery section on the homepage."
+        actions={
+          <>
             <Button variant="outline" onClick={addImage}>
               <Plus className="mr-2 h-4 w-4" /> Add image
             </Button>
@@ -115,22 +111,22 @@ function AdminGalleryPage() {
               {saveMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Save gallery
             </Button>
-          </div>
-        </div>
-
+          </>
+        }
+      >
         {isLoading ? (
           <div className="flex justify-center py-20">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
         ) : draft.length === 0 ? (
-          <Card>
-            <CardContent className="flex flex-col items-center gap-4 py-16">
+          <AdminCard>
+            <div className="admin-empty-state">
               <p className="text-muted-foreground">No gallery images yet.</p>
-              <Button variant="outline" onClick={addImage}>
+              <Button variant="outline" onClick={addImage} className="mt-4">
                 <Plus className="mr-2 h-4 w-4" /> Add your first image
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </AdminCard>
         ) : (
           <div className="space-y-4">
             {draft.map((img, index) => (
@@ -152,7 +148,7 @@ function AdminGalleryPage() {
             ))}
           </div>
         )}
-      </div>
+      </AdminPageLayout>
     </AdminShell>
   );
 }
@@ -180,8 +176,8 @@ function GalleryImageRow({
   const [uploading, setUploading] = useState(false);
 
   return (
-    <Card>
-      <CardContent className="flex items-center gap-4 p-4">
+    <AdminCard>
+      <div className="flex items-center gap-4">
         <div className="flex flex-col items-center gap-0.5">
           <button
             type="button"
@@ -263,12 +259,11 @@ function GalleryImageRow({
             </Button>
           </div>
           <div className="flex-1">
-            <Label className="text-xs text-muted-foreground">Caption</Label>
+            <Label className="admin-label">Caption</Label>
             <Input
               value={img.label}
               onChange={(e) => onUpdateLabel(index, e.target.value)}
               placeholder="Corporate Team & Governance"
-              className="mt-0.5"
             />
           </div>
         </div>
@@ -276,7 +271,7 @@ function GalleryImageRow({
         <Button variant="ghost" size="icon" onClick={() => onRemove(index)} className="shrink-0">
           <Trash2 className="h-4 w-4" />
         </Button>
-      </CardContent>
-    </Card>
+      </div>
+    </AdminCard>
   );
 }

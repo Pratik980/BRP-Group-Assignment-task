@@ -22,29 +22,34 @@ export function AdminShell({ email, children }: AdminShellProps) {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-muted/30 text-foreground">
+    <div className="flex h-screen overflow-hidden bg-background text-foreground">
       <AdminSidebar />
 
       <div className="flex min-w-0 flex-1 flex-col overflow-y-auto">
-        <header className="flex h-14 shrink-0 items-center justify-between border-b border-border/60 bg-background px-6">
-          <p className="text-sm text-muted-foreground">
-            Signed in as <span className="font-medium text-foreground">{email ?? "Admin"}</span>
-          </p>
+        <header className="flex h-16 shrink-0 items-center justify-between border-b border-border/50 bg-background/95 backdrop-blur-sm px-6">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5">
+              <div className="h-7 w-1 rounded-full bg-primary" />
+              <span className="text-sm font-medium text-foreground/70">
+                {email ?? "Admin"}
+              </span>
+            </div>
+          </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" asChild>
+            <Button variant="ghost" size="sm" asChild>
               <Link to="/" target="_blank">
                 <ExternalLink className="h-4 w-4" />
                 View site
               </Link>
             </Button>
-            <Button variant="outline" size="sm" onClick={handleLogout}>
+            <Button variant="ghost" size="sm" onClick={handleLogout}>
               <LogOut className="h-4 w-4" />
               Log out
             </Button>
           </div>
         </header>
 
-        <main className="flex-1 p-6 md:p-8">{children}</main>
+        <main className="flex-1 p-8">{children}</main>
       </div>
     </div>
   );

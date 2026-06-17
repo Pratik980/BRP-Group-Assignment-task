@@ -6,7 +6,7 @@ import {
   TEAM_DEPARTMENT_EXECUTIVE,
   TEAM_DEPARTMENT_OUR_TEAM,
 } from "@/lib/admin/team-constants";
-import { HERO_MORPHING_WORDS_KEY, parseHeroMorphingWords } from "@/lib/cms/hero-morphing";
+import { HERO_MORPHING_WORDS_KEY, parseHeroMorphingWords, parseHeroMorphingColor, parseHeroMorphingGlow } from "@/lib/cms/hero-morphing";
 import { EXECUTIVE_PHOTO_BY_NAME } from "@/lib/cms/site-assets";
 
 export async function fetchPublicHeroSlides() {
@@ -36,7 +36,11 @@ export async function fetchPublicHeroMorphingWords() {
     .eq("section_key", HERO_MORPHING_WORDS_KEY)
     .maybeSingle();
   if (error || !data) return null;
-  return parseHeroMorphingWords(data.metadata);
+  return {
+    words: parseHeroMorphingWords(data.metadata),
+    color: parseHeroMorphingColor(data.metadata),
+    glowColor: parseHeroMorphingGlow(data.metadata),
+  };
 }
 
 export async function fetchPublicAboutSection(key: string) {

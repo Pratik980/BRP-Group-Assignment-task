@@ -66,7 +66,9 @@ function toPayload(values: VacancyFormValues): TablesInsert<"job_vacancies"> {
     requirements: values.requirements.map((r) => r.trim()).filter(Boolean),
     salary_range: values.salary_range.trim() || undefined,
     is_active: values.is_active,
-    application_deadline: values.application_deadline || undefined,
+    application_deadline: values.application_deadline
+      ? new Date(values.application_deadline + "T23:59:59.000Z").toISOString()
+      : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
     apply_email: values.apply_email.trim() || null,
     apply_url: values.apply_url.trim() || null,
     status: values.status,

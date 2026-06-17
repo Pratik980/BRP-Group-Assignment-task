@@ -3,8 +3,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { AdminPageLayout, AdminCard } from "@/components/admin/AdminPageLayout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CareerForm } from "@/components/admin/CareerForm";
 import { fetchVacancyById, updateVacancy, vacancyToFormValues } from "@/lib/admin/careers.client";
 import { requireAdminRoute } from "@/lib/admin/require-admin";
@@ -37,35 +37,37 @@ function AdminEditCareerPage() {
 
   return (
     <AdminShell email={session.user.email}>
-      <div className="mx-auto max-w-3xl space-y-6">
-        <Button variant="outline" size="sm" asChild>
-          <Link to="/admin/careers">
-            <ArrowLeft className="h-4 w-4" />
-            Back
-          </Link>
-        </Button>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Edit vacancy</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
+      <AdminPageLayout
+        title="Edit vacancy"
+        actions={
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/admin/careers">
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </Link>
+          </Button>
+        }
+      >
+        <AdminCard>
+          {isLoading ? (
+            <div className="flex items-center gap-2 py-8 text-sm text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-            ) : vacancy ? (
-              <CareerForm
-                initialValues={vacancyToFormValues(vacancy)}
-                submitLabel="Save changes"
-                onSubmit={async (v) => {
-                  await mutation.mutateAsync(v);
-                }}
-                onCancel={() => navigate({ to: "/admin/careers" })}
-              />
-            ) : (
-              <p className="text-sm text-muted-foreground">Vacancy not found.</p>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+              Loading...
+            </div>
+          ) : vacancy ? (
+            <CareerForm
+              initialValues={vacancyToFormValues(vacancy)}
+              submitLabel="Save changes"
+              onSubmit={async (v) => {
+                await mutation.mutateAsync(v);
+              }}
+              onCancel={() => navigate({ to: "/admin/careers" })}
+            />
+          ) : (
+            <p className="text-sm text-muted-foreground">Vacancy not found.</p>
+          )}
+        </AdminCard>
+      </AdminPageLayout>
     </AdminShell>
   );
 }

@@ -43,6 +43,9 @@ export function serializeHeroHeadline(line1: string, line2: string) {
 
 export const DEFAULT_HERO_MORPHING_WORDS = ["Innovation", "Ventures", "Growth", "Legacy"] as const;
 
+export const DEFAULT_HERO_MORPHING_COLOR = "#ff7a2f";
+export const DEFAULT_HERO_MORPHING_GLOW = "#ff7a2f";
+
 export function parseHeroMorphingWords(metadata: unknown): string[] {
   if (!metadata || typeof metadata !== "object") return [...DEFAULT_HERO_MORPHING_WORDS];
 
@@ -52,4 +55,16 @@ export function parseHeroMorphingWords(metadata: unknown): string[] {
   const cleaned = words.map((w) => (typeof w === "string" ? w.trim() : "")).filter(Boolean);
 
   return cleaned.length > 0 ? cleaned : [...DEFAULT_HERO_MORPHING_WORDS];
+}
+
+export function parseHeroMorphingColor(metadata: unknown): string {
+  if (!metadata || typeof metadata !== "object") return DEFAULT_HERO_MORPHING_COLOR;
+  const color = (metadata as { color?: string }).color;
+  return color || DEFAULT_HERO_MORPHING_COLOR;
+}
+
+export function parseHeroMorphingGlow(metadata: unknown): string {
+  if (!metadata || typeof metadata !== "object") return DEFAULT_HERO_MORPHING_GLOW;
+  const glow = (metadata as { glowColor?: string }).glowColor;
+  return glow || DEFAULT_HERO_MORPHING_GLOW;
 }

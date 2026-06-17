@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables, TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
-import { HERO_MORPHING_WORDS_KEY, parseHeroMorphingWords } from "@/lib/cms/hero-morphing";
+import { HERO_MORPHING_WORDS_KEY, parseHeroMorphingWords, parseHeroMorphingColor, parseHeroMorphingGlow, DEFAULT_HERO_MORPHING_COLOR, DEFAULT_HERO_MORPHING_GLOW } from "@/lib/cms/hero-morphing";
 
 export type HeroSlide = Tables<"hero_slides">;
 
@@ -49,10 +49,14 @@ export async function fetchHeroMorphingWords() {
     .eq("section_key", HERO_MORPHING_WORDS_KEY)
     .maybeSingle();
   if (error) throw error;
-  return parseHeroMorphingWords(data?.metadata);
+  return {
+    words: parseHeroMorphingWords(data?.metadata),
+    color: parseHeroMorphingColor(data?.metadata),
+    glowColor: parseHeroMorphingGlow(data?.metadata),
+  };
 }
 
-export async function saveHeroMorphingWords(words: string[]) {
+export async function saveHeroMorphingWords(words: string[], color: string, glowColor: string) {
   const cleaned = words.map((w) => w.trim()).filter(Boolean);
   if (cleaned.length === 0) throw new Error("Add at least one word");
 
@@ -63,14 +67,18 @@ export async function saveHeroMorphingWords(words: string[]) {
         section_key: HERO_MORPHING_WORDS_KEY,
         title: "Hero rotating words",
         content: 'Words that cycle in the homepage hero headline after "Through Diversified".',
-        metadata: { words: cleaned },
+        metadata: { words: cleaned, color: color || DEFAULT_HERO_MORPHING_COLOR, glowColor: glowColor || DEFAULT_HERO_MORPHING_GLOW },
       },
       { onConflict: "section_key" },
     )
     .select("metadata")
     .single();
   if (error) throw error;
-  return parseHeroMorphingWords(data.metadata);
+  return {
+    words: parseHeroMorphingWords(data.metadata),
+    color: parseHeroMorphingColor(data.metadata),
+    glowColor: parseHeroMorphingGlow(data.metadata),
+  };
 }
 
 export async function fetchHeroVisualCards() {

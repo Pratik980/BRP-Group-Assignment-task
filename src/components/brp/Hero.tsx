@@ -7,15 +7,17 @@ import {
   usePublicAboutSections,
   usePublicHero,
   usePublicHeroMorphingWords,
+  usePublicHeroBgTheme,
+  usePublicHeroTextColors,
 } from "@/hooks/usePublicContent";
 import {
   DEFAULT_HERO_HEADLINE_LINE1,
   DEFAULT_HERO_MORPHING_WORDS,
+  DEFAULT_HERO_MORPHING_COLOR,
+  DEFAULT_HERO_MORPHING_GLOW,
   parseHeroHeadline,
 } from "@/lib/cms/hero-morphing";
-import {
-  resolveHeroTextColors,
-} from "@/lib/cms/hero-colors";
+
 
 // Sector configs for the visual cluster layout
 interface VisualCard {
@@ -131,9 +133,11 @@ function tiltTransform(x: number, y: number) {
   return `rotateX(${x}deg) rotateY(${y}deg)`;
 }
 
-function HeroRotatingWord({ words }: { words: string[] }) {
+function HeroRotatingWord({ words, color, glowColor }: { words: string[]; color?: string; glowColor?: string }) {
   const [index, setIndex] = useState(0);
   const safeWords = words.length > 0 ? words : [...DEFAULT_HERO_MORPHING_WORDS];
+  const morphColor = color || DEFAULT_HERO_MORPHING_COLOR;
+  const morphGlow = glowColor || DEFAULT_HERO_MORPHING_GLOW;
   const longestWord = safeWords.reduce(
     (longest, word) => (word.length > longest.length ? word : longest),
     safeWords[0] ?? "Ventures",
@@ -169,7 +173,16 @@ function HeroRotatingWord({ words }: { words: string[] }) {
           exit={{ opacity: 0, y: -6 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="hero-headline-morph absolute left-0 top-0 font-display font-bold"
-          >
+          style={{
+            color: morphColor,
+            WebkitTextFillColor: morphColor,
+            background: "none",
+            backgroundClip: "unset",
+            WebkitBackgroundClip: "unset",
+            textShadow: `0 0 24px ${morphGlow}66, 0 0 48px ${morphGlow}44`,
+            filter: `drop-shadow(0 2px 12px ${morphGlow}88)`,
+          }}
+        >
           {currentWord}
         </motion.span>
       </AnimatePresence>
@@ -191,7 +204,12 @@ function splitHeadlineForDisplay(line1: string): [string, string] {
 export function Hero() {
   const prefersReducedMotion = useReducedMotion();
   const { data: aboutSections } = usePublicAboutSections();
-  const { data: morphingWords = [...DEFAULT_HERO_MORPHING_WORDS] } = usePublicHeroMorphingWords();
+  const { data: morphingData } = usePublicHeroMorphingWords();
+  const morphingWords = morphingData?.words ?? [...DEFAULT_HERO_MORPHING_WORDS];
+  const morphingColor = morphingData?.color;
+  const morphingGlow = morphingData?.glowColor;
+  const heroBgTheme = usePublicHeroBgTheme();
+  const heroTextColors = usePublicHeroTextColors();
   const { data: heroSlides } = usePublicHero();
   const activeSlide = heroSlides?.find((slide) => slide.is_active) ?? heroSlides?.[0];
   const parsedHeadline = parseHeroHeadline(activeSlide?.headline);
@@ -204,6 +222,14 @@ export function Hero() {
     <section
       id="top"
       className="hero-theme relative flex min-h-[92svh] w-full flex-col overflow-hidden select-none sm:min-h-[92svh] md:min-h-[92svh] lg:min-h-[93svh] xl:min-h-[94svh] pt-20 sm:pt-24 md:pt-28 lg:pt-28 xl:pt-32"
+      style={{
+        "--hero-text": heroTextColors.headline_color,
+        "--hero-text-muted": heroTextColors.subheadline_color,
+        "--hero-bg-primary": heroBgTheme.primary_color,
+        "--hero-bg-accent": heroBgTheme.accent_color,
+        "--hero-bg-deep": heroBgTheme.deep_color,
+        "--hero-bg-contrast": heroBgTheme.contrast,
+      } as React.CSSProperties}
     >
       <div
         className="hero-theme__base pointer-events-none absolute inset-0 z-0"
@@ -267,7 +293,7 @@ export function Hero() {
             {headlineMiddle}
             <br />
             <span className="inline-flex items-baseline gap-1 overflow-visible leading-[1.14]">
-              Diversified<HeroRotatingWord words={morphingWords} />
+              Diversified<HeroRotatingWord words={morphingWords} color={morphingColor} glowColor={morphingGlow} />
             </span>
           </motion.h1>
 
@@ -292,10 +318,10 @@ export function Hero() {
             <a
               href={activeSlide?.cta_url?.trim() || "/ventures"}
               className="hero-theme__cta group mt-6 md:mt-8"
-              style={{ color: "#ffffff", background: "#e67e43" }}
+              style={{ color: heroTextColors.cta_text_color, background: heroTextColors.cta_bg_color }}
             >
               <span>{activeSlide?.cta_text?.trim() || "Explore Ecosystem"}</span>
-              <div className="hero-theme__cta-icon" style={{ color: "#ffffff", background: "rgba(255, 255, 255, 0.15)" }}>
+              <div className="hero-theme__cta-icon" style={{ color: heroTextColors.cta_icon_color, background: "rgba(255, 255, 255, 0.15)" }}>
                 <ArrowRight className="h-3.5 w-3.5" />
               </div>
             </a>

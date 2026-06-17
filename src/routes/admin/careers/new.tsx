@@ -3,8 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { AdminPageLayout, AdminCard } from "@/components/admin/AdminPageLayout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CareerForm } from "@/components/admin/CareerForm";
 import { createVacancy, emptyVacancyForm } from "@/lib/admin/careers.client";
 import { requireAdminRoute } from "@/lib/admin/require-admin";
@@ -31,29 +31,29 @@ function AdminNewCareerPage() {
 
   return (
     <AdminShell email={session.user.email}>
-      <div className="mx-auto max-w-3xl space-y-6">
-        <Button variant="outline" size="sm" asChild>
-          <Link to="/admin/careers">
-            <ArrowLeft className="h-4 w-4" />
-            Back
-          </Link>
-        </Button>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">New vacancy</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CareerForm
-              initialValues={emptyVacancyForm()}
-              submitLabel="Create vacancy"
-              onSubmit={async (v) => {
-                await mutation.mutateAsync(v);
-              }}
-              onCancel={() => navigate({ to: "/admin/careers" })}
-            />
-          </CardContent>
-        </Card>
-      </div>
+      <AdminPageLayout
+        title="New vacancy"
+        description="Create a new job vacancy."
+        actions={
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/admin/careers">
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </Link>
+          </Button>
+        }
+      >
+        <AdminCard>
+          <CareerForm
+            initialValues={emptyVacancyForm()}
+            submitLabel="Create vacancy"
+            onSubmit={async (v) => {
+              await mutation.mutateAsync(v);
+            }}
+            onCancel={() => navigate({ to: "/admin/careers" })}
+          />
+        </AdminCard>
+      </AdminPageLayout>
     </AdminShell>
   );
 }

@@ -4,6 +4,7 @@ import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { AdminPageLayout, AdminCard } from "@/components/admin/AdminPageLayout";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,7 +17,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -55,83 +55,76 @@ function AdminCareersPage() {
 
   return (
     <AdminShell email={session.user.email}>
-      <div className="mx-auto max-w-5xl space-y-6">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <h1 className="font-display text-3xl tracking-tight">Careers</h1>
-            <p className="mt-2 text-sm text-muted-foreground">Manage job vacancies and listings.</p>
-          </div>
+      <AdminPageLayout
+        title="Careers"
+        description="Manage job vacancies and listings."
+        actions={
           <Button asChild>
             <Link to="/admin/careers/new">
               <Plus className="h-4 w-4" />
               Add vacancy
             </Link>
           </Button>
-        </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Vacancies ({vacancies.length})</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {isLoading ? (
-              <div className="flex items-center gap-2 py-8 text-sm text-muted-foreground">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Loading...
-              </div>
-            ) : vacancies.length === 0 ? (
-              <p className="py-8 text-center text-sm text-muted-foreground">No vacancies yet.</p>
-            ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Department</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Deadline</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+        }
+      >
+        <AdminCard title={`Vacancies (${vacancies.length})`}>
+          {isLoading ? (
+            <div className="flex items-center gap-2 py-8 text-sm text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Loading...
+            </div>
+          ) : vacancies.length === 0 ? (
+            <p className="py-8 text-center text-sm text-muted-foreground">No vacancies yet.</p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Department</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Deadline</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {vacancies.map((v) => (
+                  <TableRow key={v.id}>
+                    <TableCell className="font-medium">{v.title}</TableCell>
+                    <TableCell>{v.department}</TableCell>
+                    <TableCell>{v.employment_type}</TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={v.is_active && v.status === "open" ? "default" : "secondary"}
+                      >
+                        {v.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-sm">
+                      {v.application_deadline
+                        ? new Date(v.application_deadline).toLocaleDateString()
+                        : "-"}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <Button variant="outline" size="sm" asChild>
+                          <Link to="/admin/careers/$id" params={{ id: v.id }}>
+                            <Pencil className="h-4 w-4" />
+                            Edit
+                          </Link>
+                        </Button>
+                        <Button variant="outline" size="sm" onClick={() => setDeleteId(v.id)}>
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {vacancies.map((v) => (
-                    <TableRow key={v.id}>
-                      <TableCell className="font-medium">{v.title}</TableCell>
-                      <TableCell>{v.department}</TableCell>
-                      <TableCell>{v.employment_type}</TableCell>
-                      <TableCell>
-                        <Badge
-                          variant={v.is_active && v.status === "open" ? "default" : "secondary"}
-                        >
-                          {v.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-sm">
-                        {v.application_deadline
-                          ? new Date(v.application_deadline).toLocaleDateString()
-                          : "-"}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button variant="outline" size="sm" asChild>
-                            <Link to="/admin/careers/$id" params={{ id: v.id }}>
-                              <Pencil className="h-4 w-4" />
-                              Edit
-                            </Link>
-                          </Button>
-                          <Button variant="outline" size="sm" onClick={() => setDeleteId(v.id)}>
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </AdminCard>
+      </AdminPageLayout>
       <AlertDialog open={Boolean(deleteId)} onOpenChange={(o) => !o && setDeleteId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>

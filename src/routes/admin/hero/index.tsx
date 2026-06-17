@@ -27,7 +27,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DEFAULT_HERO_MORPHING_WORDS, parseHeroHeadline } from "@/lib/cms/hero-morphing";
+import { DEFAULT_HERO_MORPHING_WORDS, DEFAULT_HERO_MORPHING_COLOR, DEFAULT_HERO_MORPHING_GLOW, parseHeroHeadline } from "@/lib/cms/hero-morphing";
 import { invalidatePublicAbout } from "@/lib/admin/invalidate-public";
 import {
   deleteHeroSlide,
@@ -44,6 +44,12 @@ import {
   DEFAULT_HERO_TEXT_COLORS,
   type HeroTextColors,
 } from "@/lib/admin/hero-colors.client";
+import {
+  fetchHeroBgTheme,
+  saveHeroBgTheme,
+  DEFAULT_HERO_BG_THEME,
+  type HeroBgTheme,
+} from "@/lib/admin/hero-bg-theme.client";
 import { requireAdminRoute } from "@/lib/admin/require-admin";
 
 export const Route = createFileRoute("/admin/hero/")({
@@ -60,16 +66,22 @@ function AdminHeroPage() {
     queryKey: ["admin-hero"],
     queryFn: fetchHeroSlides,
   });
-  const { data: morphingWords = [...DEFAULT_HERO_MORPHING_WORDS], isLoading: morphingLoading } =
+  const { data: morphingData, isLoading: morphingLoading } =
     useQuery({
       queryKey: ["admin-hero-morphing-words"],
       queryFn: fetchHeroMorphingWords,
     });
   const [wordDraft, setWordDraft] = useState<string[]>([...DEFAULT_HERO_MORPHING_WORDS]);
+  const [morphColor, setMorphColor] = useState<string>(DEFAULT_HERO_MORPHING_COLOR);
+  const [morphGlow, setMorphGlow] = useState<string>(DEFAULT_HERO_MORPHING_GLOW);
 
   useEffect(() => {
-    setWordDraft(morphingWords);
-  }, [morphingWords]);
+    if (morphingData) {
+      setWordDraft(morphingData.words);
+      setMorphColor(morphingData.color);
+      setMorphGlow(morphingData.glowColor);
+    }
+  }, [morphingData]);
 
   const { data: dbVisualCards, isLoading: visualCardsLoading } = useQuery({
     queryKey: ["admin-hero-visual-cards"],
@@ -97,6 +109,26 @@ function AdminHeroPage() {
       toast.success("Text colors saved");
     },
     onError: () => toast.error("Could not save text colors"),
+  });
+
+  const { data: dbBgTheme, isLoading: bgThemeLoading } = useQuery({
+    queryKey: ["admin-hero-bg-theme"],
+    queryFn: fetchHeroBgTheme,
+  });
+  const [bgTheme, setBgTheme] = useState<HeroBgTheme>({ ...DEFAULT_HERO_BG_THEME });
+
+  useEffect(() => {
+    if (dbBgTheme) setBgTheme(dbBgTheme);
+  }, [dbBgTheme]);
+
+  const bgThemeMutation = useMutation({
+    mutationFn: () => saveHeroBgTheme(bgTheme),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-hero-bg-theme"] });
+      queryClient.invalidateQueries({ queryKey: ["public-about"] });
+      toast.success("Background theme saved");
+    },
+    onError: () => toast.error("Could not save background theme"),
   });
 
   useEffect(() => {
@@ -213,7 +245,7 @@ function AdminHeroPage() {
   });
 
   const morphingMutation = useMutation({
-    mutationFn: () => saveHeroMorphingWords(wordDraft),
+    mutationFn: () => saveHeroMorphingWords(wordDraft, morphColor, morphGlow),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-hero-morphing-words"] });
       queryClient.invalidateQueries({ queryKey: ["public-hero-morphing-words"] });
@@ -296,6 +328,40 @@ function AdminHeroPage() {
                       </Button>
                     </div>
                   ))}
+                </div>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label>Word color</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="color"
+                        value={morphColor}
+                        onChange={(e) => setMorphColor(e.target.value)}
+                        className="w-12 h-10 p-1"
+                      />
+                      <Input
+                        value={morphColor}
+                        onChange={(e) => setMorphColor(e.target.value)}
+                        placeholder="#ff7a2f"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Glow effect color</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="color"
+                        value={morphGlow}
+                        onChange={(e) => setMorphGlow(e.target.value)}
+                        className="w-12 h-10 p-1"
+                      />
+                      <Input
+                        value={morphGlow}
+                        onChange={(e) => setMorphGlow(e.target.value)}
+                        placeholder="#ff7a2f"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <div className="flex flex-wrap gap-3">
                   <Button
@@ -432,6 +498,122 @@ function AdminHeroPage() {
                     <Loader2 className="h-4 w-4 animate-spin mr-2" />
                   ) : null}
                   Save text colors
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Hero background theme</CardTitle>
+            <CardDescription>
+              Customize the hero section background gradient colors. The primary color is the main
+              purple tone, accent is the lighter highlight, and deep is the darker edge color.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {bgThemeLoading ? (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Loading...
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="grid gap-4 md:grid-cols-3">
+                  <div className="space-y-2">
+                    <Label>Primary color</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="color"
+                        value={bgTheme.primary_color}
+                        onChange={(e) =>
+                          setBgTheme({ ...bgTheme, primary_color: e.target.value })
+                        }
+                        className="w-12 h-10 p-1"
+                      />
+                      <Input
+                        value={bgTheme.primary_color}
+                        onChange={(e) =>
+                          setBgTheme({ ...bgTheme, primary_color: e.target.value })
+                        }
+                        placeholder="#8a5cc0"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Accent color</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="color"
+                        value={bgTheme.accent_color}
+                        onChange={(e) =>
+                          setBgTheme({ ...bgTheme, accent_color: e.target.value })
+                        }
+                        className="w-12 h-10 p-1"
+                      />
+                      <Input
+                        value={bgTheme.accent_color}
+                        onChange={(e) =>
+                          setBgTheme({ ...bgTheme, accent_color: e.target.value })
+                        }
+                        placeholder="#c4a8e8"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Deep color</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="color"
+                        value={bgTheme.deep_color}
+                        onChange={(e) =>
+                          setBgTheme({ ...bgTheme, deep_color: e.target.value })
+                        }
+                        className="w-12 h-10 p-1"
+                      />
+                      <Input
+                        value={bgTheme.deep_color}
+                        onChange={(e) =>
+                          setBgTheme({ ...bgTheme, deep_color: e.target.value })
+                        }
+                        placeholder="#5a1a96"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label>
+                    Contrast:{" "}
+                    <span className="font-mono text-muted-foreground">
+                      {bgTheme.contrast.toFixed(2)}
+                    </span>
+                  </Label>
+                  <input
+                    type="range"
+                    min="0.5"
+                    max="1.5"
+                    step="0.05"
+                    value={bgTheme.contrast}
+                    onChange={(e) =>
+                      setBgTheme({ ...bgTheme, contrast: parseFloat(e.target.value) })
+                    }
+                    className="w-full"
+                  />
+                  <div className="flex justify-between text-xs text-muted-foreground">
+                    <span>Low</span>
+                    <span>1.0</span>
+                    <span>High</span>
+                  </div>
+                </div>
+                <Button
+                  onClick={() => bgThemeMutation.mutate()}
+                  disabled={bgThemeMutation.isPending}
+                >
+                  {bgThemeMutation.isPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  ) : null}
+                  Save background theme
                 </Button>
               </div>
             )}
