@@ -357,7 +357,7 @@ function VenturesPage() {
                 <Sparkles className="h-3 w-3 text-primary animate-pulse" />
                 Corporate Portfolio
               </span>
-              <h1 className="font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
+              <h1 className="font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
                 Interconnected <span className="text-gradient italic">Ventures</span>
               </h1>
               <p className="mx-auto mt-6 max-w-3xl text-balance text-base font-light leading-relaxed text-muted-foreground md:text-lg">

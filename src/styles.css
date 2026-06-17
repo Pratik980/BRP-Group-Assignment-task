@@ -263,27 +263,23 @@
     letter-spacing: -0.04em;
   }
 
-  /* Hero rotating headline word — Brand Gradient with Orange Accent */
+  /* Hero rotating headline word — Warm Orange */
   .hero-headline-morph {
-    color: var(--brp-navy);
+    color: #ff7a2f;
     text-shadow:
-      0 0 24px rgba(42, 69, 128, 0.1),
-      0 0 48px rgba(76, 82, 151, 0.05);
+      0 0 24px rgba(255, 122, 47, 0.35),
+      0 0 48px rgba(255, 90, 0, 0.2);
     overflow: visible;
-    padding-bottom: 0.06em;
   }
 
   @supports ((-webkit-background-clip: text) or (background-clip: text)) {
     .hero-headline-morph {
-      background: linear-gradient(135deg, var(--brp-navy) 0%, var(--brp-indigo) 50%, #d46a2e 100%);
+      background: linear-gradient(135deg, #ff8f4f 0%, #ff7a2f 50%, #e8651a 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 2px 8px rgba(42, 69, 128, 0.15));
-      line-height: 1.35;
-      padding-bottom: 0.12em;
-      margin-bottom: -0.12em;
+      filter: drop-shadow(0 2px 12px rgba(255, 122, 47, 0.4));
     }
   }
 
@@ -310,11 +306,11 @@
 
   .hero-theme__base {
     background:
-      radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.4) 0%, transparent 60%),
-      radial-gradient(circle at 85% 25%, #d0b8f0 0%, transparent 55%),
-      radial-gradient(circle at 100% 100%, #7a3ec9 0%, transparent 65%),
-      radial-gradient(circle at 60% 80%, #c0a0f0 0%, transparent 70%),
-      linear-gradient(145deg, #d5c6f0 0%, #cbb8e8 50%, #d0bdf0 100%);
+      radial-gradient(circle at 15% 15%, rgba(200, 180, 240, 0.35) 0%, transparent 60%),
+      radial-gradient(circle at 85% 25%, #8a5cc0 0%, transparent 55%),
+      radial-gradient(circle at 100% 100%, #5a1a96 0%, transparent 65%),
+      radial-gradient(circle at 60% 80%, #7a3ec9 0%, transparent 70%),
+      linear-gradient(145deg, #9a7ad0 0%, #7a4ab0 50%, #8a5cc0 100%);
   }
 
   .hero-theme__aurora {
@@ -638,8 +634,8 @@
   }
 
   .hero-theme__footer {
-    color: var(--color-muted-foreground) !important;
-    text-shadow: none !important;
+    color: oklch(0.82 0.04 280) !important;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
   }
 
   @media (max-width: 767px) {

@@ -24,6 +24,7 @@ import { Route as AdminStatsIndexRouteImport } from './routes/admin/stats/index'
 import { Route as AdminSettingsIndexRouteImport } from './routes/admin/settings/index'
 import { Route as AdminMediaIndexRouteImport } from './routes/admin/media/index'
 import { Route as AdminHeroIndexRouteImport } from './routes/admin/hero/index'
+import { Route as AdminGalleryIndexRouteImport } from './routes/admin/gallery/index'
 import { Route as AdminCommunityIndexRouteImport } from './routes/admin/community/index'
 import { Route as AdminCareersIndexRouteImport } from './routes/admin/careers/index'
 import { Route as AdminAboutIndexRouteImport } from './routes/admin/about/index'
@@ -112,6 +113,11 @@ const AdminHeroIndexRoute = AdminHeroIndexRouteImport.update({
   path: '/hero/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminGalleryIndexRoute = AdminGalleryIndexRouteImport.update({
+  id: '/gallery/',
+  path: '/gallery/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminCommunityIndexRoute = AdminCommunityIndexRouteImport.update({
   id: '/community/',
   path: '/community/',
@@ -195,6 +201,7 @@ export interface FileRoutesByFullPath {
   '/admin/about/': typeof AdminAboutIndexRoute
   '/admin/careers/': typeof AdminCareersIndexRoute
   '/admin/community/': typeof AdminCommunityIndexRoute
+  '/admin/gallery/': typeof AdminGalleryIndexRoute
   '/admin/hero/': typeof AdminHeroIndexRoute
   '/admin/media/': typeof AdminMediaIndexRoute
   '/admin/settings/': typeof AdminSettingsIndexRoute
@@ -223,6 +230,7 @@ export interface FileRoutesByTo {
   '/admin/about': typeof AdminAboutIndexRoute
   '/admin/careers': typeof AdminCareersIndexRoute
   '/admin/community': typeof AdminCommunityIndexRoute
+  '/admin/gallery': typeof AdminGalleryIndexRoute
   '/admin/hero': typeof AdminHeroIndexRoute
   '/admin/media': typeof AdminMediaIndexRoute
   '/admin/settings': typeof AdminSettingsIndexRoute
@@ -253,6 +261,7 @@ export interface FileRoutesById {
   '/admin/about/': typeof AdminAboutIndexRoute
   '/admin/careers/': typeof AdminCareersIndexRoute
   '/admin/community/': typeof AdminCommunityIndexRoute
+  '/admin/gallery/': typeof AdminGalleryIndexRoute
   '/admin/hero/': typeof AdminHeroIndexRoute
   '/admin/media/': typeof AdminMediaIndexRoute
   '/admin/settings/': typeof AdminSettingsIndexRoute
@@ -284,6 +293,7 @@ export interface FileRouteTypes {
     | '/admin/about/'
     | '/admin/careers/'
     | '/admin/community/'
+    | '/admin/gallery/'
     | '/admin/hero/'
     | '/admin/media/'
     | '/admin/settings/'
@@ -312,6 +322,7 @@ export interface FileRouteTypes {
     | '/admin/about'
     | '/admin/careers'
     | '/admin/community'
+    | '/admin/gallery'
     | '/admin/hero'
     | '/admin/media'
     | '/admin/settings'
@@ -341,6 +352,7 @@ export interface FileRouteTypes {
     | '/admin/about/'
     | '/admin/careers/'
     | '/admin/community/'
+    | '/admin/gallery/'
     | '/admin/hero/'
     | '/admin/media/'
     | '/admin/settings/'
@@ -466,6 +478,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminHeroIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/gallery/': {
+      id: '/admin/gallery/'
+      path: '/gallery'
+      fullPath: '/admin/gallery/'
+      preLoaderRoute: typeof AdminGalleryIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/community/': {
       id: '/admin/community/'
       path: '/community'
@@ -568,6 +587,7 @@ interface AdminRouteRouteChildren {
   AdminAboutIndexRoute: typeof AdminAboutIndexRoute
   AdminCareersIndexRoute: typeof AdminCareersIndexRoute
   AdminCommunityIndexRoute: typeof AdminCommunityIndexRoute
+  AdminGalleryIndexRoute: typeof AdminGalleryIndexRoute
   AdminHeroIndexRoute: typeof AdminHeroIndexRoute
   AdminMediaIndexRoute: typeof AdminMediaIndexRoute
   AdminSettingsIndexRoute: typeof AdminSettingsIndexRoute
@@ -591,6 +611,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminAboutIndexRoute: AdminAboutIndexRoute,
   AdminCareersIndexRoute: AdminCareersIndexRoute,
   AdminCommunityIndexRoute: AdminCommunityIndexRoute,
+  AdminGalleryIndexRoute: AdminGalleryIndexRoute,
   AdminHeroIndexRoute: AdminHeroIndexRoute,
   AdminMediaIndexRoute: AdminMediaIndexRoute,
   AdminSettingsIndexRoute: AdminSettingsIndexRoute,

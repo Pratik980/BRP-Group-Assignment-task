@@ -54,7 +54,7 @@ function IntroSection() {
                 <Sparkles className="h-3 w-3 text-primary shrink-0 mr-1.5" />
                 About Us
               </div>
-              <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl leading-[1.05] tracking-tight text-foreground">
+              <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.05] tracking-tight text-foreground">
                 Who We <span className="text-gradient italic">Are</span>
               </h2>
             </motion.div>

@@ -1,38 +1,41 @@
 import { motion, useMotionValue } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { alternateSlideIn, splitSlideIn, slideEase } from "@/lib/alternate-slide";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
+import { useGallery } from "@/hooks/useGallery";
 
-import img1 from "@/assets/optimized/image-1.webp";
-import img2 from "@/assets/optimized/image-2.webp";
-import img3 from "@/assets/optimized/image-3.webp";
-import img4 from "@/assets/optimized/image-4.webp";
-import img5 from "@/assets/optimized/image-5.webp";
-import img6 from "@/assets/optimized/image-6.webp";
-import brpImg1 from "@/assets/optimized/Brp-image-1.webp";
-import babuRamImg from "@/assets/optimized/Babu-Ram-Pokharel-image-1.webp";
-import ubinImg2 from "@/assets/optimized/Ubin-Pokharel-image-2.webp";
-import ubinPng2 from "@/assets/optimized/Ubin-Pokherel-2.webp";
+import fallbackImg1 from "@/assets/optimized/image-1.webp";
+import fallbackImg2 from "@/assets/optimized/image-2.webp";
+import fallbackImg3 from "@/assets/optimized/image-3.webp";
+import fallbackImg4 from "@/assets/optimized/image-4.webp";
+import fallbackImg5 from "@/assets/optimized/image-5.webp";
+import fallbackImg6 from "@/assets/optimized/image-6.webp";
+import fallbackBrpImg1 from "@/assets/optimized/Brp-image-1.webp";
+import fallbackBabuRamImg from "@/assets/optimized/Babu-Ram-Pokharel-image-1.webp";
+import fallbackUbinImg2 from "@/assets/optimized/Ubin-Pokharel-image-2.webp";
+import fallbackUbinPng2 from "@/assets/optimized/Ubin-Pokherel-2.webp";
 
-const images = [
-  { src: img6, label: "Corporate Team & Governance" },
-  { src: ubinImg2, label: "Leadership & Chairman Dr. Ubin Pokharel" },
-  { src: img1, label: "Incubator Workshops & Satin Leaf" },
-  { src: babuRamImg, label: "Chairman Emeritus Dr. Babu Ram Pokharel" },
-  { src: img2, label: "Venture Summit & Collaboration" },
-  { src: brpImg1, label: "BRP Headquarters & Operations" },
-  { src: img3, label: "IT Infrastructure Planning" },
-  { src: ubinPng2, label: "Executive Board Meetings" },
-  { src: img4, label: "Strategic Investments Group" },
-  { src: img5, label: "Nepal-US Cooperation Summits" },
+const FALLBACK_IMAGES = [
+  { src: fallbackImg6, label: "Corporate Team & Governance" },
+  { src: fallbackUbinImg2, label: "Leadership & Chairman Dr. Ubin Pokharel" },
+  { src: fallbackImg1, label: "Incubator Workshops & Satin Leaf" },
+  { src: fallbackBabuRamImg, label: "Chairman Emeritus Dr. Babu Ram Pokharel" },
+  { src: fallbackImg2, label: "Venture Summit & Collaboration" },
+  { src: fallbackBrpImg1, label: "BRP Headquarters & Operations" },
+  { src: fallbackImg3, label: "IT Infrastructure Planning" },
+  { src: fallbackUbinPng2, label: "Executive Board Meetings" },
+  { src: fallbackImg4, label: "Strategic Investments Group" },
+  { src: fallbackImg5, label: "Nepal-US Cooperation Summits" },
 ];
 
 const DRAG_BUFFER = 50;
 const AUTO_INTERVAL_MS = 7000;
 
 export function CorporateGallery() {
+  const { data: cmsImages, isLoading } = useGallery();
+  const images = cmsImages && cmsImages.length > 0 ? cmsImages : FALLBACK_IMAGES;
   const [imgIndex, setImgIndex] = useState(0);
   const dragX = useMotionValue(0);
   const containerRef = useRef<HTMLDivElement>(null);

@@ -67,7 +67,7 @@ function AboutPage() {
                 <span className="glass mb-4 inline-flex rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-primary shadow-sm">
                   Who We Are
                 </span>
-                <h1 className="font-display text-4xl leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl">
+                <h1 className="font-display text-4xl leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl xl:text-7xl">
                   {aboutUs.heroTitle}
                 </h1>
                 <div className="mt-6 space-y-4 text-sm font-light leading-relaxed text-muted-foreground md:text-base xl:text-lg">

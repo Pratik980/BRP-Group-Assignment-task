@@ -249,7 +249,7 @@ function HistoryPage() {
                 <Sparkles className="h-3 w-3 text-primary animate-pulse" />
                 Our Timeline
               </span>
-              <h1 className="font-display text-5xl leading-tight tracking-tight sm:text-6xl md:text-7xl xl:text-8xl">
+              <h1 className="font-display text-5xl leading-tight tracking-tight sm:text-6xl md:text-7xl">
                 Chronicle of <span className="text-gradient italic">Trust</span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-base font-light text-muted-foreground md:text-lg xl:text-xl">

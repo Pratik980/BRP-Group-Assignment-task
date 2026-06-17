@@ -6,7 +6,6 @@ import {
   Heart,
   Image,
   LayoutDashboard,
-  Mail,
   Settings,
   Sparkles,
   Users,
@@ -23,10 +22,8 @@ const navItems = [
   { label: "Community", to: "/admin/community", icon: Heart },
   { label: "Careers", to: "/admin/careers", icon: Briefcase },
   { label: "Media library", to: "/admin/media", icon: Image },
+  { label: "Gallery", to: "/admin/gallery", icon: FileText },
   { label: "Settings", to: "/admin/settings", icon: Settings },
-  { label: "Blog", to: "/admin/blog", icon: FileText, disabled: true },
-  { label: "Gallery", to: "/admin/gallery", icon: FileText, disabled: true },
-  { label: "Contacts", to: "/admin/contacts", icon: Mail, disabled: true },
 ] as const;
 
 export function AdminSidebar() {

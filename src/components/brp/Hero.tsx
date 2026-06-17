@@ -158,7 +158,7 @@ function HeroRotatingWord({ words }: { words: string[] }) {
       className="relative inline-block align-baseline whitespace-nowrap overflow-visible leading-[1.3]"
       aria-live="polite"
     >
-      <span className="invisible font-bold leading-[1.3]" aria-hidden="true">
+      <span className="invisible font-display font-bold" aria-hidden="true">
         {longestWord}
       </span>
       <AnimatePresence mode="wait">
@@ -168,7 +168,7 @@ function HeroRotatingWord({ words }: { words: string[] }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -6 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="hero-headline-morph absolute left-0 top-0 font-bold leading-[1.3]"
+          className="hero-headline-morph absolute left-0 top-0 font-display font-bold"
           >
           {currentWord}
         </motion.span>
@@ -266,7 +266,7 @@ export function Hero() {
             <br />
             {headlineMiddle}
             <br />
-            <span className="inline-flex items-baseline gap-1 overflow-visible leading-[1.3] pb-[0.06em]">
+            <span className="inline-flex items-baseline gap-1 overflow-visible leading-[1.14]">
               Diversified<HeroRotatingWord words={morphingWords} />
             </span>
           </motion.h1>
