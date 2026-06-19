@@ -49,6 +49,7 @@ import {
   saveHeroBgTheme,
   DEFAULT_HERO_BG_THEME,
   type HeroBgTheme,
+  type BackgroundType,
 } from "@/lib/admin/hero-bg-theme.client";
 import { requireAdminRoute } from "@/lib/admin/require-admin";
 
@@ -508,8 +509,7 @@ function AdminHeroPage() {
           <CardHeader>
             <CardTitle className="text-base">Hero background theme</CardTitle>
             <CardDescription>
-              Customize the hero section background gradient colors. The primary color is the main
-              purple tone, accent is the lighter highlight, and deep is the darker edge color.
+              Choose gradient colors or set an image/video as the hero background.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -519,93 +519,207 @@ function AdminHeroPage() {
                 Loading...
               </div>
             ) : (
-              <div className="space-y-4">
-                <div className="grid gap-4 md:grid-cols-3">
-                  <div className="space-y-2">
-                    <Label>Primary color</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        type="color"
-                        value={bgTheme.primary_color}
-                        onChange={(e) =>
-                          setBgTheme({ ...bgTheme, primary_color: e.target.value })
-                        }
-                        className="w-12 h-10 p-1"
-                      />
-                      <Input
-                        value={bgTheme.primary_color}
-                        onChange={(e) =>
-                          setBgTheme({ ...bgTheme, primary_color: e.target.value })
-                        }
-                        placeholder="#8a5cc0"
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Accent color</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        type="color"
-                        value={bgTheme.accent_color}
-                        onChange={(e) =>
-                          setBgTheme({ ...bgTheme, accent_color: e.target.value })
-                        }
-                        className="w-12 h-10 p-1"
-                      />
-                      <Input
-                        value={bgTheme.accent_color}
-                        onChange={(e) =>
-                          setBgTheme({ ...bgTheme, accent_color: e.target.value })
-                        }
-                        placeholder="#c4a8e8"
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Deep color</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        type="color"
-                        value={bgTheme.deep_color}
-                        onChange={(e) =>
-                          setBgTheme({ ...bgTheme, deep_color: e.target.value })
-                        }
-                        className="w-12 h-10 p-1"
-                      />
-                      <Input
-                        value={bgTheme.deep_color}
-                        onChange={(e) =>
-                          setBgTheme({ ...bgTheme, deep_color: e.target.value })
-                        }
-                        placeholder="#5a1a96"
-                      />
-                    </div>
+              <div className="space-y-6">
+                <div className="space-y-3">
+                  <Label>Background type</Label>
+                  <div className="flex flex-wrap gap-3">
+                    {(["gradient", "image", "video"] as BackgroundType[]).map((type) => (
+                      <button
+                        key={type}
+                        type="button"
+                        onClick={() => setBgTheme({ ...bgTheme, background_type: type })}
+                        className={`flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors ${
+                          bgTheme.background_type === type
+                            ? "border-primary bg-primary/5 ring-1 ring-primary"
+                            : "border-border/60 hover:bg-muted/50"
+                        }`}
+                      >
+                        <span className={`h-3 w-3 rounded-full border-2 ${
+                          bgTheme.background_type === type
+                            ? "border-primary bg-primary"
+                            : "border-muted-foreground"
+                        }`} />
+                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                      </button>
+                    ))}
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Label>
-                    Contrast:{" "}
-                    <span className="font-mono text-muted-foreground">
-                      {bgTheme.contrast.toFixed(2)}
-                    </span>
-                  </Label>
-                  <input
-                    type="range"
-                    min="0.5"
-                    max="1.5"
-                    step="0.05"
-                    value={bgTheme.contrast}
-                    onChange={(e) =>
-                      setBgTheme({ ...bgTheme, contrast: parseFloat(e.target.value) })
-                    }
-                    className="w-full"
-                  />
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>Low</span>
-                    <span>1.0</span>
-                    <span>High</span>
+
+                {bgTheme.background_type === "gradient" && (
+                  <div className="space-y-4">
+                    <p className="text-sm text-muted-foreground">
+                      Customize the hero section background gradient colors.
+                    </p>
+                    <div className="grid gap-4 md:grid-cols-3">
+                      <div className="space-y-2">
+                        <Label>Primary color</Label>
+                        <div className="flex gap-2">
+                          <Input
+                            type="color"
+                            value={bgTheme.primary_color}
+                            onChange={(e) =>
+                              setBgTheme({ ...bgTheme, primary_color: e.target.value })
+                            }
+                            className="w-12 h-10 p-1"
+                          />
+                          <Input
+                            value={bgTheme.primary_color}
+                            onChange={(e) =>
+                              setBgTheme({ ...bgTheme, primary_color: e.target.value })
+                            }
+                            placeholder="#8a5cc0"
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Accent color</Label>
+                        <div className="flex gap-2">
+                          <Input
+                            type="color"
+                            value={bgTheme.accent_color}
+                            onChange={(e) =>
+                              setBgTheme({ ...bgTheme, accent_color: e.target.value })
+                            }
+                            className="w-12 h-10 p-1"
+                          />
+                          <Input
+                            value={bgTheme.accent_color}
+                            onChange={(e) =>
+                              setBgTheme({ ...bgTheme, accent_color: e.target.value })
+                            }
+                            placeholder="#c4a8e8"
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Deep color</Label>
+                        <div className="flex gap-2">
+                          <Input
+                            type="color"
+                            value={bgTheme.deep_color}
+                            onChange={(e) =>
+                              setBgTheme({ ...bgTheme, deep_color: e.target.value })
+                            }
+                            className="w-12 h-10 p-1"
+                          />
+                          <Input
+                            value={bgTheme.deep_color}
+                            onChange={(e) =>
+                              setBgTheme({ ...bgTheme, deep_color: e.target.value })
+                            }
+                            placeholder="#5a1a96"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>
+                        Contrast:{" "}
+                        <span className="font-mono text-muted-foreground">
+                          {bgTheme.contrast.toFixed(2)}
+                        </span>
+                      </Label>
+                      <input
+                        type="range"
+                        min="0.5"
+                        max="1.5"
+                        step="0.05"
+                        value={bgTheme.contrast}
+                        onChange={(e) =>
+                          setBgTheme({ ...bgTheme, contrast: parseFloat(e.target.value) })
+                        }
+                        className="w-full"
+                      />
+                      <div className="flex justify-between text-xs text-muted-foreground">
+                        <span>Low</span>
+                        <span>1.0</span>
+                        <span>High</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
+
+                {bgTheme.background_type === "image" && (
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Background image URL</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          value={bgTheme.background_url}
+                          onChange={(e) =>
+                            setBgTheme({ ...bgTheme, background_url: e.target.value })
+                          }
+                          placeholder="https://example.com/image.jpg"
+                          className="flex-1"
+                        />
+                        <BgUploadButton
+                          accept="image/*"
+                          onUpload={(url) =>
+                            setBgTheme({ ...bgTheme, background_url: url })
+                          }
+                        />
+                      </div>
+                    </div>
+                    {bgTheme.background_url && (
+                      <div className="relative overflow-hidden rounded-lg border">
+                        <img
+                          src={bgTheme.background_url}
+                          alt="Hero background preview"
+                          className="h-48 w-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = "none";
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {bgTheme.background_type === "video" && (
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Background video URL</Label>
+                      <div className="flex gap-2">
+                        <Input
+                          value={bgTheme.background_url}
+                          onChange={(e) =>
+                            setBgTheme({ ...bgTheme, background_url: e.target.value })
+                          }
+                          placeholder="https://example.com/video.mp4"
+                          className="flex-1"
+                        />
+                        <BgUploadButton
+                          accept="video/*"
+                          onUpload={(url) =>
+                            setBgTheme({ ...bgTheme, background_url: url })
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        id="video-loop"
+                        checked={bgTheme.background_video_loop}
+                        onChange={(e) =>
+                          setBgTheme({ ...bgTheme, background_video_loop: e.target.checked })
+                        }
+                        className="h-4 w-4 rounded border-border"
+                      />
+                      <Label htmlFor="video-loop" className="text-sm font-normal">Loop video</Label>
+                    </div>
+                    {bgTheme.background_url && (
+                      <video
+                        src={bgTheme.background_url}
+                        className="h-48 w-full rounded-lg border object-cover"
+                        muted
+                        autoPlay={false}
+                        controls
+                      />
+                    )}
+                  </div>
+                )}
+
                 <Button
                   onClick={() => bgThemeMutation.mutate()}
                   disabled={bgThemeMutation.isPending}
@@ -840,6 +954,46 @@ function AdminHeroPage() {
         </AlertDialogContent>
       </AlertDialog>
     </AdminShell>
+  );
+}
+
+function BgUploadButton({ accept, onUpload }: { accept: string; onUpload: (url: string) => void }) {
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  async function handleFile(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadHeroImage(file);
+      onUpload(url);
+    } catch {
+      toast.error("Failed to upload file");
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <input ref={fileRef} type="file" accept={accept} className="hidden" onChange={handleFile} />
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        disabled={uploading}
+        onClick={() => fileRef.current?.click()}
+      >
+        {uploading ? (
+          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+        ) : (
+          <Upload className="h-3.5 w-3.5" />
+        )}
+        {uploading ? "Uploading..." : "Upload"}
+      </Button>
+    </div>
   );
 }
 

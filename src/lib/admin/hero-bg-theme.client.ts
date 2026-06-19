@@ -5,9 +5,10 @@ import {
   resolveHeroBgTheme,
   HERO_BG_THEME_KEY,
   type HeroBgTheme,
+  type BackgroundType,
 } from "@/lib/cms/hero-bg-theme";
 
-export { DEFAULT_HERO_BG_THEME, resolveHeroBgTheme, HERO_BG_THEME_KEY, type HeroBgTheme };
+export { DEFAULT_HERO_BG_THEME, resolveHeroBgTheme, HERO_BG_THEME_KEY, type HeroBgTheme, type BackgroundType };
 
 export async function fetchHeroBgTheme(): Promise<HeroBgTheme> {
   const { data, error } = await supabase

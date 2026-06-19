@@ -209,6 +209,8 @@ export function Hero() {
   const morphingColor = morphingData?.color;
   const morphingGlow = morphingData?.glowColor;
   const heroBgTheme = usePublicHeroBgTheme();
+  const { background_type, background_url, background_video_loop } = heroBgTheme;
+  const isGradientBg = background_type === "gradient";
   const heroTextColors = usePublicHeroTextColors();
   const { data: heroSlides } = usePublicHero();
   const activeSlide = heroSlides?.find((slide) => slide.is_active) ?? heroSlides?.[0];
@@ -231,26 +233,41 @@ export function Hero() {
         "--hero-bg-contrast": heroBgTheme.contrast,
       } as React.CSSProperties}
     >
-      <div
-        className="hero-theme__base pointer-events-none absolute inset-0 z-0"
-        aria-hidden="true"
-      />
-      <div
-        className="hero-theme__aurora pointer-events-none absolute inset-0 z-0"
-        aria-hidden="true"
-      />
-      <div
-        className="hero-theme__mesh pointer-events-none absolute inset-0 z-0"
-        aria-hidden="true"
-      />
-      <div
-        className="hero-theme__spectrum pointer-events-none absolute inset-0 z-0"
-        aria-hidden="true"
-      />
-      <div
-        className="hero-theme__glow pointer-events-none absolute inset-0 z-0"
-        aria-hidden="true"
-      />
+      {isGradientBg && (
+        <>
+          <div className="hero-theme__base pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
+          <div className="hero-theme__aurora pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
+          <div className="hero-theme__mesh pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
+          <div className="hero-theme__spectrum pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
+          <div className="hero-theme__glow pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
+        </>
+      )}
+
+      {(background_type === "image" && background_url) && (
+        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+          <img
+            src={background_url}
+            alt=""
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+      )}
+
+      {(background_type === "video" && background_url) && (
+        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+          <video
+            src={background_url}
+            autoPlay
+            muted
+            loop={background_video_loop}
+            playsInline
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+      )}
+
       <div
         className="hero-theme__grain pointer-events-none absolute inset-0 z-[1]"
         aria-hidden="true"
