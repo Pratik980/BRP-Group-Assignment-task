@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, Fragment } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
@@ -9,6 +9,7 @@ import {
   usePublicHeroMorphingWords,
   usePublicHeroBgTheme,
   usePublicHeroTextColors,
+  usePublicHeroVisualCards,
 } from "@/hooks/usePublicContent";
 import {
   DEFAULT_HERO_HEADLINE_LINE1,
@@ -17,6 +18,7 @@ import {
   DEFAULT_HERO_MORPHING_GLOW,
   parseHeroHeadline,
 } from "@/lib/cms/hero-morphing";
+import { DEFAULT_HERO_BG_THEME } from "@/lib/cms/hero-bg-theme";
 
 
 // Sector configs for the visual cluster layout
@@ -37,62 +39,74 @@ function heroCardPastel(hex: string | undefined): string {
   return "#ffffff";
 }
 
-const REDDOT_CARD_POSITION =
-  "left-[78%] top-[22%] -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-[1.4rem]";
+const CLOUD_AXIS_ICON =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M18 48c-5.5 0-10-4.5-10-10 0-4.6 3.1-8.4 7.3-9.5C16.6 24 21.4 20 27 20c4.2 0 7.8 2.1 10 5.2C38.6 24.5 40.5 24 42.5 24c5 0 9.5 4 9.5 9 0 .5 0 1-.1 1.5 2.8.7 5.1 3.2 5.1 6.5 0 3.9-3.1 7-7 7H18z' fill='%23ffffff' opacity='0.85'/%3E%3Ccircle cx='32' cy='34' r='8' fill='none' stroke='%23ffffff' stroke-width='1.5' opacity='0.5'/%3E%3Cline x1='32' y1='28' x2='32' y2='40' stroke='%23ffffff' stroke-width='1.5' opacity='0.5' stroke-linecap='round'/%3E%3Cline x1='26' y1='34' x2='38' y2='34' stroke='%23ffffff' stroke-width='1.5' opacity='0.5' stroke-linecap='round'/%3E%3C/svg%3E";
 
 const DEFAULT_CARDS: VisualCard[] = [
   {
     title: "Small Heaven School",
-    image: "/site-assets/shs.webp", // Top Card
-    baseRotateX: 8,
+    image: "/site-assets/shs.webp",
+    baseRotateX: 6,
     baseRotateY: 0,
     floatDuration: 5.6,
     floatDelay: 0.1,
     positionClass:
-      "left-[50%] top-[18%] -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-[1.8rem]",
+      "left-[50%] top-[10%] -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-[1.8rem]",
     bgColor: "#ffffff",
   },
   {
     title: "Satin Leaf Investment",
-    image: "/site-assets/satin-leaf.webp", // Right Card
+    image: "/site-assets/satin-leaf.webp",
     baseRotateX: 0,
-    baseRotateY: -10,
+    baseRotateY: -8,
     floatDuration: 5.2,
     floatDelay: 0.3,
     positionClass:
-      "left-[70%] top-[45%] -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-[1.8rem]",
+      "left-[79%] top-[27%] -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-[1.8rem]",
     bgColor: "#ffffff",
   },
   {
     title: "B.R.P. Ventures",
-    image: "/site-assets/logo-BRP.webp", // Bottom Card
-    baseRotateX: -8,
+    image: "/site-assets/logo-BRP.webp",
+    baseRotateX: -6,
     baseRotateY: 0,
     floatDuration: 5.8,
     floatDelay: 0.7,
     positionClass:
-      "left-[50%] top-[72%] -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-[1.8rem]",
+      "left-[79%] top-[61%] -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-[1.8rem]",
     bgColor: "#ffffff",
   },
   {
     title: "BRP Tours & Travels",
-    image: "/site-assets/Brp-tours-and-travel.webp", // Left Card
+    image: "/site-assets/Brp-tours-and-travel.webp",
     baseRotateX: -4,
     baseRotateY: 4,
     floatDuration: 6.4,
     floatDelay: 0.6,
     positionClass:
-      "left-[30%] top-[45%] -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-[1.8rem]",
+      "left-[50%] top-[78%] -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-[1.8rem]",
     bgColor: "#ffffff",
   },
   {
     title: "Reddot",
-    image: "/site-assets/reddot.webp", // Far Right Top Card
+    image: "/site-assets/reddot.webp",
     baseRotateX: 4,
     baseRotateY: -4,
     floatDuration: 4.8,
     floatDelay: 0.2,
-    positionClass: REDDOT_CARD_POSITION,
+    positionClass:
+      "left-[21%] top-[61%] -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-[1.8rem]",
+    bgColor: "#ffffff",
+  },
+  {
+    title: "Cloud Axis",
+    image: CLOUD_AXIS_ICON,
+    baseRotateX: 4,
+    baseRotateY: 4,
+    floatDuration: 5.0,
+    floatDelay: 0.4,
+    positionClass:
+      "left-[21%] top-[27%] -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-[1.8rem]",
     bgColor: "#ffffff",
   },
 ];
@@ -105,10 +119,11 @@ const MORPH_INTERVAL_MS = 3500;
 
 const VENTURE_SLUG_BY_TITLE: Record<string, string> = {
   "Small Heaven School": "small-heaven-school",
-"Satin Leaf Investment": "satin-leaf-investment",
+  "Satin Leaf Investment": "satin-leaf-investment",
   "B.R.P. Ventures": "brp-ventures",
   Reddot: "reddot",
   "BRP Tours & Travels": "brp-tours-travels",
+  "Cloud Axis": "cloud-axis",
 };
 
 const revealEase = [0.22, 1, 0.36, 1] as const;
@@ -131,6 +146,141 @@ function ventureHref(title: string) {
 
 function tiltTransform(x: number, y: number) {
   return `rotateX(${x}deg) rotateY(${y}deg)`;
+}
+
+// Network line definitions (viewBox 0 0 100 100)
+interface NetworkLineDef {
+  x2: number;
+  y2: number;
+  label: string;
+}
+
+const HUB_2XL = { x: 50, y: 44 };
+const NETWORK_LINES_2XL: NetworkLineDef[] = [
+  { x2: 50, y2: 14, label: "shs" },
+  { x2: 74, y2: 28, label: "satin" },
+  { x2: 74, y2: 62, label: "brp" },
+  { x2: 50, y2: 76, label: "tours" },
+  { x2: 26, y2: 62, label: "reddot" },
+  { x2: 26, y2: 28, label: "cloud" },
+];
+
+const HUB_TAB = { x: 50, y: 42 };
+const NETWORK_LINES_TAB: NetworkLineDef[] = [
+  { x2: 50, y2: 14, label: "shs" },
+  { x2: 76, y2: 28, label: "satin" },
+  { x2: 76, y2: 64, label: "brp" },
+  { x2: 50, y2: 78, label: "tours" },
+  { x2: 24, y2: 64, label: "reddot" },
+  { x2: 24, y2: 28, label: "cloud" },
+];
+
+function NetworkLines({
+  lines,
+  hub,
+  reducedMotion,
+  gradientId,
+}: {
+  lines: NetworkLineDef[];
+  hub: { x: number; y: number };
+  reducedMotion: boolean | null;
+  gradientId: string;
+}) {
+  const prefersReduced = reducedMotion ?? false;
+  if (prefersReduced) {
+    return (
+      <svg
+        className="absolute inset-0 z-[3] h-full w-full pointer-events-none"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id={gradientId} x1="0" y1="0" x2="100" y2="100">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.25)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0.5)" />
+          </linearGradient>
+        </defs>
+        {lines.map((line) => (
+          <path
+            key={line.label}
+            d={`M ${hub.x} ${hub.y} L ${line.x2} ${line.y2}`}
+            fill="none"
+            stroke={`url(#${gradientId})`}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            opacity="0.6"
+          />
+        ))}
+        {lines.map((line) => (
+          <circle
+            key={`dot-${line.label}`}
+            cx={line.x2}
+            cy={line.y2}
+            r="1.2"
+            fill="rgba(255,255,255,0.5)"
+            opacity="0.6"
+          />
+        ))}
+      </svg>
+    );
+  }
+
+  return (
+    <svg
+      className="absolute inset-0 z-[3] h-full w-full pointer-events-none"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id={gradientId} x1="0" y1="0" x2="100" y2="100">
+          <stop offset="0%" stopColor="rgba(255,255,255,0.25)" />
+          <stop offset="100%" stopColor="rgba(255,255,255,0.5)" />
+        </linearGradient>
+      </defs>
+      {lines.map((line, i) => (
+        <Fragment key={line.label}>
+          <motion.path
+            d={`M ${hub.x} ${hub.y} L ${line.x2} ${line.y2}`}
+            fill="none"
+            stroke="rgba(255,255,255,0.3)"
+            strokeWidth="5"
+            strokeLinecap="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.1 }}
+            transition={{ duration: 0.7, delay: 0.1 + i * 0.05, ease: "easeInOut" }}
+            style={{ filter: "blur(4px)" }}
+          />
+          <motion.path
+            d={`M ${hub.x} ${hub.y} L ${line.x2} ${line.y2}`}
+            fill="none"
+            stroke={`url(#${gradientId})`}
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.5 }}
+            transition={{ duration: 0.7, delay: 0.1 + i * 0.05, ease: "easeInOut" }}
+            style={{
+              filter:
+                "drop-shadow(0 0 4px rgba(255,255,255,0.3)) drop-shadow(0 0 12px rgba(255,255,255,0.1))",
+            }}
+            className="hero-theme__network-line"
+          />
+          <motion.circle
+            cx={line.x2}
+            cy={line.y2}
+            r="1.2"
+            fill="rgba(255,255,255,0.5)"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 0.6, scale: 1 }}
+            transition={{ delay: 0.2 + i * 0.05, duration: 0.3 }}
+            className="hero-theme__network-dot"
+          />
+        </Fragment>
+      ))}
+    </svg>
+  );
 }
 
 function HeroRotatingWord({ words, color, glowColor }: { words: string[]; color?: string; glowColor?: string }) {
@@ -208,17 +358,30 @@ export function Hero() {
   const morphingWords = morphingData?.words ?? [...DEFAULT_HERO_MORPHING_WORDS];
   const morphingColor = morphingData?.color;
   const morphingGlow = morphingData?.glowColor;
-  const heroBgTheme = usePublicHeroBgTheme();
-  const { background_type, background_url, background_video_loop } = heroBgTheme;
+  const { data: heroBgTheme } = usePublicHeroBgTheme();
+  const { background_type, background_url, background_video_loop } = heroBgTheme ?? DEFAULT_HERO_BG_THEME;
   const isGradientBg = background_type === "gradient";
-  const heroTextColors = usePublicHeroTextColors();
+  const { data: heroTextColors } = usePublicHeroTextColors();
   const { data: heroSlides } = usePublicHero();
   const activeSlide = heroSlides?.find((slide) => slide.is_active) ?? heroSlides?.[0];
   const parsedHeadline = parseHeroHeadline(activeSlide?.headline);
   const [headlineTop, headlineMiddle] = splitHeadlineForDisplay(
     parsedHeadline.line1 || DEFAULT_HERO_HEADLINE_LINE1,
   );
-  const cards = DEFAULT_CARDS;
+  const { data: dbVisualCards } = usePublicHeroVisualCards();
+  const cards = useMemo(() => {
+    if (!dbVisualCards) return DEFAULT_CARDS;
+    return DEFAULT_CARDS.map((defaultCard) => {
+      const dbCard = dbVisualCards.find((c: any) => c.title === defaultCard.title);
+      if (!dbCard) return defaultCard;
+      return {
+        ...defaultCard,
+        image: dbCard.image || defaultCard.image,
+        bgColor: dbCard.bgColor || defaultCard.bgColor,
+        bgTint: dbCard.bgTint || defaultCard.bgTint,
+      };
+    });
+  }, [dbVisualCards]);
 
   return (
     <section
@@ -349,6 +512,8 @@ export function Hero() {
         <div className="relative mt-2 flex h-[300px] w-full items-center justify-center perspective-[1200px] transform-style-3d sm:h-[380px] md:h-[420px] lg:col-span-7 lg:mt-0 lg:h-[380px] 2xl:mt-6 2xl:h-[clamp(480px,54vh,620px)]">
           {/* Desktop+ visual cluster (2xl screens and up — 1536px+) */}
           <div className="hidden 2xl:block absolute inset-0">
+            <NetworkLines lines={NETWORK_LINES_2XL} hub={HUB_2XL} reducedMotion={prefersReducedMotion} gradientId="neonLine2xl" />
+
             <motion.div
               style={{ perspective: "1000px" }}
               animate={prefersReducedMotion ? undefined : { y: [0, -4, 0] }}
@@ -357,14 +522,14 @@ export function Hero() {
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="absolute left-[50%] top-[45%] -translate-x-1/2 -translate-y-1/2 z-25 pointer-events-auto"
+              className="absolute left-[50%] top-[44%] -translate-x-1/2 -translate-y-1/2 z-25 pointer-events-auto"
             >
               <div
                 style={{
                   transformStyle: "preserve-3d",
                   transform: tiltTransform(0, 0),
                 }}
-                className="hero-theme__hub flex h-28 w-28 items-center justify-center rounded-[2.2rem] 2xl:h-32 2xl:w-32"
+                className="hero-theme__hub hero-theme__hub--network flex h-28 w-28 items-center justify-center rounded-[2.2rem] 2xl:h-32 2xl:w-32"
               >
                 <img
                   src={logo}
@@ -377,15 +542,11 @@ export function Hero() {
             {cards.map((card, idx) => {
               const tiltX = card.baseRotateX;
               const tiltY = card.baseRotateY;
-              const isSmall = card.positionClass.includes("w-20");
-              const amplitude = isSmall ? -4 : -5;
+              const amplitude = -5;
               const href = ventureHref(card.title);
               const positionClass = card.positionClass
-                .replace("w-20", "w-20 2xl:w-24")
                 .replace("w-28", "w-28 2xl:w-32")
-                .replace("h-20", "h-20 2xl:h-24")
                 .replace("h-28", "h-28 2xl:h-32")
-                .replace("rounded-[1.4rem]", "rounded-[1.4rem] 2xl:rounded-[1.6rem]")
                 .replace("rounded-[1.8rem]", "rounded-[1.8rem] 2xl:rounded-[2rem]");
               return (
                 <motion.div
@@ -408,7 +569,7 @@ export function Hero() {
                           delay: card.floatDelay || 0,
                         },
                   }}
-                  className={`absolute pointer-events-auto ${positionClass} ${isSmall ? "z-10" : "z-20"}`}
+                  className="absolute pointer-events-auto z-20"
                 >
                   <Link
                     {...href}
@@ -421,7 +582,7 @@ export function Hero() {
                         transform: tiltTransform(tiltX, tiltY),
                         ["--hero-card-tint" as string]: heroCardPastel(card.bgColor),
                       }}
-                      className="hero-theme__card relative flex h-full w-full items-center justify-center overflow-hidden rounded-[inherit] p-3"
+                      className="hero-theme__card hero-theme__card--network relative flex h-full w-full items-center justify-center overflow-hidden rounded-[inherit] p-3"
                     >
                       <img
                         src={card.image}
@@ -435,8 +596,10 @@ export function Hero() {
             })}
           </div>
 
-          {/* Tablet + Laptop visual (sm to 2xl) — simplified 4-card diamond */}
+          {/* Tablet + Laptop visual (sm to 2xl) — hexagonal 6-card layout */}
           <div className="hidden sm:block 2xl:hidden absolute inset-0">
+            <NetworkLines lines={NETWORK_LINES_TAB} hub={HUB_TAB} reducedMotion={prefersReducedMotion} gradientId="neonLineTab" />
+
             {/* Center hub */}
             <motion.div
               style={{ perspective: "1000px" }}
@@ -446,7 +609,7 @@ export function Hero() {
             >
               <div
                 style={{ transformStyle: "preserve-3d", transform: tiltTransform(0, 0) }}
-                className="hero-theme__hub flex h-24 w-24 items-center justify-center rounded-[2rem] md:h-[7.5rem] md:w-[7.5rem]"
+                className="hero-theme__hub hero-theme__hub--network flex h-24 w-24 items-center justify-center rounded-[2rem] md:h-[7.5rem] md:w-[7.5rem]"
               >
                 <img
                   src={logo}
@@ -456,12 +619,14 @@ export function Hero() {
               </div>
             </motion.div>
 
-            {cards.slice(0, 4).map((card, idx) => {
+            {cards.map((card, idx) => {
               const positions = [
-                "left-[50%] top-[18%] -translate-x-1/2 -translate-y-1/2 w-[6.5rem] h-[6.5rem] rounded-[1.8rem] md:w-[7.5rem] md:h-[7.5rem]",
-                "left-[76%] top-[42%] -translate-x-1/2 -translate-y-1/2 w-[6rem] h-[6rem] rounded-[1.6rem] md:w-[7rem] md:h-[7rem]",
-                "left-[50%] top-[70%] -translate-x-1/2 -translate-y-1/2 w-[6.5rem] h-[6.5rem] rounded-[1.8rem] md:w-[7.5rem] md:h-[7.5rem]",
-                "left-[24%] top-[42%] -translate-x-1/2 -translate-y-1/2 w-[6rem] h-[6rem] rounded-[1.6rem] md:w-[7rem] md:h-[7rem]",
+                "left-[50%] top-[10%] -translate-x-1/2 -translate-y-1/2 w-[6rem] h-[6rem] rounded-[1.6rem] md:w-[7rem] md:h-[7rem]",
+                "left-[78%] top-[26%] -translate-x-1/2 -translate-y-1/2 w-[5.5rem] h-[5.5rem] rounded-[1.4rem] md:w-[6.5rem] md:h-[6.5rem]",
+                "left-[78%] top-[58%] -translate-x-1/2 -translate-y-1/2 w-[5.5rem] h-[5.5rem] rounded-[1.4rem] md:w-[6.5rem] md:h-[6.5rem]",
+                "left-[50%] top-[74%] -translate-x-1/2 -translate-y-1/2 w-[6rem] h-[6rem] rounded-[1.6rem] md:w-[7rem] md:h-[7rem]",
+                "left-[22%] top-[58%] -translate-x-1/2 -translate-y-1/2 w-[5.5rem] h-[5.5rem] rounded-[1.4rem] md:w-[6.5rem] md:h-[6.5rem]",
+                "left-[22%] top-[26%] -translate-x-1/2 -translate-y-1/2 w-[5.5rem] h-[5.5rem] rounded-[1.4rem] md:w-[6.5rem] md:h-[6.5rem]",
               ];
               const href = ventureHref(card.title);
               return (
@@ -488,7 +653,7 @@ export function Hero() {
                         transform: tiltTransform(0, 0),
                         ["--hero-card-tint" as string]: heroCardPastel(card.bgColor),
                       }}
-                      className="hero-theme__card flex h-full w-full items-center justify-center overflow-hidden rounded-[inherit] p-3"
+                      className="hero-theme__card hero-theme__card--network flex h-full w-full items-center justify-center overflow-hidden rounded-[inherit] p-3"
                     >
                       <img
                         src={card.image}

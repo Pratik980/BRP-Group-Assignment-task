@@ -137,7 +137,7 @@ function AdminHeroPage() {
     if (dbVisualCards === undefined) return;
     cardsInitialized.current = true;
     if (dbVisualCards) {
-      setCardsDraft(dbVisualCards.filter((card) => card.title !== "Cloud Axis"));
+      setCardsDraft(dbVisualCards);
     } else {
       setCardsDraft([
         { title: "Small Heaven School", image: "/site-assets/shs.webp" },
@@ -145,6 +145,7 @@ function AdminHeroPage() {
         { title: "B.R.P. Ventures", image: "/site-assets/logo-BRP.webp" },
         { title: "Reddot", image: "/site-assets/reddot.webp" },
         { title: "BRP Tours & Travels", image: "/site-assets/Brp-tours-and-travel.webp" },
+        { title: "Cloud Axis", image: "" },
       ]);
     }
   }, [dbVisualCards]);

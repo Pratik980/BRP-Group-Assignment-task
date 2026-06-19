@@ -3,9 +3,11 @@ import { DEFAULT_HERO_MORPHING_WORDS, DEFAULT_HERO_MORPHING_COLOR, DEFAULT_HERO_
 import { DEFAULT_HERO_BG_THEME, resolveHeroBgTheme } from "@/lib/cms/hero-bg-theme";
 import { DEFAULT_HERO_TEXT_COLORS, resolveHeroTextColors } from "@/lib/cms/hero-colors";
 import {
+  fetchPublicAboutSection,
   fetchPublicAboutSections,
   fetchPublicHeroMorphingWords,
   fetchPublicHeroSlides,
+  fetchPublicHeroVisualCards,
   fetchPublicImpactStats,
   fetchPublicSiteSettings,
   fetchPublicExecutiveTeam,
@@ -72,14 +74,38 @@ export function usePublicAboutSections() {
   });
 }
 
+export function usePublicHeroVisualCards() {
+  return useQuery({
+    queryKey: ["public-hero-visual-cards"],
+    queryFn: fetchPublicHeroVisualCards,
+    staleTime: 60_000,
+  });
+}
+
 export function usePublicHeroBgTheme() {
-  const { data: aboutSections } = usePublicAboutSections();
-  return resolveHeroBgTheme(aboutSections?.hero_bg_theme?.metadata as Record<string, unknown> | undefined);
+  return useQuery({
+    queryKey: ["public-hero-bg-theme"],
+    queryFn: async () => {
+      const row = await fetchPublicAboutSection("hero_bg_theme");
+      return resolveHeroBgTheme(row?.metadata as Record<string, unknown> | undefined);
+    },
+    initialData: () => DEFAULT_HERO_BG_THEME,
+    initialDataUpdatedAt: 0,
+    staleTime: 60_000,
+  });
 }
 
 export function usePublicHeroTextColors() {
-  const { data: aboutSections } = usePublicAboutSections();
-  return resolveHeroTextColors(aboutSections?.hero_text_colors?.metadata as Record<string, unknown> | undefined);
+  return useQuery({
+    queryKey: ["public-hero-text-colors"],
+    queryFn: async () => {
+      const row = await fetchPublicAboutSection("hero_text_colors");
+      return resolveHeroTextColors(row?.metadata as Record<string, unknown> | undefined);
+    },
+    initialData: () => DEFAULT_HERO_TEXT_COLORS,
+    initialDataUpdatedAt: 0,
+    staleTime: 60_000,
+  });
 }
 
 export { parseStatValue };

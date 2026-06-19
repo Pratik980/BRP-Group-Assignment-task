@@ -115,6 +115,16 @@ export function parseStatValue(value: string): { target: number; suffix: string 
   return { target: Number(match[1]), suffix: match[2] ?? "" };
 }
 
+export async function fetchPublicHeroVisualCards() {
+  const { data, error } = await supabase
+    .from("about_content")
+    .select("metadata")
+    .eq("section_key", "hero_visual_cards")
+    .maybeSingle();
+  if (error || !data?.metadata) return null;
+  return ((data.metadata as Record<string, unknown>)?.cards as Record<string, unknown>[]) || null;
+}
+
 export type PublicSiteMeta = typeof siteMeta;
 
 export function mergeSiteMeta(settings: Record<string, string>): PublicSiteMeta {
