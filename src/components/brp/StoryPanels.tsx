@@ -8,6 +8,7 @@ import { resolveCommunityStory, resolveLegacyStory } from "@/lib/cms/about-conte
 import { usePublicAboutSections } from "@/hooks/usePublicContent";
 import { splitSlideIn, slideEase } from "@/lib/alternate-slide";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 export function StoryPanels() {
   const { data: aboutSections } = usePublicAboutSections();
@@ -67,7 +68,7 @@ export function StoryPanels() {
                 boxShadow: "-18px 18px 0px 0px rgba(42, 69, 128, 0.08)",
               }}
             >
-              <img
+              <LazyImage
                 src={legacyImg}
                 alt="BRP Legacy Portrait"
                 className="w-full h-full object-cover rounded-2xl pointer-events-none"
@@ -90,7 +91,7 @@ export function StoryPanels() {
                 boxShadow: "18px 18px 0px 0px rgba(42, 69, 128, 0.08)",
               }}
             >
-              <img
+              <LazyImage
                 src={childrenImg}
                 alt="BRP Community Children"
                 className="w-full h-full object-cover rounded-2xl pointer-events-none"

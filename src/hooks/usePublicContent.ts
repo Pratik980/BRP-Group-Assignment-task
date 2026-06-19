@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, type QueryClient } from "@tanstack/react-query";
 import { DEFAULT_HERO_MORPHING_WORDS, DEFAULT_HERO_MORPHING_COLOR, DEFAULT_HERO_MORPHING_GLOW } from "@/lib/cms/hero-morphing";
-import { DEFAULT_HERO_BG_THEME, resolveHeroBgTheme } from "@/lib/cms/hero-bg-theme";
-import { DEFAULT_HERO_TEXT_COLORS, resolveHeroTextColors } from "@/lib/cms/hero-colors";
+import { resolveHeroBgTheme } from "@/lib/cms/hero-bg-theme";
+import { resolveHeroTextColors } from "@/lib/cms/hero-colors";
+import { DEFAULT_HERO_VISUAL_CARDS } from "@/lib/cms/hero-visual-cards";
 import {
-  fetchPublicAboutSection,
   fetchPublicAboutSections,
   fetchPublicHeroMorphingWords,
   fetchPublicHeroSlides,
@@ -16,20 +16,50 @@ import {
   parseStatValue,
 } from "@/lib/cms/content.public";
 
+const PUBLIC_CACHE = {
+  staleTime: 5 * 60_000,
+  gcTime: 30 * 60_000,
+  refetchOnWindowFocus: false,
+} as const;
+
+const heroMorphingQuery = {
+  queryKey: ["public-hero-morphing-words"] as const,
+  queryFn: async () => {
+    const data = await fetchPublicHeroMorphingWords();
+    return data ?? { words: [...DEFAULT_HERO_MORPHING_WORDS], color: DEFAULT_HERO_MORPHING_COLOR, glowColor: DEFAULT_HERO_MORPHING_GLOW };
+  },
+};
+
+const heroVisualCardsQuery = {
+  queryKey: ["public-hero-visual-cards"] as const,
+  queryFn: async () => (await fetchPublicHeroVisualCards()) ?? DEFAULT_HERO_VISUAL_CARDS,
+};
+
+export async function prefetchPublicHeroContent(queryClient: QueryClient) {
+  await Promise.all([
+    queryClient.ensureQueryData({
+      queryKey: ["public-about"],
+      queryFn: fetchPublicAboutSections,
+    }),
+    queryClient.ensureQueryData({
+      queryKey: ["public-hero"],
+      queryFn: fetchPublicHeroSlides,
+    }),
+    queryClient.ensureQueryData(heroVisualCardsQuery),
+    queryClient.ensureQueryData(heroMorphingQuery),
+  ]);
+}
+
 export function usePublicHero() {
-  return useQuery({ queryKey: ["public-hero"], queryFn: fetchPublicHeroSlides, staleTime: 60_000 });
+  return useQuery({ queryKey: ["public-hero"], queryFn: fetchPublicHeroSlides, ...PUBLIC_CACHE });
 }
 
 export function usePublicHeroMorphingWords() {
   return useQuery({
-    queryKey: ["public-hero-morphing-words"],
-    queryFn: async () => {
-      const data = await fetchPublicHeroMorphingWords();
-      return data ?? { words: [...DEFAULT_HERO_MORPHING_WORDS], color: DEFAULT_HERO_MORPHING_COLOR, glowColor: DEFAULT_HERO_MORPHING_GLOW };
-    },
+    ...heroMorphingQuery,
+    ...PUBLIC_CACHE,
     initialData: () => ({ words: [...DEFAULT_HERO_MORPHING_WORDS], color: DEFAULT_HERO_MORPHING_COLOR, glowColor: DEFAULT_HERO_MORPHING_GLOW }),
     initialDataUpdatedAt: 0,
-    staleTime: 60_000,
   });
 }
 
@@ -37,7 +67,7 @@ export function usePublicImpactStats() {
   return useQuery({
     queryKey: ["public-stats"],
     queryFn: fetchPublicImpactStats,
-    staleTime: 60_000,
+    ...PUBLIC_CACHE,
   });
 }
 
@@ -45,7 +75,7 @@ export function usePublicExecutiveTeam() {
   return useQuery({
     queryKey: ["public-team-executive"],
     queryFn: fetchPublicExecutiveTeam,
-    staleTime: 60_000,
+    ...PUBLIC_CACHE,
   });
 }
 
@@ -53,7 +83,7 @@ export function usePublicOurTeam() {
   return useQuery({
     queryKey: ["public-team-our-team"],
     queryFn: fetchPublicOurTeam,
-    staleTime: 60_000,
+    ...PUBLIC_CACHE,
   });
 }
 
@@ -61,7 +91,7 @@ export function usePublicSiteMeta() {
   return useQuery({
     queryKey: ["public-site-settings"],
     queryFn: async () => mergeSiteMeta(await fetchPublicSiteSettings()),
-    staleTime: 60_000,
+    ...PUBLIC_CACHE,
   });
 }
 
@@ -69,43 +99,28 @@ export function usePublicAboutSections() {
   return useQuery({
     queryKey: ["public-about"],
     queryFn: fetchPublicAboutSections,
-    staleTime: 0,
-    refetchOnMount: "always",
+    ...PUBLIC_CACHE,
+    placeholderData: (previousData) => previousData,
   });
 }
 
 export function usePublicHeroVisualCards() {
   return useQuery({
-    queryKey: ["public-hero-visual-cards"],
-    queryFn: fetchPublicHeroVisualCards,
-    staleTime: 60_000,
+    ...heroVisualCardsQuery,
+    ...PUBLIC_CACHE,
+    initialData: () => DEFAULT_HERO_VISUAL_CARDS,
+    initialDataUpdatedAt: 0,
   });
 }
 
 export function usePublicHeroBgTheme() {
-  return useQuery({
-    queryKey: ["public-hero-bg-theme"],
-    queryFn: async () => {
-      const row = await fetchPublicAboutSection("hero_bg_theme");
-      return resolveHeroBgTheme(row?.metadata as Record<string, unknown> | undefined);
-    },
-    initialData: () => DEFAULT_HERO_BG_THEME,
-    initialDataUpdatedAt: 0,
-    staleTime: 60_000,
-  });
+  const { data: aboutSections } = usePublicAboutSections();
+  return resolveHeroBgTheme(aboutSections?.hero_bg_theme?.metadata as Record<string, unknown> | undefined);
 }
 
 export function usePublicHeroTextColors() {
-  return useQuery({
-    queryKey: ["public-hero-text-colors"],
-    queryFn: async () => {
-      const row = await fetchPublicAboutSection("hero_text_colors");
-      return resolveHeroTextColors(row?.metadata as Record<string, unknown> | undefined);
-    },
-    initialData: () => DEFAULT_HERO_TEXT_COLORS,
-    initialDataUpdatedAt: 0,
-    staleTime: 60_000,
-  });
+  const { data: aboutSections } = usePublicAboutSections();
+  return resolveHeroTextColors(aboutSections?.hero_text_colors?.metadata as Record<string, unknown> | undefined);
 }
 
 export { parseStatValue };

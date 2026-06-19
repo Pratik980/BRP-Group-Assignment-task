@@ -551,6 +551,17 @@
     backface-visibility: hidden;
   }
 
+  .hero-theme__venture-logo--network {
+    filter: none;
+    transition: transform 0.4s ease;
+  }
+
+  .hero-venture-link:focus-visible .hero-theme__venture-logo--network,
+  .hero-theme__card--active .hero-theme__venture-logo--network,
+  .hero-theme__card--network:hover .hero-theme__venture-logo--network {
+    filter: none;
+  }
+
   .hero-venture-link:focus-visible .hero-theme__venture-logo,
   .hero-theme__card--active .hero-theme__venture-logo {
     filter: brightness(1.15) contrast(1.1) saturate(1);
@@ -668,39 +679,52 @@
     }
   }
 
-  /* ─── Network Layout: Solid White Cards ─── */
+  /* ─── Network Layout: White venture cards ─── */
   .hero-theme__card--network {
     background: #ffffff !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    border-color: rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
     box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.08),
-      0 2px 8px rgba(0, 0, 0, 0.04) !important;
+      0 8px 24px rgba(0, 0, 0, 0.12),
+      0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
   }
 
   .hero-theme__card--network::before {
     background: linear-gradient(
       155deg,
-      rgba(255, 255, 255, 0.10) 0%,
-      rgba(255, 255, 255, 0.03) 38%,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.45) 38%,
       transparent 70%
     ) !important;
   }
 
-  .hero-theme__card--network .hero-theme__venture-logo {
-    filter: brightness(1.15) contrast(1.1) saturate(1)
-      drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+  .hero-theme__card--network:hover {
+    background: #ffffff !important;
+    border-color: rgba(0, 0, 0, 0.12) !important;
+    box-shadow:
+      0 14px 36px rgba(0, 0, 0, 0.16),
+      0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    transform: translateY(-4px) scale(1.03) !important;
   }
 
   .hero-theme__hub--network {
-    background: #ffffff !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    border-color: rgba(0, 0, 0, 0.06) !important;
+    background: rgba(255, 255, 255, 0.10) !important;
+    backdrop-filter: blur(24px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(140%) !important;
+    border: 2px solid rgba(255, 255, 255, 0.22) !important;
     box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.08),
-      0 2px 8px rgba(0, 0, 0, 0.04) !important;
+      0 0 40px rgba(255, 255, 255, 0.15),
+      0 16px 48px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+
+  .hero-theme__hub--network:hover {
+    box-shadow:
+      0 0 50px rgba(255, 255, 255, 0.25),
+      0 20px 60px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+    transform: scale(1.02) !important;
   }
 
   /* Frosted network connector lines */
@@ -712,14 +736,55 @@
     animation: network-dot-pulse 3s ease-in-out infinite;
   }
 
+  /* Custom Infographic Visual Elements */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    width: 60%;
+    opacity: 0.65;
+  }
+
+  .tech-dot {
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.3);
+    transition: background 0.3s ease;
+  }
+
+  .hero-theme__card--network:hover .tech-dot {
+    background: #ff7a2f;
+  }
+
+  .tech-dot-active {
+    background: #ff7a2f !important;
+    box-shadow: 0 0 8px #ff7a2f;
+  }
+
   @keyframes network-dot-pulse {
     0%,
     100% {
       opacity: 0.35;
+      transform: scale(0.9);
     }
     50% {
       opacity: 0.9;
+      transform: scale(1.1);
     }
+  }
+
+  @keyframes traveling-pulse {
+    0% {
+      stroke-dashoffset: 24;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .hero-theme__network-line-pulse {
+    stroke-dasharray: 8 16;
+    animation: traveling-pulse 1.2s linear infinite;
   }
 
   /*

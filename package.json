@@ -13,6 +13,7 @@
     "db:push": "supabase db push",
     "db:sql": "node scripts/run-sql.mjs",
     "sync:assets": "node scripts/sync-site-assets.mjs",
+    "compress:images": "node scripts/compress-images.mjs",
     "db:types": "supabase gen types typescript --linked > src/integrations/supabase/types.ts",
     "db:reset": "supabase db reset"
   },

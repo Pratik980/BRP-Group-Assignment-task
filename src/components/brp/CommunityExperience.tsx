@@ -1,5 +1,6 @@
 import { resolveCommunityPage } from "@/lib/cms/about-content";
 import { usePublicAboutSections } from "@/hooks/usePublicContent";
+import { LazyImage } from "@/components/ui/lazy-image";
 import { motion, useMotionValue } from "framer-motion";
 import {
   Building2,
@@ -138,7 +139,7 @@ function PillarStory({ pillar, index }: { pillar: CommunityPillar; index: number
           className="relative w-full max-w-lg overflow-hidden rounded-3xl border bg-white p-2"
           style={{ border: "2.5px solid rgba(0,0,0,0.06)", boxShadow: shadow }}
         >
-          <img
+          <LazyImage
             src={pillar.image}
             alt={pillar.headline}
             className="aspect-[4/3] w-full rounded-2xl object-cover"
@@ -320,11 +321,11 @@ function CommunityGallery() {
             {images.map((img, idx) => (
               <div key={img.src + idx} className="w-full shrink-0">
                 <div className="flex min-h-[260px] max-h-[min(70vh,640px)] items-center justify-center bg-muted/20 p-4 sm:min-h-[360px] sm:p-6">
-                  <img
+                  <LazyImage
                     src={img.src}
                     alt={img.label}
                     className="max-h-[min(65vh,600px)] w-full object-contain"
-                    loading={idx <= 1 ? "eager" : "lazy"}
+                    priority={idx <= 1}
                   />
                 </div>
                 <div className="border-t border-border/30 bg-gradient-to-t from-foreground/90 to-foreground/75 px-6 py-5 text-white sm:px-8">
@@ -352,7 +353,7 @@ function CommunityGallery() {
               )}
               aria-label={`View ${img.label}`}
             >
-              <img src={img.src} alt="" className="aspect-[4/3] w-full object-cover" />
+              <LazyImage src={img.src} alt="" className="aspect-[4/3] w-full object-cover" />
             </button>
           ))}
         </div>

@@ -5,6 +5,7 @@ import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { useHashScroll } from "@/components/brp/FooterNavLink";
+import { LazyImage } from "@/components/ui/lazy-image";
 import { useRouterState } from "@tanstack/react-router";
 import {
   Cpu,
@@ -204,7 +205,7 @@ function VentureSpotlight({ venture, index }: { venture: PublicVenture; index: n
                   }}
                 >
                   {venture.logo ? (
-                    <img
+                    <LazyImage
                       src={venture.logo}
                       alt={`${venture.name} Logo`}
                       className="max-w-full max-h-full object-contain"
@@ -336,7 +337,7 @@ function VenturesPage() {
                   }}
                 >
                   {v.logo ? (
-                    <img
+                    <LazyImage
                       src={v.logo}
                       alt=""
                       className="w-8 h-8 md:w-10 md:h-10 object-contain opacity-50"

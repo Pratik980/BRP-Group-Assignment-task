@@ -110,12 +110,6 @@ export async function saveHeroVisualCards(cards: any[]) {
 }
 
 export async function uploadHeroImage(file: File) {
-  const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
-  const path = `hero/${Date.now()}_${safeName}`;
-  const { error } = await supabase.storage.from("media").upload(path, file, {
-    cacheControl: "3600",
-  });
-  if (error) throw error;
-  const { data } = supabase.storage.from("media").getPublicUrl(path);
-  return data.publicUrl;
+  const { uploadMediaFile } = await import("@/lib/admin/media-upload");
+  return uploadMediaFile(file, "hero");
 }

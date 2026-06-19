@@ -1,22 +1,42 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
 import { Nav } from "@/components/brp/Nav";
 import { Hero } from "@/components/brp/Hero";
-import { VenturesEcosystem } from "@/components/brp/VenturesEcosystem";
-import { StoryPanels } from "@/components/brp/StoryPanels";
-import { Values } from "@/components/brp/Values";
-import { CTA } from "@/components/brp/CTA";
-import { Footer } from "@/components/brp/Footer";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
-import { ScrollTickers } from "@/components/brp/ScrollTickers";
-import { CorporateGallery } from "@/components/brp/CorporateGallery";
+import { LazyImage } from "@/components/ui/lazy-image";
 import { motion } from "framer-motion";
 import { Sparkles, ArrowRight, Target, Compass } from "lucide-react";
 import { resolveCommunityIntro, resolveVisionMission } from "@/lib/cms/about-content";
-import { usePublicAboutSections } from "@/hooks/usePublicContent";
+import { prefetchPublicHeroContent, usePublicAboutSections } from "@/hooks/usePublicContent";
 import aboutSideImg from "@/assets/optimized/Brp-Group-1200.webp";
 import { splitSlideIn, slideEase } from "@/lib/alternate-slide";
 
+const ScrollTickers = lazy(() =>
+  import("@/components/brp/ScrollTickers").then((m) => ({ default: m.ScrollTickers })),
+);
+const VenturesEcosystem = lazy(() =>
+  import("@/components/brp/VenturesEcosystem").then((m) => ({ default: m.VenturesEcosystem })),
+);
+const StoryPanels = lazy(() =>
+  import("@/components/brp/StoryPanels").then((m) => ({ default: m.StoryPanels })),
+);
+const CorporateGallery = lazy(() =>
+  import("@/components/brp/CorporateGallery").then((m) => ({ default: m.CorporateGallery })),
+);
+const Values = lazy(() => import("@/components/brp/Values").then((m) => ({ default: m.Values })));
+const CTA = lazy(() => import("@/components/brp/CTA").then((m) => ({ default: m.CTA })));
+const Footer = lazy(() => import("@/components/brp/Footer").then((m) => ({ default: m.Footer })));
+
+function DeferredSection({ children, minHeight = "12rem" }: { children: React.ReactNode; minHeight?: string }) {
+  return (
+    <Suspense fallback={<div aria-hidden className="w-full" style={{ minHeight }} />}>
+      {children}
+    </Suspense>
+  );
+}
+
 export const Route = createFileRoute("/")({
+  loader: ({ context }) => prefetchPublicHeroContent(context.queryClient),
   head: () => ({
     meta: [
       { title: "BRP Group — Building Nepal's Future Through Diversified Ventures" },
@@ -70,7 +90,7 @@ function IntroSection() {
               >
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
                 <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-muted/10">
-                  <img
+                  <LazyImage
                     src={aboutSideImg}
                     alt="BRP Group — building Nepal's future through diversified ventures"
                     className="w-full h-auto max-h-[200px] sm:max-h-[260px] lg:max-h-[300px] object-contain"
@@ -196,13 +216,27 @@ function Index() {
       <div className="relative z-10 bg-background">
         <ThemeBackdrop variant="page" className="opacity-60" />
         <div className="relative z-10">
-          <ScrollTickers />
-          <VenturesEcosystem />
-          <StoryPanels />
-          <CorporateGallery />
-          <Values />
-          <CTA />
-          <Footer />
+          <DeferredSection minHeight="4rem">
+            <ScrollTickers />
+          </DeferredSection>
+          <DeferredSection minHeight="28rem">
+            <VenturesEcosystem />
+          </DeferredSection>
+          <DeferredSection minHeight="24rem">
+            <StoryPanels />
+          </DeferredSection>
+          <DeferredSection minHeight="20rem">
+            <CorporateGallery />
+          </DeferredSection>
+          <DeferredSection minHeight="16rem">
+            <Values />
+          </DeferredSection>
+          <DeferredSection minHeight="14rem">
+            <CTA />
+          </DeferredSection>
+          <DeferredSection minHeight="10rem">
+            <Footer />
+          </DeferredSection>
         </div>
       </div>
     </main>

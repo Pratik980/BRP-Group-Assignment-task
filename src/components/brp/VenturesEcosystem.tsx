@@ -9,6 +9,7 @@ import { usePublicImpactStats } from "@/hooks/usePublicContent";
 import { usePublicVentures } from "@/hooks/usePublicVentures";
 import brpVenturesLogo from "@/assets/optimized/logo-BRP.webp";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const AUTO_ROTATE_MS = 6000;
@@ -27,7 +28,7 @@ function VentureLogo({ src, className }: { src: string; className?: string }) {
       </span>
     );
   }
-  return <img src={src} alt="" className={className} />;
+  return <LazyImage src={src} alt="" className={className} />;
 }
 
 function VentureDetailPanel({

@@ -65,17 +65,8 @@ export async function deleteVenture(id: string) {
 }
 
 export async function uploadVentureImage(file: File) {
-  const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
-  const path = `ventures/${Date.now()}_${safeName}`;
-
-  const { error } = await supabase.storage.from("media").upload(path, file, {
-    cacheControl: "3600",
-    upsert: false,
-  });
-  if (error) throw error;
-
-  const { data } = supabase.storage.from("media").getPublicUrl(path);
-  return data.publicUrl;
+  const { uploadMediaFile } = await import("@/lib/admin/media-upload");
+  return uploadMediaFile(file, "ventures");
 }
 
 export function ventureToFormValues(venture: VentureRow): VentureFormValues {

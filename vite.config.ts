@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [
-      TanStackRouterVite(),
+      TanStackRouterVite({ autoCodeSplitting: true }),
       tailwind(),
       react(),
       shouldAnalyze && visualizer({ filename: "dist/bundle-stats.html", open: false }),

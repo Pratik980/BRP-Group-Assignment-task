@@ -3,6 +3,7 @@ import { Linkedin, Mail } from "lucide-react";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 import { siteMeta } from "@/data/brp-site-content";
 import { usePublicExecutiveTeam, usePublicSiteMeta } from "@/hooks/usePublicContent";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 type LeadershipProps = {
   title?: string;
@@ -42,7 +43,7 @@ export function Leadership({ title = "Our Executive Team" }: LeadershipProps) {
               >
                 <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-muted shadow-sm sm:aspect-[265/300] lg:aspect-[400/450]">
                   {leader.photo_url ? (
-                    <img
+                    <LazyImage
                       src={leader.photo_url}
                       alt={leader.full_name}
                       className="h-full w-full object-cover object-top"

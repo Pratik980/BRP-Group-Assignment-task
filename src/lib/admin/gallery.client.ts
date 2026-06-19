@@ -36,14 +36,8 @@ export async function saveGallery(images: GalleryImage[]) {
 }
 
 export async function uploadGalleryImage(file: File) {
-  const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
-  const path = `gallery/${Date.now()}_${safeName}`;
-  const { error } = await supabase.storage.from("media").upload(path, file, {
-    cacheControl: "3600",
-  });
-  if (error) throw error;
-  const { data } = supabase.storage.from("media").getPublicUrl(path);
-  return data.publicUrl;
+  const { uploadMediaFile } = await import("@/lib/admin/media-upload");
+  return uploadMediaFile(file, "gallery");
 }
 
 export async function deleteGalleryStorageImage(url: string) {

@@ -92,14 +92,8 @@ export function toFormValues(row: CommunityPageRow | null): CommunityFormValues 
 }
 
 export async function uploadGalleryImage(file: File) {
-  const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
-  const path = `community/${Date.now()}_${safeName}`;
-  const { error } = await supabase.storage
-    .from("media")
-    .upload(path, file, { cacheControl: "3600" });
-  if (error) throw error;
-  const { data } = supabase.storage.from("media").getPublicUrl(path);
-  return data.publicUrl;
+  const { uploadMediaFile } = await import("@/lib/admin/media-upload");
+  return uploadMediaFile(file, "community");
 }
 
 export async function saveCommunityPage(values: CommunityFormValues) {

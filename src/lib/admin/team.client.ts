@@ -130,14 +130,8 @@ export async function deleteTeamMember(id: string) {
 }
 
 export async function uploadTeamPhoto(file: File) {
-  const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
-  const path = `team/${Date.now()}_${safeName}`;
-  const { error } = await supabase.storage
-    .from("media")
-    .upload(path, file, { cacheControl: "3600" });
-  if (error) throw error;
-  const { data } = supabase.storage.from("media").getPublicUrl(path);
-  return data.publicUrl;
+  const { uploadMediaFile } = await import("@/lib/admin/media-upload");
+  return uploadMediaFile(file, "team");
 }
 
 export function teamToFormValues(member: TeamMember): TeamFormValues {
