@@ -829,23 +829,20 @@
 
   @media (max-width: 1023px) {
     .hero-parallax-track {
-      height: auto;
+      height: 200svh;
     }
 
     .hero-parallax-sticky {
-      position: relative;
-      top: auto;
-      height: auto;
-      overflow: visible;
-    }
-
-    .hero-parallax-track + .z-5 {
-      margin-top: 0 !important;
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      overflow: hidden;
+      isolation: isolate;
     }
 
     .intro-parallax-track {
       height: auto;
-      margin-top: 0;
+      margin-top: -100svh;
       border-radius: 2rem 2rem 0 0;
       box-shadow: 0 -12px 36px rgba(0, 0, 0, 0.12);
     }
