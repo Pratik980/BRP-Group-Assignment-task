@@ -1,7 +1,5 @@
 import logo from "@/assets/optimized/BRPGrouplogo.png";
-import { ArrowUp, Mail, Linkedin, Facebook, Instagram, Send, Phone, MapPin } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
+import { ArrowUp, Mail, Linkedin, Facebook, Instagram, Phone, MapPin } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { usePublicVentures } from "@/hooks/usePublicVentures";
 import { usePublicSiteMeta } from "@/hooks/usePublicContent";
@@ -83,66 +81,11 @@ function SocialRow({
   );
 }
 
-function NewsletterBlock({
-  email,
-  setEmail,
-  onSubmit,
-  headingId,
-  compact,
-}: {
-  email: string;
-  setEmail: (v: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
-  headingId?: string;
-  compact?: boolean;
-}) {
-  return (
-    <>
-      <FooterHeading id={headingId}>Newsletter</FooterHeading>
-      {!compact && (
-        <p className="mt-3 text-sm font-light leading-[1.65] text-muted-foreground">
-          Corporate insights, announcements, and venture progress — delivered to your inbox.
-        </p>
-      )}
-      <form onSubmit={onSubmit} className={cn("space-y-3", compact ? "mt-3" : "mt-5")}>
-        <div className="relative">
-          <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/55" />
-          <input
-            type="email"
-            placeholder="you@company.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="h-12 w-full rounded-xl border border-border/60 bg-background pl-11 pr-4 text-sm text-foreground outline-none transition-all placeholder:text-muted-foreground/45 focus:border-primary focus:shadow-[0_0_0_3px_oklch(0.55_0.12_275/0.1)]"
-          />
-        </div>
-        <button
-          type="submit"
-          className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-foreground text-sm font-medium text-background transition-opacity hover:opacity-90 active:scale-[0.99]"
-        >
-          <Send className="h-4 w-4" />
-          Subscribe
-        </button>
-      </form>
-    </>
-  );
-}
-
 export function Footer() {
   useHashScroll();
   const { data: ventures = [] } = usePublicVentures();
   const { data: siteMetaLive = siteMeta } = usePublicSiteMeta();
   const socialLinks = useFooterSocialLinks(siteMetaLive);
-  const [email, setEmail] = useState("");
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      toast.error("Please enter a valid email address.");
-      return;
-    }
-    toast.info("Newsletter signup is coming soon — thank you for your interest.");
-    setEmail("");
-  };
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -254,19 +197,6 @@ export function Footer() {
             </div>
           </section>
 
-          {/* Newsletter */}
-          <section
-            className="rounded-2xl border border-border/40 bg-secondary/15 px-4 py-5"
-            aria-labelledby="footer-newsletter-mobile"
-          >
-            <NewsletterBlock
-              email={email}
-              setEmail={setEmail}
-              onSubmit={handleSubscribe}
-              headingId="footer-newsletter-mobile"
-              compact
-            />
-          </section>
         </div>
 
         {/* ——— Desktop layout ——— */}
@@ -323,7 +253,7 @@ export function Footer() {
           </div>
 
           <div className="md:col-span-2">
-            <NewsletterBlock email={email} setEmail={setEmail} onSubmit={handleSubscribe} />
+            <FooterHeading className="mb-5">Contact</FooterHeading>
             <p className="mt-5 text-sm text-muted-foreground">
               <a
                 href={`mailto:${siteMetaLive.email}`}

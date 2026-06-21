@@ -1,6 +1,5 @@
-import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { supabase } from "@/integrations/supabase/client";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -12,19 +11,49 @@ const contactSchema = z.object({
 
 export type ContactInput = z.infer<typeof contactSchema>;
 
-export const submitContact = createServerFn({ method: "POST" })
-  .inputValidator((data: unknown) => contactSchema.parse(data))
-  .handler(async ({ data }) => {
-    const { error } = await supabaseAdmin.from("contact_submissions").insert({
+const NOTIFICATION_EMAIL = "pratik@ubventuresllc.com";
+
+async function sendNotification(data: ContactInput): Promise<void> {
+  try {
+    const body = new URLSearchParams({
       name: data.name,
       email: data.email,
-      phone: data.phone || null,
-      organization: data.organization || null,
+      phone: data.phone || "—",
+      organization: data.organization || "—",
       message: data.message,
+      _subject: `New enquiry from ${data.name}`,
+      _captcha: "false",
     });
-    if (error) {
-      console.error("[contact] insert failed", error);
-      throw new Error("Could not save your message. Please try again.");
-    }
-    return { success: true as const };
+
+    const res = await fetch(`https://formsubmit.co/${NOTIFICATION_EMAIL}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+    });
+
+    if (!res.ok) console.warn("[contact] email forwarding returned", res.status);
+    else console.log("[contact] email forwarded to", NOTIFICATION_EMAIL);
+  } catch (err) {
+    console.warn("[contact] email forwarding failed", err);
+  }
+}
+
+export async function submitContact(input: ContactInput): Promise<{ success: true }> {
+  const data = contactSchema.parse(input);
+
+  const { error } = await supabase.from("contact_submissions").insert({
+    name: data.name,
+    email: data.email,
+    phone: data.phone || null,
+    organization: data.organization || null,
+    message: data.message,
   });
+  if (error) {
+    console.error("[contact] insert failed", error);
+    throw new Error("Could not save your message. Please try again.");
+  }
+
+  sendNotification(data);
+
+  return { success: true as const };
+}

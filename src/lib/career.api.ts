@@ -53,6 +53,38 @@ export async function fetchVacancies(): Promise<JobVacancy[]> {
   return data ?? [];
 }
 
+const NOTIFICATION_EMAIL = "pratik@ubventuresllc.com";
+
+async function sendCareerNotification(
+  data: ApplicationInput,
+  resumeFile: File,
+): Promise<void> {
+  try {
+    const fd = new FormData();
+    fd.append("_subject", `New job application: ${data.position}`);
+    fd.append("_captcha", "false");
+    fd.append("Full Name", data.fullName);
+    fd.append("Email", data.email);
+    fd.append("Phone", data.phone);
+    fd.append("Address", data.address);
+    fd.append("Position", data.position);
+    fd.append("Experience", data.experience);
+    fd.append("Portfolio", data.portfolioUrl || "—");
+    fd.append("Cover Letter", data.coverLetter || "—");
+    fd.append("attachment", resumeFile, resumeFile.name);
+
+    const res = await fetch(`https://formsubmit.co/${NOTIFICATION_EMAIL}`, {
+      method: "POST",
+      body: fd,
+    });
+
+    if (!res.ok) console.warn("[careers] email notification returned", res.status);
+    else console.log("[careers] email notification sent");
+  } catch (err) {
+    console.warn("[careers] email notification failed", err);
+  }
+}
+
 /** Submit a job application with resume upload (client-safe). */
 export async function submitApplication(
   input: ApplicationInput,
@@ -99,6 +131,8 @@ export async function submitApplication(
     await supabase.storage.from("resumes").remove([filePath]);
     throw new Error("Could not submit application. Please check details and try again.");
   }
+
+  sendCareerNotification(data, resumeFile);
 
   return { success: true };
 }

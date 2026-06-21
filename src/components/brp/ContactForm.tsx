@@ -34,13 +34,11 @@ export function ContactForm() {
     setLoading(true);
     try {
       await submitContact({
-        data: {
-          name: data.name.trim(),
-          email: data.email.trim(),
-          phone: data.phone.trim(),
-          organization: data.organization.trim(),
-          message: data.message.trim(),
-        },
+        name: data.name.trim(),
+        email: data.email.trim(),
+        phone: data.phone.trim(),
+        organization: data.organization.trim(),
+        message: data.message.trim(),
       });
 
       setDone(true);
