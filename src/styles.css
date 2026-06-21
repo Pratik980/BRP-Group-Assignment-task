@@ -829,19 +829,23 @@
 
   @media (max-width: 1023px) {
     .hero-parallax-track {
-      height: 180svh;
+      height: auto;
     }
 
     .hero-parallax-sticky {
-      position: sticky;
-      top: 0;
-      height: 100svh;
-      overflow: hidden;
+      position: relative;
+      top: auto;
+      height: auto;
+      overflow: visible;
+    }
+
+    .hero-parallax-track + .z-5 {
+      margin-top: 0 !important;
     }
 
     .intro-parallax-track {
       height: auto;
-      margin-top: -100svh;
+      margin-top: 0;
       border-radius: 2rem 2rem 0 0;
       box-shadow: 0 -12px 36px rgba(0, 0, 0, 0.12);
     }
@@ -1394,6 +1398,44 @@
   max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* === Mobile-first responsive utilities === */
+
+/* Small phone optimizations (≤400px) */
+@media (max-width: 400px) {
+  .brp-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .hero-theme .hero-theme__hub--network {
+    width: 3.5rem !important;
+    height: 3.5rem !important;
+  }
+
+  .hero-theme .hero-venture-link > div {
+    width: 2.8rem !important;
+    height: 2.8rem !important;
+  }
+
+  .hero-venture-link .hero-theme__venture-logo--network,
+  .hero-venture-link svg,
+  .hero-venture-link .tech-grid {
+    transform: scale(0.75);
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-theme .hero-theme__hub--network {
+    width: 3rem !important;
+    height: 3rem !important;
+  }
+
+  .hero-theme .hero-venture-link > div {
+    width: 2.4rem !important;
+    height: 2.4rem !important;
+  }
 }
 
 /* === Admin Panel Styles === */

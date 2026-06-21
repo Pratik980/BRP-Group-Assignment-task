@@ -215,7 +215,7 @@ function CareersPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="font-display text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-foreground"
+              className="font-display text-3xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-foreground"
             >
               Work with <span className="text-gradient italic">BRP Group</span>
             </motion.h1>

@@ -34,7 +34,7 @@ export function AnimatedTagline() {
         <AnimatePresence mode="wait">
           <motion.h2
             key={phrases[index]}
-            className="font-display text-4xl md:text-5xl text-center text-foreground bg-clip-text text-transparent bg-gradient-to-r from-primary via-pink-500 to-secondary"
+            className="font-display text-2xl sm:text-3xl md:text-5xl text-center text-foreground bg-clip-text text-transparent bg-gradient-to-r from-primary via-pink-500 to-secondary"
             variants={variants}
             initial="enter"
             animate="center"

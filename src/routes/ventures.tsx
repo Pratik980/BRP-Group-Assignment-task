@@ -185,12 +185,12 @@ function VentureSpotlight({ venture, index }: { venture: PublicVenture; index: n
           >
             {/* Logo Section — Colored gradient background */}
             <div
-              className="relative flex items-center justify-center lg:w-[38%] p-10 lg:p-16 overflow-hidden"
+              className="relative flex items-center justify-center lg:w-[38%] p-6 sm:p-10 lg:p-16 overflow-hidden"
               style={{ background: venture.themeColor }}
             >
               {/* Decorative circles */}
-              <div className="absolute top-0 right-0 w-40 h-40 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/2" />
-              <div className="absolute bottom-0 left-0 w-32 h-32 rounded-full bg-white/5 translate-y-1/2 -translate-x-1/2" />
+              <div className="absolute top-0 right-0 w-32 sm:w-40 h-32 sm:h-40 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute bottom-0 left-0 w-24 sm:w-32 h-24 sm:h-32 rounded-full bg-white/5 translate-y-1/2 -translate-x-1/2" />
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,0,0,0.04)_100%)]" />
 
               <motion.div
@@ -199,7 +199,7 @@ function VentureSpotlight({ venture, index }: { venture: PublicVenture; index: n
                 className="relative z-10"
               >
                 <div
-                  className="w-40 h-40 lg:w-52 lg:h-52 rounded-3xl bg-white shadow-lg border border-white/80 flex items-center justify-center p-5 select-none"
+                  className="w-28 h-28 sm:w-40 sm:h-40 lg:w-52 lg:h-52 rounded-2xl sm:rounded-3xl bg-white shadow-lg border border-white/80 flex items-center justify-center p-3 sm:p-5 select-none"
                   style={{
                     boxShadow: `0 20px 60px -15px ${venture.themeColor}, 0 8px 25px -8px rgba(0,0,0,0.1)`,
                   }}
@@ -220,7 +220,7 @@ function VentureSpotlight({ venture, index }: { venture: PublicVenture; index: n
             </div>
 
             {/* Content Section */}
-            <div className="flex-1 flex flex-col justify-center p-8 lg:p-14">
+            <div className="flex-1 flex flex-col justify-center p-5 sm:p-8 lg:p-14">
               {/* Category pill */}
               <div className="flex items-center gap-2 mb-4">
                 <span
@@ -304,7 +304,7 @@ function VenturesPage() {
       <Nav />
       <div className="relative z-10">
         {/* ═══ HERO BANNER ═══ */}
-        <section className="relative py-28 md:py-40 overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background">
+          <section className="relative py-20 sm:py-28 md:py-40 overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background">
           <ThemeBackdrop variant="hero" />
 
           {/* Floating venture logos behind hero text */}
@@ -321,29 +321,29 @@ function VenturesPage() {
               ];
               const pos = positions[i % positions.length];
               return (
-                <motion.div
-                  key={v.name}
-                  className="absolute w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/20 shadow-sm flex items-center justify-center"
-                  style={pos as React.CSSProperties}
-                  animate={{
-                    y: [0, -12, 0],
-                    rotate: [0, 3, -3, 0],
-                  }}
-                  transition={{
-                    duration: 5 + i * 0.7,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: i * 0.4,
-                  }}
-                >
-                  {v.logo ? (
-                    <LazyImage
-                      src={v.logo}
-                      alt=""
-                      className="w-8 h-8 md:w-10 md:h-10 object-contain opacity-50"
-                    />
-                  ) : null}
-                </motion.div>
+                  <motion.div
+                      key={v.name}
+                      className="absolute max-sm:hidden w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/20 shadow-sm flex items-center justify-center"
+                      style={pos as React.CSSProperties}
+                      animate={{
+                        y: [0, -12, 0],
+                        rotate: [0, 3, -3, 0],
+                      }}
+                      transition={{
+                        duration: 5 + i * 0.7,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: i * 0.4,
+                      }}
+                    >
+                      {v.logo ? (
+                        <LazyImage
+                          src={v.logo}
+                          alt=""
+                          className="w-8 h-8 md:w-10 md:h-10 object-contain opacity-50"
+                        />
+                      ) : null}
+                    </motion.div>
               );
             })}
           </div>
@@ -358,7 +358,7 @@ function VenturesPage() {
                 <Sparkles className="h-3 w-3 text-primary animate-pulse" />
                 Corporate Portfolio
               </span>
-              <h1 className="font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+              <h1 className="font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
                 Interconnected <span className="text-gradient italic">Ventures</span>
               </h1>
               <p className="mx-auto mt-6 max-w-3xl text-balance text-base font-light leading-relaxed text-muted-foreground md:text-lg">
@@ -393,20 +393,20 @@ function VenturesPage() {
                 const Icon = cat.icon;
                 const isActive = activeCategory === cat.key;
                 return (
-                  <motion.button
-                    key={cat.key}
-                    onClick={() => setActiveCategory(cat.key)}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: idx * 0.08, duration: 0.5 }}
-                    whileHover={{ scale: 1.06, y: -3 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`relative flex flex-col items-center gap-2.5 px-6 py-5 rounded-2xl border transition-all duration-400 select-none min-w-[130px] ${
-                      isActive
-                        ? "border-primary/40 bg-primary/5 shadow-lg"
-                        : "border-border/30 bg-white/50 dark:bg-white/5 hover:border-border/60 hover:bg-white/80 dark:hover:bg-white/10 shadow-sm"
-                    }`}
+                    <motion.button
+                      key={cat.key}
+                      onClick={() => setActiveCategory(cat.key)}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.08, duration: 0.5 }}
+                      whileHover={{ scale: 1.06, y: -3 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`relative flex flex-col items-center gap-2 max-sm:gap-1.5 px-4 sm:px-6 py-3 sm:py-5 rounded-2xl border transition-all duration-400 select-none min-w-[100px] sm:min-w-[130px] ${
+                        isActive
+                          ? "border-primary/40 bg-primary/5 shadow-lg"
+                          : "border-border/30 bg-white/50 dark:bg-white/5 hover:border-border/60 hover:bg-white/80 dark:hover:bg-white/10 shadow-sm"
+                      }`}
                   >
                     {isActive && (
                       <motion.div

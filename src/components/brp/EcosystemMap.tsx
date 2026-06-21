@@ -1,4 +1,3 @@
-// src/components/brp/EcosystemMap.tsx
 import { motion } from "framer-motion";
 import { useMemo } from "react";
 import brpVenturesLogo from "@/assets/optimized/logo-BRP.webp";
@@ -9,22 +8,23 @@ import ubVenturesLogo from "@/assets/optimized/uv-ventures.webp";
 import brpToursLogo from "@/assets/optimized/Brp-tours-and-travel.webp";
 
 const ventures = [
-  { title: "Reddot", logo: reddotLogo, angle: 0 },
-  { title: "Small Heaven School", logo: shsLogo, angle: 60 },
-  { title: "Satin Leaf Investment", logo: satinLeafLogo, angle: 120 },
-  { title: "B.R.P. Ventures", logo: brpVenturesLogo, angle: 180 },
-  { title: "U.B. Ventures", logo: ubVenturesLogo, angle: 240 },
-  { title: "BRP Tours & Travels", logo: brpToursLogo, angle: 300 },
+  { title: "Reddot", logo: reddotLogo },
+  { title: "Small Heaven School", logo: shsLogo },
+  { title: "Satin Leaf Investment", logo: satinLeafLogo },
+  { title: "B.R.P. Ventures", logo: brpVenturesLogo },
+  { title: "U.B. Ventures", logo: ubVenturesLogo },
+  { title: "BRP Tours & Travels", logo: brpToursLogo },
 ];
 
 export function EcosystemMap() {
-  const radius = 240; // distance from centre
+  const radius = 240;
   const centerSize = 120;
 
   const positioned = useMemo(
     () =>
-      ventures.map((v) => {
-        const rad = (v.angle * Math.PI) / 180;
+      ventures.map((v, i) => {
+        const angle = i * 60;
+        const rad = (angle * Math.PI) / 180;
         return {
           ...v,
           x: radius * Math.cos(rad),
@@ -35,21 +35,20 @@ export function EcosystemMap() {
   );
 
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden bg-background">
-      {/* Subtle background glow */}
+    <section className="relative py-16 sm:py-24 md:py-32 overflow-hidden bg-background">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.88_0.08_240/0.12),transparent_70%)] pointer-events-none" />
 
-      <div className="mx-auto max-w-5xl px-6 relative flex justify-center items-center h-[600px]">
-        {/* Central BRP hub */}
+      {/* ─── Desktop orbital layout (sm+) ─── */}
+      <div className="hidden sm:flex mx-auto max-w-5xl px-6 relative justify-center items-center h-[600px]">
         <motion.div
-          className="relative flex items-center justify-center w-[${centerSize}px] h-[${centerSize}px] rounded-full bg-white shadow-glass border border-border/30"
+          className="relative flex items-center justify-center rounded-full bg-white shadow-glass border border-border/30"
+          style={{ width: centerSize, height: centerSize }}
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
         >
           <img src={brpVenturesLogo} alt="BRP" className="w-full h-full object-contain p-3" />
         </motion.div>
 
-        {/* Orbiting venture icons */}
         {positioned.map((v) => (
           <motion.div
             key={v.title}
@@ -61,6 +60,24 @@ export function EcosystemMap() {
             <img src={v.logo} alt={v.title} className="w-20 h-20 object-contain" />
           </motion.div>
         ))}
+      </div>
+
+      {/* ─── Mobile grid layout (≤sm) ─── */}
+      <div className="sm:hidden mx-auto max-w-sm px-4">
+        <div className="grid grid-cols-2 gap-3">
+          {ventures.map((v) => (
+            <motion.div
+              key={v.title}
+              className="flex items-center gap-3 rounded-xl bg-white shadow-sm border border-border/20 p-3"
+              whileTap={{ scale: 0.97 }}
+            >
+              <div className="w-12 h-12 shrink-0 flex items-center justify-center rounded-lg bg-white border border-border/10 p-1.5">
+                <img src={v.logo} alt={v.title} className="w-full h-full object-contain" />
+              </div>
+              <span className="text-xs font-medium text-foreground leading-tight">{v.title}</span>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

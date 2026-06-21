@@ -55,7 +55,7 @@ function AboutPage() {
       <Nav />
       <div className="relative z-10">
         {/* Hero — text left, photo right (no full-width background) */}
-        <section className="relative overflow-hidden border-b border-border/30 bg-gradient-to-b from-secondary/50 via-background to-background pt-24 pb-14 sm:pt-28 sm:pb-16 md:pt-32 md:pb-24">
+        <section className="relative overflow-hidden border-b border-border/30 bg-gradient-to-b from-secondary/50 via-background to-background pt-20 pb-10 sm:pt-28 sm:pb-16 md:pt-32 md:pb-24">
           <ThemeBackdrop variant="hero" />
           <div className="relative z-10 brp-container">
             <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16 xl:gap-20">
@@ -67,10 +67,10 @@ function AboutPage() {
                 <span className="glass mb-4 inline-flex rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-primary shadow-sm">
                   Who We Are
                 </span>
-                <h1 className="font-display text-4xl leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl xl:text-7xl">
+                <h1 className="font-display text-3xl leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl xl:text-7xl">
                   {aboutUs.heroTitle}
                 </h1>
-                <div className="mt-6 space-y-4 text-sm font-light leading-relaxed text-muted-foreground md:text-base xl:text-lg">
+                <div className="mt-4 sm:mt-6 space-y-3 sm:space-y-4 text-sm font-light leading-relaxed text-muted-foreground md:text-base xl:text-lg">
                   {communityIntro.map((p) => (
                     <p key={p.slice(0, 40)}>{p}</p>
                   ))}

@@ -122,7 +122,7 @@ export function Values() {
 
                   {/* Detail — always visible on touch; expand on hover for desktop */}
                   <div className="mt-4 max-h-40 border-t border-border/10 pt-3 opacity-100 md:max-h-0 md:border-transparent md:pt-0 md:opacity-0 md:transition-all md:duration-500 md:ease-in-out md:group-hover:max-h-40 md:group-hover:border-border/10 md:group-hover:pt-3 md:group-hover:opacity-100">
-                    <p className="text-xs font-light leading-relaxed text-muted-foreground">
+                    <p className="text-xs font-light leading-relaxed text-muted-foreground line-clamp-3 md:line-clamp-none">
                       {v.detail}
                     </p>
                   </div>

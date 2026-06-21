@@ -167,7 +167,7 @@ export function CTA() {
               <iframe
                 title="BRP Group Office Location"
                 src="https://www.openstreetmap.org/export/embed.html?bbox=85.326657%2C27.721054%2C85.333969%2C27.725054&layer=mapnik&marker=27.723054%2C85.3303128"
-                className="h-44 w-full border-0 sm:h-48"
+                className="h-36 sm:h-44 w-full border-0 sm:h-48"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />

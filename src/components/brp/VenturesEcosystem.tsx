@@ -65,8 +65,8 @@ function VentureDetailPanel({
 
       <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/8 opacity-100 blur-3xl" />
 
-      <div className="relative flex flex-1 flex-col p-6 sm:p-8 md:p-10">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      <div className="relative flex flex-1 flex-col p-5 sm:p-8 md:p-10">
+        <div className="flex flex-col gap-4 sm:gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
@@ -78,7 +78,7 @@ function VentureDetailPanel({
               </span>
             </div>
 
-            <h3 className="font-display mt-4 text-3xl tracking-tight text-foreground sm:text-4xl md:text-[2.75rem] md:leading-[1.1]">
+            <h3 className="font-display mt-3 sm:mt-4 text-2xl tracking-tight text-foreground sm:text-4xl md:text-[2.75rem] md:leading-[1.1]">
               {venture.name}
             </h3>
             <p className="mt-2 text-sm font-medium text-muted-foreground">{venture.desc}</p>
@@ -170,7 +170,7 @@ export function VenturesEcosystem() {
   return (
     <section
       id="ecosystem"
-      className="relative overflow-hidden bg-gradient-to-b from-secondary/30 via-background to-background py-24 md:py-32"
+      className="relative overflow-hidden bg-gradient-to-b from-secondary/30 via-background to-background py-16 sm:py-24 md:py-32"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -199,7 +199,7 @@ export function VenturesEcosystem() {
             <Network className="h-3.5 w-3.5" />
             The Ecosystem
           </div>
-          <h2 className="font-display text-4xl leading-[1.08] tracking-tight text-balance text-foreground md:text-5xl lg:text-6xl xl:text-7xl">
+          <h2 className="font-display text-3xl leading-[1.08] tracking-tight text-balance text-foreground sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
             An interconnected network of <span className="text-gradient italic">ventures</span>{" "}
             driving innovation and growth.
           </h2>

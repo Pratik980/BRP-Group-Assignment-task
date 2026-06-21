@@ -63,7 +63,7 @@ function IntroSection() {
   const { vision, mission } = resolveVisionMission(aboutSections);
 
   return (
-    <section className="intro-section relative overflow-x-hidden bg-gradient-to-b from-background via-secondary to-background py-8 sm:py-10 lg:py-12">
+    <section className="intro-section relative overflow-x-hidden bg-gradient-to-b from-background via-secondary to-background py-6 sm:py-10 lg:py-12">
       <ThemeBackdrop variant="subtle" />
       <div className="relative z-10 brp-container">
         <div className="grid gap-8 lg:gap-10 xl:gap-12 lg:grid-cols-12 items-start lg:items-center">
@@ -74,7 +74,7 @@ function IntroSection() {
                 <Sparkles className="h-3 w-3 text-primary shrink-0 mr-1.5" />
                 About Us
               </div>
-              <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.05] tracking-tight text-foreground">
+              <h2 className="font-display text-2xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.05] tracking-tight text-foreground">
                 Who We <span className="text-gradient italic">Are</span>
               </h2>
             </motion.div>
@@ -147,7 +147,7 @@ function IntroSection() {
         </div>
 
         {/* Vision & Mission — avoid opacity-only whileInView; covered by parallax on short laptops */}
-        <div className="mt-10 sm:mt-12 lg:mt-14 pt-8 sm:pt-10 border-t border-border/30">
+        <div className="mt-8 sm:mt-12 lg:mt-14 pt-6 sm:pt-10 border-t border-border/30">
           <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
             <div className="glass-strong border border-border/40 p-5 sm:p-6 lg:p-7 rounded-2xl sm:rounded-3xl shadow-sm flex flex-col h-full">
               <div className="flex items-center gap-3 mb-3 sm:mb-4">

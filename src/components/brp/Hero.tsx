@@ -425,7 +425,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="hero-theme relative flex min-h-[92svh] w-full flex-col overflow-hidden select-none sm:min-h-[92svh] md:min-h-[92svh] lg:min-h-[93svh] xl:min-h-[94svh] pt-20 sm:pt-24 md:pt-28 lg:pt-28 xl:pt-32"
+      className="hero-theme relative flex min-h-[92svh] w-full flex-col overflow-hidden select-none sm:min-h-[92svh] md:min-h-[92svh] lg:min-h-[93svh] xl:min-h-[94svh] pt-16 sm:pt-24 md:pt-28 lg:pt-28 xl:pt-32"
       style={{
         "--hero-text": heroTextColors.headline_color,
         "--hero-text-muted": heroTextColors.subheadline_color,
@@ -481,7 +481,7 @@ export function Hero() {
       />
 
       {/* ─── Main Content Body ─── */}
-      <div className="relative z-20 mx-auto grid w-full brp-container flex-1 grid-cols-1 items-center gap-4 py-3 sm:gap-6 sm:py-5 md:gap-8 md:py-6 lg:grid-cols-12 lg:gap-8 xl:gap-10">
+      <div className="relative z-20 mx-auto grid w-full brp-container flex-1 grid-cols-1 items-center gap-2 py-2 sm:gap-6 sm:py-5 md:gap-8 md:py-6 lg:grid-cols-12 lg:gap-8 xl:gap-10">
         {/* Left Column content */}
         <div className="flex flex-col items-center justify-center pt-0 text-center lg:col-span-5 lg:items-start lg:text-left">
           <motion.div
@@ -489,7 +489,7 @@ export function Hero() {
             initial={heroMotionInitial(prefersReducedMotion)}
             animate="show"
             variants={textReveal}
-            className="hero-theme__badge mb-4 !text-foreground !border-border !bg-background/50 md:mb-5"
+            className="hero-theme__badge mb-2 sm:mb-4 !text-foreground !border-border !bg-background/50 md:mb-5"
             style={{ textShadow: "none", boxShadow: "none" }}
           >
             <span
@@ -505,7 +505,7 @@ export function Hero() {
             initial={heroMotionInitial(prefersReducedMotion)}
             animate="show"
             variants={textReveal}
-            className="hero-theme__headline font-display max-w-[20ch] text-[clamp(2rem,9vw,2.8rem)] font-bold leading-[1.14] tracking-tight sm:max-w-[22ch] sm:text-[clamp(2.2rem,6vw,3rem)] md:max-w-[24ch] md:text-[clamp(2.5rem,5vw,3.3rem)] lg:max-w-[28ch] lg:text-[clamp(2.7rem,3.5vw,3.5rem)] 2xl:max-w-none 2xl:text-[clamp(3.2rem,3.5vw,4.2rem)] will-change-transform"
+            className="hero-theme__headline font-display max-w-[20ch] text-[clamp(1.5rem,7vw,2.8rem)] font-bold leading-[1.14] tracking-tight sm:max-w-[22ch] sm:text-[clamp(2.2rem,6vw,3rem)] md:max-w-[24ch] md:text-[clamp(2.5rem,5vw,3.3rem)] lg:max-w-[28ch] lg:text-[clamp(2.7rem,3.5vw,3.5rem)] 2xl:max-w-none 2xl:text-[clamp(3.2rem,3.5vw,4.2rem)] will-change-transform"
             style={{ textShadow: "none", color: "var(--hero-text)" }}
             >
             {headlineTop}
@@ -522,7 +522,7 @@ export function Hero() {
             initial={heroMotionInitial(prefersReducedMotion)}
             animate="show"
             variants={textReveal}
-            className="hero-theme__copy mt-3 max-w-xl font-sans text-sm font-normal leading-[1.6] sm:max-w-lg sm:text-[0.95rem] md:text-base md:max-w-xl lg:max-w-lg lg:text-[1rem] 2xl:max-w-xl 2xl:text-lg"
+            className="hero-theme__copy mt-1 sm:mt-3 max-w-xl font-sans text-xs sm:text-sm font-normal leading-[1.5] sm:leading-[1.6] sm:max-w-lg sm:text-[0.95rem] md:text-base md:max-w-xl lg:max-w-lg lg:text-[1rem] 2xl:max-w-xl 2xl:text-lg"
             style={{ textShadow: "none", color: "var(--hero-text-muted)" }}
             >
             {subheadline}
@@ -536,7 +536,7 @@ export function Hero() {
           >
             <a
               href={activeSlide?.cta_url?.trim() || "/ventures"}
-              className="hero-theme__cta group mt-6 md:mt-8"
+              className="hero-theme__cta group mt-2 sm:mt-6 md:mt-8"
               style={{ color: heroTextColors.cta_text_color, background: heroTextColors.cta_bg_color }}
             >
               <span>{activeSlide?.cta_text?.trim() || "Explore Ecosystem"}</span>
@@ -552,9 +552,9 @@ export function Hero() {
           initial={heroMotionInitial(prefersReducedMotion)}
           animate="show"
           variants={networkFrameReveal}
-          className="relative mt-4 flex w-full items-center justify-center lg:col-span-7 lg:mt-0 lg:h-[460px] xl:h-[500px] 2xl:h-[580px] will-change-transform"
+          className="relative mt-2 sm:mt-4 flex w-full items-center justify-center lg:col-span-7 lg:mt-0 lg:h-[460px] xl:h-[500px] 2xl:h-[580px] will-change-transform"
         >
-          <div className="relative aspect-square w-full max-w-[20rem] sm:max-w-[25rem] md:max-w-[28rem] lg:max-w-[30rem] xl:max-w-[34rem] 2xl:max-w-[38rem] mx-auto flex items-center justify-center perspective-[1200px] transform-style-3d">
+          <div className="relative aspect-square w-full max-w-[14rem] sm:max-w-[20rem] md:max-w-[25rem] lg:max-w-[30rem] xl:max-w-[34rem] 2xl:max-w-[38rem] mx-auto flex items-center justify-center perspective-[1200px] transform-style-3d">
             {/* SVG Network Lines */}
             <FuturisticNetworkLines gradientId="futuristicNetworkGradient" prefersReducedMotion={!!prefersReducedMotion} />
 
@@ -580,7 +580,7 @@ export function Hero() {
                   transformStyle: "preserve-3d",
                   transform: tiltTransform(0, 0),
                 }}
-                className="hero-theme__hub hero-theme__hub--network flex items-center justify-center rounded-[1.6rem] sm:rounded-[2rem] md:rounded-[2.2rem] w-[5rem] h-[5rem] sm:w-[6rem] sm:h-[6rem] md:w-[7rem] md:h-[7rem] lg:w-[7.5rem] lg:h-[7.5rem] xl:w-[8rem] xl:h-[8rem]"
+                className="hero-theme__hub hero-theme__hub--network flex items-center justify-center rounded-[1.6rem] sm:rounded-[2rem] md:rounded-[2.2rem] w-[4rem] h-[4rem] sm:w-[6rem] sm:h-[6rem] md:w-[7rem] md:h-[7rem] lg:w-[7.5rem] lg:h-[7.5rem] xl:w-[8rem] xl:h-[8rem]"
               >
                 {/* Glowing Outer Spinning Ring */}
                 {!prefersReducedMotion && (
@@ -625,7 +625,7 @@ export function Hero() {
                     left: `${node.x}%`,
                     top: `${node.y}%`,
                   }}
-                  className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto z-20 w-[4.2rem] h-[4.2rem] sm:w-[5rem] sm:h-[5rem] md:w-[6rem] md:h-[6rem] lg:w-[6.2rem] lg:h-[6.2rem] xl:w-[6.8rem] xl:h-[6.8rem]"
+                  className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto z-20 w-[3.2rem] h-[3.2rem] sm:w-[5rem] sm:h-[5rem] md:w-[6rem] md:h-[6rem] lg:w-[6.2rem] lg:h-[6.2rem] xl:w-[6.8rem] xl:h-[6.8rem]"
                 >
                   <motion.div
                     className="h-full w-full"
@@ -663,7 +663,7 @@ export function Hero() {
                       </div>
 
                       {/* Hover Tooltip Label */}
-                      <div className="absolute bottom-[-2.2rem] left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 text-white text-[9px] px-2 py-0.5 rounded border border-white/10 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 pointer-events-none z-30 font-sans tracking-wide">
+                      <div className="absolute max-sm:top-[-2rem] sm:bottom-[-2.2rem] left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 text-white text-[9px] px-2 py-0.5 rounded border border-white/10 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 pointer-events-none z-30 font-sans tracking-wide">
                         {displayTitle}
                       </div>
                     </div>

@@ -61,10 +61,10 @@ function CommunityHero() {
   const content = resolveCommunityPage(aboutSections);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background py-28 md:py-36">
+    <section className="relative overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background py-20 sm:py-28 md:py-36">
       <ThemeBackdrop variant="hero" />
 
-      <div className="relative z-10 brp-container pt-16 text-center">
+      <div className="relative z-10 brp-container pt-12 sm:pt-16 text-center">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ function CommunityHero() {
             {content.heroTitle}
           </span>
 
-          <h1 className="font-display text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+          <h1 className="font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
             {content.heroHeadline}
           </h1>
 
@@ -271,17 +271,17 @@ function CommunityGallery() {
     <section className="relative overflow-hidden border-t border-border/30 bg-gradient-to-b from-background via-secondary/15 to-background py-16 sm:py-24">
       <ThemeBackdrop variant="subtle" />
       <div className="relative z-10 brp-container">
-        <div className="mb-10 flex flex-col justify-between gap-6 md:mb-12 md:flex-row md:items-end">
+        <div className="mb-6 sm:mb-10 flex flex-col justify-between gap-4 sm:gap-6 md:mb-12 md:flex-row md:items-end">
           <div>
-            <div className="glass mb-4 inline-flex rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground shadow-sm">
+            <div className="glass mb-3 sm:mb-4 inline-flex rounded-full px-3 sm:px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground shadow-sm">
               {content.galleryBadge}
             </div>
-            <h2 className="font-display text-4xl leading-[1.05] tracking-tight md:text-5xl">
+            <h2 className="font-display text-3xl leading-[1.05] tracking-tight sm:text-4xl md:text-5xl">
               {content.galleryTitle}
             </h2>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 self-end">
             <button
               type="button"
               onClick={handlePrev}
@@ -339,7 +339,7 @@ function CommunityGallery() {
           </motion.div>
         </div>
 
-        <div className="mt-5 grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-7 md:gap-3">
+        <div className="mt-5 grid grid-cols-3 gap-1.5 sm:grid-cols-4 md:grid-cols-7 md:gap-3">
           {images.map((img, idx) => (
             <button
               key={img.src + idx}

@@ -89,17 +89,17 @@ function ImageSlider({ images }: { images: string[] }) {
       </AnimatePresence>
       <button
         onClick={prev}
-        className="absolute left-4 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 transition-colors z-20"
+        className="absolute left-2 sm:left-4 flex h-7 w-7 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 transition-colors z-20"
         aria-label="Previous image"
       >
-        <ChevronLeft className="h-5 w-5" />
+        <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
       </button>
       <button
         onClick={next}
-        className="absolute right-4 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 transition-colors z-20"
+        className="absolute right-2 sm:right-4 flex h-7 w-7 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60 transition-colors z-20"
         aria-label="Next image"
       >
-        <ChevronRight className="h-5 w-5" />
+        <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
       </button>
     </div>
   );
@@ -237,9 +237,9 @@ function HistoryPage() {
       <Nav />
       <div className="relative z-10">
         {/* Hero Banner */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background py-20 sm:py-24 md:py-36">
+          <section className="relative overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background py-16 sm:py-24 md:py-36">
           <ThemeBackdrop variant="hero" />
-          <div className="relative z-10 brp-container pt-16 text-center sm:pt-20">
+          <div className="relative z-10 brp-container pt-12 sm:pt-20 text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -249,7 +249,7 @@ function HistoryPage() {
                 <Sparkles className="h-3 w-3 text-primary animate-pulse" />
                 Our Timeline
               </span>
-              <h1 className="font-display text-5xl leading-tight tracking-tight sm:text-6xl md:text-7xl">
+              <h1 className="font-display text-4xl leading-tight tracking-tight sm:text-6xl md:text-7xl">
                 Chronicle of <span className="text-gradient italic">Trust</span>
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-base font-light text-muted-foreground md:text-lg xl:text-xl">
@@ -426,7 +426,7 @@ function MilestoneCard({
         transition={{ duration: 1, delay: index * 0.1 + 0.2 }}
       />
       <motion.div
-        className="glass-strong overflow-hidden rounded-3xl border border-border/40 p-4 shadow-glass sm:p-6 md:p-10"
+        className="glass-strong overflow-hidden rounded-2xl sm:rounded-3xl border border-border/40 p-3 sm:p-6 md:p-10"
         whileHover={reduceMotion ? undefined : { y: -4, transition: { duration: 0.35, ease } }}
       >
         <motion.div
@@ -446,38 +446,38 @@ function RightCardContent({ milestone }: { milestone: (typeof historyMilestones)
   const reduceMotion = useReducedMotion();
 
   return (
-    <motion.div
-      className="flex flex-col gap-5 md:flex-row md:items-start md:gap-8"
-      variants={reduceMotion ? undefined : cardContentVariants}
-      initial={false}
-      whileInView="visible"
-      viewport={{ once: true, margin: "-40px" }}
-    >
       <motion.div
-        className="flex-shrink-0 md:w-48"
-        variants={reduceMotion ? undefined : cardItemVariants}
+        className="flex flex-col gap-4 sm:gap-5 md:flex-row md:items-start md:gap-8"
+        variants={reduceMotion ? undefined : cardContentVariants}
+        initial={false}
+        whileInView="visible"
+        viewport={{ once: true, margin: "-40px" }}
       >
-        <div className="flex items-center gap-3">
-          <motion.div
-            className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary"
-            whileHover={reduceMotion ? undefined : { scale: 1.08, rotate: 4 }}
-            transition={{ type: "spring", stiffness: 400, damping: 18 }}
-          >
-            <milestone.icon className="h-5 w-5" />
-          </motion.div>
-          <div className="min-w-0">
-            <div className="text-xs text-muted-foreground">{milestone.period}</div>
-            <div className="font-display text-lg font-bold text-foreground sm:text-xl">
-              {milestone.title}
+        <motion.div
+          className="flex-shrink-0 md:w-48"
+          variants={reduceMotion ? undefined : cardItemVariants}
+        >
+          <div className="flex items-center gap-2 sm:gap-3">
+            <motion.div
+              className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0"
+              whileHover={reduceMotion ? undefined : { scale: 1.08, rotate: 4 }}
+              transition={{ type: "spring", stiffness: 400, damping: 18 }}
+            >
+              <milestone.icon className="h-4 w-4 sm:h-5 sm:w-5" />
+            </motion.div>
+            <div className="min-w-0">
+              <div className="text-[11px] sm:text-xs text-muted-foreground">{milestone.period}</div>
+              <div className="font-display text-base sm:text-lg font-bold text-foreground sm:text-xl">
+                {milestone.title}
+              </div>
             </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      <motion.div className="flex-1" variants={reduceMotion ? undefined : cardItemVariants}>
-        <div className="mb-4">
+      <motion.div className="flex-1 min-w-0" variants={reduceMotion ? undefined : cardItemVariants}>
+        <div className="mb-3 sm:mb-4">
           <motion.div
-            className="my-2 h-1 w-24 rounded-full bg-[#2A4580]"
+            className="my-2 h-1 w-16 sm:w-24 rounded-full bg-[#2A4580]"
             initial={reduceMotion ? false : { width: 0 }}
             whileInView={{ width: 96 }}
             viewport={{ once: true }}
@@ -485,7 +485,7 @@ function RightCardContent({ milestone }: { milestone: (typeof historyMilestones)
           />
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2 md:gap-6 md:items-start">
+        <div className="grid gap-4 sm:gap-5 md:grid-cols-2 md:gap-6 md:items-start">
           <motion.div variants={reduceMotion ? undefined : cardItemVariants}>
             <p className="text-sm font-light text-muted-foreground text-pretty whitespace-pre-line">
               {milestone.desc}

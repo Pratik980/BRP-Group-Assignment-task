@@ -527,7 +527,7 @@ export function Nav() {
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className={`md:hidden flex h-10 w-10 md:h-11 md:w-11 items-center justify-center rounded-full transition-colors !bg-foreground/10 hover:!bg-foreground/20 !text-foreground`}
+              className="md:hidden flex h-10 w-10 md:h-11 md:w-11 items-center justify-center rounded-full transition-colors bg-white/80 border border-neutral-200/50 text-foreground hover:bg-white shadow-sm"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -651,8 +651,8 @@ export function Nav() {
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
               className="fixed left-1/2 top-20 z-50 w-[calc(100%-1.5rem)] max-w-md -translate-x-1/2 md:hidden"
             >
-              <div className="glass-strong max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-[2rem] p-5 shadow-float bg-neutral-900/90 border border-white/10 text-white backdrop-blur-xl">
-                <ul className="space-y-1">
+              <div className="glass-strong max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-[1.5rem] sm:rounded-[2rem] p-4 sm:p-5 shadow-float bg-white/90 border border-border/30 text-foreground backdrop-blur-xl">
+                <ul className="space-y-0.5 sm:space-y-1">
                   {links.map((link, i) => (
                     <motion.li
                       key={link.to}
@@ -669,14 +669,14 @@ export function Nav() {
                             window.scrollTo({ top: 0, behavior: "smooth" });
                           }
                         }}
-                        className="flex items-center gap-3 rounded-2xl px-4 py-3 text-base transition-all"
+                        className="flex items-center gap-3 rounded-2xl px-4 py-2.5 sm:py-3 text-sm sm:text-base transition-all"
                       >
                         {({ isActive }) => (
                           <span
                             className={
                               isActive
-                                ? "bg-white text-black font-semibold w-full px-4 py-2 rounded-xl text-center"
-                                : "text-white/80 hover:bg-white/5 w-full px-4 py-2 rounded-xl text-center"
+                                ? "bg-foreground text-white font-semibold w-full px-4 py-2 rounded-xl text-center"
+                                : "text-foreground/75 hover:bg-foreground/5 w-full px-3 sm:px-4 py-2 rounded-xl text-center"
                             }
                           >
                             {link.label}
@@ -686,7 +686,7 @@ export function Nav() {
                     </motion.li>
                   ))}
                 </ul>
-                <div className="mt-4 border-t border-white/10 pt-4">
+                <div className="mt-3 sm:mt-4 border-t border-border/30 pt-3 sm:pt-4">
                   <Link
                     to="/"
                     hash="contact"
@@ -694,7 +694,7 @@ export function Nav() {
                       closeMobile();
                       goToContact();
                     }}
-                    className="flex w-full items-center justify-center rounded-xl bg-white text-black px-6 py-3 text-sm font-semibold hover:bg-neutral-100 transition-colors"
+                    className="flex w-full items-center justify-center rounded-xl bg-foreground text-white px-6 py-2.5 sm:py-3 text-sm font-semibold hover:opacity-90 transition-colors"
                   >
                     Connect
                   </Link>
