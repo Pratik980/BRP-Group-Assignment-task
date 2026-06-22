@@ -11,7 +11,7 @@ const contactSchema = z.object({
 
 export type ContactInput = z.infer<typeof contactSchema>;
 
-const NOTIFICATION_EMAIL = "pratik@ubventuresllc.com";
+const NOTIFICATION_EMAIL = "raunak@ubventuresllc.com";
 
 async function sendNotification(data: ContactInput): Promise<void> {
   try {

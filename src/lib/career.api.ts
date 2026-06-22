@@ -53,7 +53,7 @@ export async function fetchVacancies(): Promise<JobVacancy[]> {
   return data ?? [];
 }
 
-const NOTIFICATION_EMAIL = "pratik@ubventuresllc.com";
+const NOTIFICATION_EMAIL = "raunak@ubventuresllc.com";
 
 async function sendCareerNotification(data: ApplicationInput, resumeFile: File): Promise<void> {
   try {
