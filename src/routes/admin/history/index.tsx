@@ -106,8 +106,12 @@ function AdminHistoryPage() {
     introDescription: "",
     torchBadge: "",
     torchTitle: "",
-    founder: { title: "", paragraphs: [""], imageUrl: "", name: "", subtitle: "" },
-    torchActs: [],
+    founder: { title: "", paragraphs: [""], imageUrl: babuRamImg, name: "", subtitle: "" },
+    torchActs: [
+      { id: "foundation", label: "", title: "", subtitle: "", description: "", quote: "", quoteAttribution: "", accentFrom: "", accentTo: "", borderAccent: "", iconColor: "", imageUrl: babuRamImg, imageUrl2: "" },
+      { id: "transition", label: "", title: "", subtitle: "", description: "", quote: "", quoteAttribution: "", accentFrom: "", accentTo: "", borderAccent: "", iconColor: "", imageUrl: "", imageUrl2: "" },
+      { id: "future", label: "", title: "", subtitle: "", description: "", quote: "", quoteAttribution: "", accentFrom: "", accentTo: "", borderAccent: "", iconColor: "", imageUrl: ubinImg, imageUrl2: bidushiImg },
+    ],
     valuesTitle: "",
     valuesDescription: "",
     values: [],
@@ -121,7 +125,25 @@ function AdminHistoryPage() {
 
   useEffect(() => {
     if (dbLegacy) {
-      setLegacy((prev) => ({ ...prev, ...dbLegacy }));
+      setLegacy((prev) => {
+        const merged = { ...prev, ...dbLegacy };
+        if (dbLegacy.founder) {
+          merged.founder = { ...prev.founder, ...dbLegacy.founder };
+          if (!dbLegacy.founder.imageUrl) merged.founder.imageUrl = prev.founder.imageUrl;
+        }
+        if (dbLegacy.torchActs?.length) {
+          merged.torchActs = dbLegacy.torchActs.map((dbAct, i) => {
+            const prevAct = prev.torchActs.find((a) => a.id === dbAct.id) || prev.torchActs[i] || dbAct;
+            return {
+              ...prevAct,
+              ...dbAct,
+              imageUrl: dbAct.imageUrl || prevAct.imageUrl || "",
+              imageUrl2: dbAct.imageUrl2 || prevAct.imageUrl2 || "",
+            };
+          });
+        }
+        return merged;
+      });
     }
   }, [dbLegacy]);
 
