@@ -254,14 +254,26 @@ export function Footer() {
 
           <div className="md:col-span-2">
             <FooterHeading className="mb-5">Contact</FooterHeading>
-            <p className="mt-5 text-sm text-muted-foreground">
-              <a
-                href={`mailto:${siteMetaLive.email}`}
-                className="hover:text-primary transition-colors"
-              >
-                {siteMetaLive.email}
-              </a>
-            </p>
+            <div className="mt-5 space-y-3">
+              <p className="text-sm text-muted-foreground">
+                <a
+                  href={`mailto:${siteMetaLive.email}`}
+                  className="hover:text-primary transition-colors"
+                >
+                  {siteMetaLive.email}
+                </a>
+              </p>
+              {phoneNumbers.map((num) => (
+                <p key={num} className="text-sm text-muted-foreground">
+                  <a
+                    href={`tel:${num.replace(/\s/g, "")}`}
+                    className="hover:text-primary transition-colors"
+                  >
+                    {num}
+                  </a>
+                </p>
+              ))}
+            </div>
           </div>
         </div>
 

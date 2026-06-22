@@ -106,12 +106,8 @@ function AdminHistoryPage() {
     introDescription: "",
     torchBadge: "",
     torchTitle: "",
-    founder: { title: "", paragraphs: [""], imageUrl: babuRamImg, name: "", subtitle: "" },
-    torchActs: [
-      { id: "foundation", label: "", title: "", subtitle: "", description: "", quote: "", quoteAttribution: "", accentFrom: "", accentTo: "", borderAccent: "", iconColor: "", imageUrl: babuRamImg, imageUrl2: "" },
-      { id: "transition", label: "", title: "", subtitle: "", description: "", quote: "", quoteAttribution: "", accentFrom: "", accentTo: "", borderAccent: "", iconColor: "", imageUrl: "", imageUrl2: "" },
-      { id: "future", label: "", title: "", subtitle: "", description: "", quote: "", quoteAttribution: "", accentFrom: "", accentTo: "", borderAccent: "", iconColor: "", imageUrl: ubinImg, imageUrl2: bidushiImg },
-    ],
+    founder: { title: "", paragraphs: [""], imageUrl: "", name: "", subtitle: "" },
+    torchActs: [],
     valuesTitle: "",
     valuesDescription: "",
     values: [],
@@ -125,25 +121,7 @@ function AdminHistoryPage() {
 
   useEffect(() => {
     if (dbLegacy) {
-      setLegacy((prev) => {
-        const merged = { ...prev, ...dbLegacy };
-        if (dbLegacy.founder) {
-          merged.founder = { ...prev.founder, ...dbLegacy.founder };
-          if (!dbLegacy.founder.imageUrl) merged.founder.imageUrl = prev.founder.imageUrl;
-        }
-        if (dbLegacy.torchActs?.length) {
-          merged.torchActs = dbLegacy.torchActs.map((dbAct, i) => {
-            const prevAct = prev.torchActs.find((a) => a.id === dbAct.id) || prev.torchActs[i] || dbAct;
-            return {
-              ...prevAct,
-              ...dbAct,
-              imageUrl: dbAct.imageUrl || prevAct.imageUrl || "",
-              imageUrl2: dbAct.imageUrl2 || prevAct.imageUrl2 || "",
-            };
-          });
-        }
-        return merged;
-      });
+      setLegacy((prev) => ({ ...prev, ...dbLegacy }));
     }
   }, [dbLegacy]);
 
@@ -589,6 +567,7 @@ function ImageUploadField({
 }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
+  const displaySrc = value || fallbackSrc || "";
 
   const handleFile = async (file: File | undefined) => {
     if (!file) return;
@@ -610,15 +589,8 @@ function ImageUploadField({
       <Label>{label}</Label>
       <div className="flex gap-3 items-start">
         <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md border bg-muted/30 flex items-center justify-center">
-          {value ? (
-            <img src={value} alt="" className="h-full w-full object-cover" />
-          ) : fallbackSrc ? (
-            <>
-              <img src={fallbackSrc} alt="" className="h-full w-full object-cover opacity-40" />
-              <span className="absolute bottom-0 left-0 right-0 bg-background/80 text-[9px] text-muted-foreground text-center leading-tight py-0.5">
-                Default
-              </span>
-            </>
+          {displaySrc ? (
+            <img src={displaySrc} alt="" className="h-full w-full object-cover" />
           ) : (
             <span className="text-[10px] text-muted-foreground">No image</span>
           )}
@@ -627,7 +599,7 @@ function ImageUploadField({
           <Input
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            placeholder="Image URL"
+            placeholder={fallbackSrc ? "Custom image URL (leave empty to use default)" : "Image URL"}
           />
           <input
             ref={fileRef}
@@ -648,7 +620,7 @@ function ImageUploadField({
             ) : (
               <Upload className="h-4 w-4" />
             )}
-            {uploading ? "Uploading..." : "Upload"}
+            {uploading ? "Uploading..." : "Upload image"}
           </Button>
         </div>
       </div>
