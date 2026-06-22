@@ -25,11 +25,7 @@ export async function fetchDashboardStats(): Promise<DashboardStats> {
       .gte("application_deadline", nowIso),
   ]);
 
-  const firstError =
-    ventures.error ||
-    teamMembers.error ||
-    unreadContacts.error ||
-    openJobs.error;
+  const firstError = ventures.error || teamMembers.error || unreadContacts.error || openJobs.error;
 
   if (firstError) {
     console.error("[admin] dashboard stats", firstError);

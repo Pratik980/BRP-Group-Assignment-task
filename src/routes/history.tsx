@@ -14,6 +14,7 @@ import {
   Compass,
 } from "lucide-react";
 
+import { LegacySection } from "@/components/brp/LegacySection";
 import { alternateSlideIn } from "@/lib/alternate-slide";
 import histImg1 from "@/assets/optimized/History-image-1.webp";
 import histImg2 from "@/assets/optimized/History-image-2-1200.webp";
@@ -237,7 +238,7 @@ function HistoryPage() {
       <Nav />
       <div className="relative z-10">
         {/* Hero Banner */}
-          <section className="relative overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background py-16 sm:py-24 md:py-36">
+        <section className="relative overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background py-16 sm:py-24 md:py-36">
           <ThemeBackdrop variant="hero" />
           <div className="relative z-10 brp-container pt-12 sm:pt-20 text-center">
             <motion.div
@@ -394,6 +395,7 @@ function HistoryPage() {
           </div>
         </section>
 
+        <LegacySection />
         <Footer />
       </div>
     </main>
@@ -446,33 +448,33 @@ function RightCardContent({ milestone }: { milestone: (typeof historyMilestones)
   const reduceMotion = useReducedMotion();
 
   return (
+    <motion.div
+      className="flex flex-col gap-4 sm:gap-5 md:flex-row md:items-start md:gap-8"
+      variants={reduceMotion ? undefined : cardContentVariants}
+      initial={false}
+      whileInView="visible"
+      viewport={{ once: true, margin: "-40px" }}
+    >
       <motion.div
-        className="flex flex-col gap-4 sm:gap-5 md:flex-row md:items-start md:gap-8"
-        variants={reduceMotion ? undefined : cardContentVariants}
-        initial={false}
-        whileInView="visible"
-        viewport={{ once: true, margin: "-40px" }}
+        className="flex-shrink-0 md:w-48"
+        variants={reduceMotion ? undefined : cardItemVariants}
       >
-        <motion.div
-          className="flex-shrink-0 md:w-48"
-          variants={reduceMotion ? undefined : cardItemVariants}
-        >
-          <div className="flex items-center gap-2 sm:gap-3">
-            <motion.div
-              className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0"
-              whileHover={reduceMotion ? undefined : { scale: 1.08, rotate: 4 }}
-              transition={{ type: "spring", stiffness: 400, damping: 18 }}
-            >
-              <milestone.icon className="h-4 w-4 sm:h-5 sm:w-5" />
-            </motion.div>
-            <div className="min-w-0">
-              <div className="text-[11px] sm:text-xs text-muted-foreground">{milestone.period}</div>
-              <div className="font-display text-base sm:text-lg font-bold text-foreground sm:text-xl">
-                {milestone.title}
-              </div>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <motion.div
+            className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0"
+            whileHover={reduceMotion ? undefined : { scale: 1.08, rotate: 4 }}
+            transition={{ type: "spring", stiffness: 400, damping: 18 }}
+          >
+            <milestone.icon className="h-4 w-4 sm:h-5 sm:w-5" />
+          </motion.div>
+          <div className="min-w-0">
+            <div className="text-[11px] sm:text-xs text-muted-foreground">{milestone.period}</div>
+            <div className="font-display text-base sm:text-lg font-bold text-foreground sm:text-xl">
+              {milestone.title}
             </div>
           </div>
-        </motion.div>
+        </div>
+      </motion.div>
 
       <motion.div className="flex-1 min-w-0" variants={reduceMotion ? undefined : cardItemVariants}>
         <div className="mb-3 sm:mb-4">

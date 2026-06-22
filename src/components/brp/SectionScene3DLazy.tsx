@@ -38,13 +38,13 @@ export function SectionScene3DLazy({
         cancelled = true;
         window.cancelIdleCallback(id);
       };
+    } else {
+      const timer = setTimeout(run, 500);
+      return () => {
+        cancelled = true;
+        clearTimeout(timer);
+      };
     }
-
-    const timer = window.setTimeout(run, 500);
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timer);
-    };
   }, [prefersReducedMotion]);
 
   if (prefersReducedMotion || !shouldMount) {

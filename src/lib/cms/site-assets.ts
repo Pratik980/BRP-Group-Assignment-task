@@ -17,7 +17,7 @@ export const VENTURE_LOGO_ASSETS: SiteAsset[] = [
     url: base("shs.webp"),
     category: "ventures",
   },
-{
+  {
     id: "satin-leaf-investment",
     label: "Satin Leaf Investment",
     url: base("satin-leaf.webp"),

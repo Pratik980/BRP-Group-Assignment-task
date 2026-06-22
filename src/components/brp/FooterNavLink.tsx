@@ -3,7 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { scrollToSection } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
-type AppRoute = "/" | "/about" | "/ventures" | "/history";
+type AppRoute = "/" | "/about" | "/ventures" | "/history" | "/community" | "/career";
 
 type FooterNavLinkProps = {
   to: AppRoute;

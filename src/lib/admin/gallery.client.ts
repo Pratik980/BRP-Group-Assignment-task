@@ -15,7 +15,7 @@ export async function fetchGallery(): Promise<GalleryImage[]> {
     .eq("section_key", GALLERY_KEY)
     .maybeSingle();
   if (error) throw error;
-  const images = (data?.metadata as any)?.images as GalleryImage[] | undefined;
+  const images = (data?.metadata as { images?: GalleryImage[] })?.images;
   return images ?? [];
 }
 

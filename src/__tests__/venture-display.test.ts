@@ -60,6 +60,7 @@ describe("mapVentureRow", () => {
     description: "Quality educational resources.",
     tagline: "EdTech platform",
     logo_url: null,
+    cover_image_url: null,
     external_url: null,
     display_order: 0,
     is_active: true,

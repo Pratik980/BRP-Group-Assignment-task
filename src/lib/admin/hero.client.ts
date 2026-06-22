@@ -1,6 +1,13 @@
 import { supabase } from "@/integrations/supabase/client";
-import type { Tables, TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
-import { HERO_MORPHING_WORDS_KEY, parseHeroMorphingWords, parseHeroMorphingColor, parseHeroMorphingGlow, DEFAULT_HERO_MORPHING_COLOR, DEFAULT_HERO_MORPHING_GLOW } from "@/lib/cms/hero-morphing";
+import type { Json, Tables, TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
+import {
+  HERO_MORPHING_WORDS_KEY,
+  parseHeroMorphingWords,
+  parseHeroMorphingColor,
+  parseHeroMorphingGlow,
+  DEFAULT_HERO_MORPHING_COLOR,
+  DEFAULT_HERO_MORPHING_GLOW,
+} from "@/lib/cms/hero-morphing";
 
 export type HeroSlide = Tables<"hero_slides">;
 
@@ -67,7 +74,11 @@ export async function saveHeroMorphingWords(words: string[], color: string, glow
         section_key: HERO_MORPHING_WORDS_KEY,
         title: "Hero rotating words",
         content: 'Words that cycle in the homepage hero headline after "Through Diversified".',
-        metadata: { words: cleaned, color: color || DEFAULT_HERO_MORPHING_COLOR, glowColor: glowColor || DEFAULT_HERO_MORPHING_GLOW },
+        metadata: {
+          words: cleaned,
+          color: color || DEFAULT_HERO_MORPHING_COLOR,
+          glowColor: glowColor || DEFAULT_HERO_MORPHING_GLOW,
+        },
       },
       { onConflict: "section_key" },
     )
@@ -81,17 +92,17 @@ export async function saveHeroMorphingWords(words: string[], color: string, glow
   };
 }
 
-export async function fetchHeroVisualCards() {
+export async function fetchHeroVisualCards(): Promise<Record<string, unknown>[] | null> {
   const { data, error } = await supabase
     .from("about_content")
     .select("metadata")
     .eq("section_key", "hero_visual_cards")
     .maybeSingle();
   if (error) throw error;
-  return data?.metadata?.cards || null;
+  return ((data?.metadata as { cards?: unknown })?.cards as Record<string, unknown>[]) ?? null;
 }
 
-export async function saveHeroVisualCards(cards: any[]) {
+export async function saveHeroVisualCards(cards: Record<string, unknown>[]) {
   const { data, error } = await supabase
     .from("about_content")
     .upsert(
@@ -99,14 +110,14 @@ export async function saveHeroVisualCards(cards: any[]) {
         section_key: "hero_visual_cards",
         title: "Hero visual cards",
         content: "The 6 cards shown in the homepage hero section.",
-        metadata: { cards },
+        metadata: { cards } as Json,
       },
       { onConflict: "section_key" },
     )
     .select("metadata")
     .single();
   if (error) throw error;
-  return data?.metadata?.cards || null;
+  return ((data?.metadata as { cards?: unknown })?.cards as Record<string, unknown>[]) ?? null;
 }
 
 export async function uploadHeroImage(file: File) {

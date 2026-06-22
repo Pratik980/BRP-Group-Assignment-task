@@ -27,7 +27,13 @@ const Values = lazy(() => import("@/components/brp/Values").then((m) => ({ defau
 const CTA = lazy(() => import("@/components/brp/CTA").then((m) => ({ default: m.CTA })));
 const Footer = lazy(() => import("@/components/brp/Footer").then((m) => ({ default: m.Footer })));
 
-function DeferredSection({ children, minHeight = "12rem" }: { children: React.ReactNode; minHeight?: string }) {
+function DeferredSection({
+  children,
+  minHeight = "12rem",
+}: {
+  children: React.ReactNode;
+  minHeight?: string;
+}) {
   return (
     <Suspense fallback={<div aria-hidden className="w-full" style={{ minHeight }} />}>
       {children}
@@ -242,5 +248,3 @@ function Index() {
     </main>
   );
 }
-
-export default Index;

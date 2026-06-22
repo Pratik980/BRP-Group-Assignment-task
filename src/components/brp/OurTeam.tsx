@@ -113,13 +113,13 @@ export function OurTeam() {
 
         {isLoading ? (
           <p className="mt-8 text-center text-sm text-muted-foreground">Loading team…</p>
-        ) : members.length === 0 ? (
+        ) : !members?.length ? (
           <p className="mt-8 text-center text-sm text-muted-foreground">
             Team members will appear here once added in the admin panel.
           </p>
         ) : (
           <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-6 sm:mt-12 sm:grid-cols-2 md:grid-cols-3">
-            {members.map((member, i) => (
+            {members?.map((member, i) => (
               <motion.article
                 key={member.id}
                 {...alternateSlideIn(i, { margin: "-40px", duration: 0.75 })}

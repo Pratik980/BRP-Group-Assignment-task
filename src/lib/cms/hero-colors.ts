@@ -34,10 +34,22 @@ export function resolveHeroTextColors(
   metadata: Record<string, unknown> | undefined,
 ): HeroTextColors {
   return {
-    headline_color: sanitizeColor(metadata?.headline_color, DEFAULT_HERO_TEXT_COLORS.headline_color),
-    subheadline_color: sanitizeColor(metadata?.subheadline_color, DEFAULT_HERO_TEXT_COLORS.subheadline_color),
-    cta_text_color: sanitizeColor(metadata?.cta_text_color, DEFAULT_HERO_TEXT_COLORS.cta_text_color),
+    headline_color: sanitizeColor(
+      metadata?.headline_color,
+      DEFAULT_HERO_TEXT_COLORS.headline_color,
+    ),
+    subheadline_color: sanitizeColor(
+      metadata?.subheadline_color,
+      DEFAULT_HERO_TEXT_COLORS.subheadline_color,
+    ),
+    cta_text_color: sanitizeColor(
+      metadata?.cta_text_color,
+      DEFAULT_HERO_TEXT_COLORS.cta_text_color,
+    ),
     cta_bg_color: sanitizeColor(metadata?.cta_bg_color, DEFAULT_HERO_TEXT_COLORS.cta_bg_color),
-    cta_icon_color: sanitizeColor(metadata?.cta_icon_color, DEFAULT_HERO_TEXT_COLORS.cta_icon_color),
+    cta_icon_color: sanitizeColor(
+      metadata?.cta_icon_color,
+      DEFAULT_HERO_TEXT_COLORS.cta_icon_color,
+    ),
   };
 }

@@ -28,10 +28,7 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  fetchDashboardStats,
-  fetchRecentContacts,
-} from "@/lib/admin/dashboard.client";
+import { fetchDashboardStats, fetchRecentContacts } from "@/lib/admin/dashboard.client";
 import { requireAdminRoute } from "@/lib/admin/require-admin";
 
 export const Route = createFileRoute("/admin/")({
@@ -66,8 +63,18 @@ function AdminDashboardPage() {
 
   const statCards = [
     { label: "Ventures", value: stats?.ventures ?? 0, icon: Briefcase, color: "text-blue-500" },
-    { label: "Team members", value: stats?.teamMembers ?? 0, icon: Users, color: "text-emerald-500" },
-    { label: "Unread contacts", value: stats?.unreadContacts ?? 0, icon: Mail, color: "text-amber-500" },
+    {
+      label: "Team members",
+      value: stats?.teamMembers ?? 0,
+      icon: Users,
+      color: "text-emerald-500",
+    },
+    {
+      label: "Unread contacts",
+      value: stats?.unreadContacts ?? 0,
+      icon: Mail,
+      color: "text-amber-500",
+    },
     { label: "Open jobs", value: stats?.openJobs ?? 0, icon: UserRound, color: "text-rose-500" },
   ];
 
@@ -134,8 +141,16 @@ function AdminDashboardPage() {
                 <div className="h-72">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={chartData} layout="vertical" margin={{ left: 0, right: 16 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" horizontal={false} />
-                      <XAxis type="number" tick={{ fontSize: 12 }} stroke="hsl(var(--muted-foreground))" />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke="hsl(var(--border))"
+                        horizontal={false}
+                      />
+                      <XAxis
+                        type="number"
+                        tick={{ fontSize: 12 }}
+                        stroke="hsl(var(--muted-foreground))"
+                      />
                       <YAxis
                         type="category"
                         dataKey="name"
@@ -184,7 +199,11 @@ function AdminDashboardPage() {
                   return <p className="py-6 text-center text-sm text-muted-foreground">Loading…</p>;
                 }
                 if (recentContacts.length === 0) {
-                  return <p className="py-6 text-center text-sm text-muted-foreground">No contacts yet.</p>;
+                  return (
+                    <p className="py-6 text-center text-sm text-muted-foreground">
+                      No contacts yet.
+                    </p>
+                  );
                 }
                 return recentContacts.map((contact) => (
                   <div

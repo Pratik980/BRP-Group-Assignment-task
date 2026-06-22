@@ -27,7 +27,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DEFAULT_HERO_MORPHING_WORDS, DEFAULT_HERO_MORPHING_COLOR, DEFAULT_HERO_MORPHING_GLOW, parseHeroHeadline } from "@/lib/cms/hero-morphing";
+import {
+  DEFAULT_HERO_MORPHING_WORDS,
+  DEFAULT_HERO_MORPHING_COLOR,
+  DEFAULT_HERO_MORPHING_GLOW,
+  parseHeroHeadline,
+} from "@/lib/cms/hero-morphing";
 import { invalidatePublicAbout } from "@/lib/admin/invalidate-public";
 import {
   deleteHeroSlide,
@@ -67,11 +72,10 @@ function AdminHeroPage() {
     queryKey: ["admin-hero"],
     queryFn: fetchHeroSlides,
   });
-  const { data: morphingData, isLoading: morphingLoading } =
-    useQuery({
-      queryKey: ["admin-hero-morphing-words"],
-      queryFn: fetchHeroMorphingWords,
-    });
+  const { data: morphingData, isLoading: morphingLoading } = useQuery({
+    queryKey: ["admin-hero-morphing-words"],
+    queryFn: fetchHeroMorphingWords,
+  });
   const [wordDraft, setWordDraft] = useState<string[]>([...DEFAULT_HERO_MORPHING_WORDS]);
   const [morphColor, setMorphColor] = useState<string>(DEFAULT_HERO_MORPHING_COLOR);
   const [morphGlow, setMorphGlow] = useState<string>(DEFAULT_HERO_MORPHING_GLOW);
@@ -89,7 +93,7 @@ function AdminHeroPage() {
     queryFn: fetchHeroVisualCards,
   });
 
-  const [cardsDraft, setCardsDraft] = useState<any[]>([]);
+  const [cardsDraft, setCardsDraft] = useState<Record<string, unknown>[]>([]);
   const cardsInitialized = useRef(false);
 
   const { data: dbTextColors, isLoading: textColorsLoading } = useQuery({
@@ -137,7 +141,7 @@ function AdminHeroPage() {
     if (dbVisualCards === undefined) return;
     cardsInitialized.current = true;
     if (dbVisualCards) {
-      setCardsDraft(dbVisualCards);
+      setCardsDraft(dbVisualCards as Record<string, unknown>[]);
     } else {
       setCardsDraft([
         { title: "Small Heaven School", image: "/site-assets/shs.webp" },
@@ -476,7 +480,11 @@ function AdminHeroPage() {
                     <div className="flex gap-2">
                       <Input
                         type="color"
-                        value={textColors.cta_bg_color.startsWith("rgba") ? "#e67e43" : textColors.cta_bg_color}
+                        value={
+                          textColors.cta_bg_color.startsWith("rgba")
+                            ? "#e67e43"
+                            : textColors.cta_bg_color
+                        }
                         onChange={(e) =>
                           setTextColors({ ...textColors, cta_bg_color: e.target.value })
                         }
@@ -535,11 +543,13 @@ function AdminHeroPage() {
                             : "border-border/60 hover:bg-muted/50"
                         }`}
                       >
-                        <span className={`h-3 w-3 rounded-full border-2 ${
-                          bgTheme.background_type === type
-                            ? "border-primary bg-primary"
-                            : "border-muted-foreground"
-                        }`} />
+                        <span
+                          className={`h-3 w-3 rounded-full border-2 ${
+                            bgTheme.background_type === type
+                              ? "border-primary bg-primary"
+                              : "border-muted-foreground"
+                          }`}
+                        />
                         {type.charAt(0).toUpperCase() + type.slice(1)}
                       </button>
                     ))}
@@ -598,16 +608,12 @@ function AdminHeroPage() {
                           <Input
                             type="color"
                             value={bgTheme.deep_color}
-                            onChange={(e) =>
-                              setBgTheme({ ...bgTheme, deep_color: e.target.value })
-                            }
+                            onChange={(e) => setBgTheme({ ...bgTheme, deep_color: e.target.value })}
                             className="w-12 h-10 p-1"
                           />
                           <Input
                             value={bgTheme.deep_color}
-                            onChange={(e) =>
-                              setBgTheme({ ...bgTheme, deep_color: e.target.value })
-                            }
+                            onChange={(e) => setBgTheme({ ...bgTheme, deep_color: e.target.value })}
                             placeholder="#5a1a96"
                           />
                         </div>
@@ -655,9 +661,7 @@ function AdminHeroPage() {
                         />
                         <BgUploadButton
                           accept="image/*"
-                          onUpload={(url) =>
-                            setBgTheme({ ...bgTheme, background_url: url })
-                          }
+                          onUpload={(url) => setBgTheme({ ...bgTheme, background_url: url })}
                         />
                       </div>
                     </div>
@@ -691,9 +695,7 @@ function AdminHeroPage() {
                         />
                         <BgUploadButton
                           accept="video/*"
-                          onUpload={(url) =>
-                            setBgTheme({ ...bgTheme, background_url: url })
-                          }
+                          onUpload={(url) => setBgTheme({ ...bgTheme, background_url: url })}
                         />
                       </div>
                     </div>
@@ -707,7 +709,9 @@ function AdminHeroPage() {
                         }
                         className="h-4 w-4 rounded border-border"
                       />
-                      <Label htmlFor="video-loop" className="text-sm font-normal">Loop video</Label>
+                      <Label htmlFor="video-loop" className="text-sm font-normal">
+                        Loop video
+                      </Label>
                     </div>
                     {bgTheme.background_url && (
                       <video
@@ -782,7 +786,7 @@ function AdminHeroPage() {
                           <Label htmlFor={`card-title-${index}`}>Title</Label>
                           <Input
                             id={`card-title-${index}`}
-                            value={card.title || ""}
+                            value={(card.title as string) || ""}
                             onChange={(e) => {
                               const next = [...cardsDraft];
                               next[index] = { ...next[index], title: e.target.value };
@@ -797,8 +801,8 @@ function AdminHeroPage() {
                             <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg border bg-muted/30">
                               {card.image ? (
                                 <img
-                                  src={card.image}
-                                  alt={card.title || "Card image"}
+                                  src={card.image as string}
+                                  alt={(card.title as string) || "Card image"}
                                   className="h-full w-full object-cover"
                                 />
                               ) : (
@@ -822,7 +826,7 @@ function AdminHeroPage() {
                           </Label>
                           <Input
                             id={`card-bg-${index}`}
-                            value={card.bgColor || ""}
+                            value={(card.bgColor as string) || ""}
                             onChange={(e) => {
                               const next = [...cardsDraft];
                               next[index] = { ...next[index], bgColor: e.target.value };

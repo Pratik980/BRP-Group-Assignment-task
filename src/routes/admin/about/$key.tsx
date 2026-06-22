@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import type { Json } from "@/integrations/supabase/types";
 import { invalidatePublicAbout } from "@/lib/admin/invalidate-public";
 import { fetchAboutSection, updateAboutSection } from "@/lib/admin/about.client";
 import { requireAdminRoute } from "@/lib/admin/require-admin";
@@ -47,7 +48,11 @@ function AdminEditAboutPage() {
       } catch {
         throw new Error("Invalid JSON in metadata");
       }
-      return updateAboutSection(key, { title: title || null, content: content || null, metadata });
+      return updateAboutSection(key, {
+        title: title || null,
+        content: content || null,
+        metadata: metadata as unknown as Json,
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-about"] });

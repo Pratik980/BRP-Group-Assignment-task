@@ -66,7 +66,7 @@ const BASE_CATEGORIES = [
 ] as const;
 
 function buildCategoryFilters(ventures: PublicVenture[]) {
-  const known = new Set(BASE_CATEGORIES.map((c) => c.key));
+  const known = new Set<string>(BASE_CATEGORIES.map((c) => c.key));
   const extras = [...new Set(ventures.map((v) => v.filterCategory))]
     .filter((key) => !known.has(key))
     .map((key) => ({
@@ -304,7 +304,7 @@ function VenturesPage() {
       <Nav />
       <div className="relative z-10">
         {/* ═══ HERO BANNER ═══ */}
-          <section className="relative py-20 sm:py-28 md:py-40 overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background">
+        <section className="relative py-20 sm:py-28 md:py-40 overflow-hidden bg-gradient-to-b from-secondary/50 via-background to-background">
           <ThemeBackdrop variant="hero" />
 
           {/* Floating venture logos behind hero text */}
@@ -321,29 +321,29 @@ function VenturesPage() {
               ];
               const pos = positions[i % positions.length];
               return (
-                  <motion.div
-                      key={v.name}
-                      className="absolute max-sm:hidden w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/20 shadow-sm flex items-center justify-center"
-                      style={pos as React.CSSProperties}
-                      animate={{
-                        y: [0, -12, 0],
-                        rotate: [0, 3, -3, 0],
-                      }}
-                      transition={{
-                        duration: 5 + i * 0.7,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: i * 0.4,
-                      }}
-                    >
-                      {v.logo ? (
-                        <LazyImage
-                          src={v.logo}
-                          alt=""
-                          className="w-8 h-8 md:w-10 md:h-10 object-contain opacity-50"
-                        />
-                      ) : null}
-                    </motion.div>
+                <motion.div
+                  key={v.name}
+                  className="absolute max-sm:hidden w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/60 backdrop-blur-sm border border-white/20 shadow-sm flex items-center justify-center"
+                  style={pos as React.CSSProperties}
+                  animate={{
+                    y: [0, -12, 0],
+                    rotate: [0, 3, -3, 0],
+                  }}
+                  transition={{
+                    duration: 5 + i * 0.7,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.4,
+                  }}
+                >
+                  {v.logo ? (
+                    <LazyImage
+                      src={v.logo}
+                      alt=""
+                      className="w-8 h-8 md:w-10 md:h-10 object-contain opacity-50"
+                    />
+                  ) : null}
+                </motion.div>
               );
             })}
           </div>
@@ -393,20 +393,20 @@ function VenturesPage() {
                 const Icon = cat.icon;
                 const isActive = activeCategory === cat.key;
                 return (
-                    <motion.button
-                      key={cat.key}
-                      onClick={() => setActiveCategory(cat.key)}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: idx * 0.08, duration: 0.5 }}
-                      whileHover={{ scale: 1.06, y: -3 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`relative flex flex-col items-center gap-2 max-sm:gap-1.5 px-4 sm:px-6 py-3 sm:py-5 rounded-2xl border transition-all duration-400 select-none min-w-[100px] sm:min-w-[130px] ${
-                        isActive
-                          ? "border-primary/40 bg-primary/5 shadow-lg"
-                          : "border-border/30 bg-white/50 dark:bg-white/5 hover:border-border/60 hover:bg-white/80 dark:hover:bg-white/10 shadow-sm"
-                      }`}
+                  <motion.button
+                    key={cat.key}
+                    onClick={() => setActiveCategory(cat.key)}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.08, duration: 0.5 }}
+                    whileHover={{ scale: 1.06, y: -3 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`relative flex flex-col items-center gap-2 max-sm:gap-1.5 px-4 sm:px-6 py-3 sm:py-5 rounded-2xl border transition-all duration-400 select-none min-w-[100px] sm:min-w-[130px] ${
+                      isActive
+                        ? "border-primary/40 bg-primary/5 shadow-lg"
+                        : "border-border/30 bg-white/50 dark:bg-white/5 hover:border-border/60 hover:bg-white/80 dark:hover:bg-white/10 shadow-sm"
+                    }`}
                   >
                     {isActive && (
                       <motion.div

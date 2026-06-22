@@ -6,7 +6,12 @@ import {
   TEAM_DEPARTMENT_EXECUTIVE,
   TEAM_DEPARTMENT_OUR_TEAM,
 } from "@/lib/admin/team-constants";
-import { HERO_MORPHING_WORDS_KEY, parseHeroMorphingWords, parseHeroMorphingColor, parseHeroMorphingGlow } from "@/lib/cms/hero-morphing";
+import {
+  HERO_MORPHING_WORDS_KEY,
+  parseHeroMorphingWords,
+  parseHeroMorphingColor,
+  parseHeroMorphingGlow,
+} from "@/lib/cms/hero-morphing";
 import { EXECUTIVE_PHOTO_BY_NAME } from "@/lib/cms/site-assets";
 
 export async function fetchPublicHeroSlides() {
@@ -72,7 +77,7 @@ async function fetchTeamByDepartment(department: string) {
 
 export async function fetchPublicExecutiveTeam() {
   const rows = await fetchTeamByDepartment(TEAM_DEPARTMENT_EXECUTIVE);
-  if ((rows?.length ?? 0) > 0) {
+  if (rows && rows.length > 0) {
     return rows.slice(0, EXECUTIVE_TEAM_MAX).map((m) => ({
       ...m,
       photo_url: m.photo_url ?? EXECUTIVE_PHOTO_BY_NAME[m.full_name] ?? null,
@@ -105,7 +110,7 @@ export async function fetchPublicTeamMembers() {
 export async function fetchPublicSiteSettings(): Promise<Record<string, string>> {
   const { data, error } = await supabase.from("site_settings").select("key, value");
   if (error || !data?.length) return {};
-  return Object.fromEntries(data.map((row) => [row.key, row.value]));
+  return Object.fromEntries(data.map((row) => [row.key, row.value ?? ""]));
 }
 
 export function parseStatValue(value: string): { target: number; suffix: string } {
@@ -125,9 +130,21 @@ export async function fetchPublicHeroVisualCards() {
   return ((data.metadata as Record<string, unknown>)?.cards as Record<string, unknown>[]) || null;
 }
 
-export type PublicSiteMeta = typeof siteMeta;
+export type PublicSiteMeta = {
+  foundedYear: number;
+  legacyYears: number;
+  businessCount: string;
+  networkCount: string;
+  domain: string;
+  email: string;
+  phone: string;
+  headquarters: string;
+  linkedIn: string;
+  facebook: string;
+  instagram: string;
+};
 
-export function mergeSiteMeta(settings: Record<string, string>): PublicSiteMeta {
+export function mergeSiteMeta(settings: Record<string, string | null>): PublicSiteMeta {
   return {
     ...siteMeta,
     email: settings.company_email || siteMeta.email,

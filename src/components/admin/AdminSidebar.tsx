@@ -40,11 +40,7 @@ export function AdminSidebar() {
       <div className="border-b border-border/40 px-5 py-5">
         <div className="flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden bg-white shadow-sm">
-            <img
-              src={sidebarLogo}
-              alt="BRP"
-              className="h-6 w-6 object-contain"
-            />
+            <img src={sidebarLogo} alt="BRP" className="h-6 w-6 object-contain" />
           </div>
           <div className="leading-tight">
             <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -63,9 +59,8 @@ export function AdminSidebar() {
             <div className="space-y-0.5">
               {group.items.map((item) => {
                 const Icon = item.icon;
-                const active = item.exact
-                  ? pathname === item.to
-                  : pathname.startsWith(item.to);
+                const active =
+                  "exact" in item ? pathname === item.to : pathname.startsWith(item.to);
                 return (
                   <Link
                     key={item.to}
@@ -77,7 +72,12 @@ export function AdminSidebar() {
                         : "text-muted-foreground hover:bg-muted/50 hover:text-foreground",
                     )}
                   >
-                    <Icon className={cn("h-4 w-4 shrink-0", active ? "text-primary" : "text-muted-foreground/70")} />
+                    <Icon
+                      className={cn(
+                        "h-4 w-4 shrink-0",
+                        active ? "text-primary" : "text-muted-foreground/70",
+                      )}
+                    />
                     {item.label}
                   </Link>
                 );

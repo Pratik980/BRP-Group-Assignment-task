@@ -1,5 +1,9 @@
 import { useQuery, type QueryClient } from "@tanstack/react-query";
-import { DEFAULT_HERO_MORPHING_WORDS, DEFAULT_HERO_MORPHING_COLOR, DEFAULT_HERO_MORPHING_GLOW } from "@/lib/cms/hero-morphing";
+import {
+  DEFAULT_HERO_MORPHING_WORDS,
+  DEFAULT_HERO_MORPHING_COLOR,
+  DEFAULT_HERO_MORPHING_GLOW,
+} from "@/lib/cms/hero-morphing";
 import { resolveHeroBgTheme } from "@/lib/cms/hero-bg-theme";
 import { resolveHeroTextColors } from "@/lib/cms/hero-colors";
 import { DEFAULT_HERO_VISUAL_CARDS } from "@/lib/cms/hero-visual-cards";
@@ -26,7 +30,13 @@ const heroMorphingQuery = {
   queryKey: ["public-hero-morphing-words"] as const,
   queryFn: async () => {
     const data = await fetchPublicHeroMorphingWords();
-    return data ?? { words: [...DEFAULT_HERO_MORPHING_WORDS], color: DEFAULT_HERO_MORPHING_COLOR, glowColor: DEFAULT_HERO_MORPHING_GLOW };
+    return (
+      data ?? {
+        words: [...DEFAULT_HERO_MORPHING_WORDS],
+        color: DEFAULT_HERO_MORPHING_COLOR,
+        glowColor: DEFAULT_HERO_MORPHING_GLOW,
+      }
+    );
   },
 };
 
@@ -58,7 +68,11 @@ export function usePublicHeroMorphingWords() {
   return useQuery({
     ...heroMorphingQuery,
     ...PUBLIC_CACHE,
-    initialData: () => ({ words: [...DEFAULT_HERO_MORPHING_WORDS], color: DEFAULT_HERO_MORPHING_COLOR, glowColor: DEFAULT_HERO_MORPHING_GLOW }),
+    initialData: () => ({
+      words: [...DEFAULT_HERO_MORPHING_WORDS],
+      color: DEFAULT_HERO_MORPHING_COLOR,
+      glowColor: DEFAULT_HERO_MORPHING_GLOW,
+    }),
     initialDataUpdatedAt: 0,
   });
 }
@@ -115,12 +129,16 @@ export function usePublicHeroVisualCards() {
 
 export function usePublicHeroBgTheme() {
   const { data: aboutSections } = usePublicAboutSections();
-  return resolveHeroBgTheme(aboutSections?.hero_bg_theme?.metadata as Record<string, unknown> | undefined);
+  return resolveHeroBgTheme(
+    aboutSections?.hero_bg_theme?.metadata as Record<string, unknown> | undefined,
+  );
 }
 
 export function usePublicHeroTextColors() {
   const { data: aboutSections } = usePublicAboutSections();
-  return resolveHeroTextColors(aboutSections?.hero_text_colors?.metadata as Record<string, unknown> | undefined);
+  return resolveHeroTextColors(
+    aboutSections?.hero_text_colors?.metadata as Record<string, unknown> | undefined,
+  );
 }
 
 export { parseStatValue };

@@ -55,10 +55,7 @@ export async function fetchVacancies(): Promise<JobVacancy[]> {
 
 const NOTIFICATION_EMAIL = "pratik@ubventuresllc.com";
 
-async function sendCareerNotification(
-  data: ApplicationInput,
-  resumeFile: File,
-): Promise<void> {
+async function sendCareerNotification(data: ApplicationInput, resumeFile: File): Promise<void> {
   try {
     const fd = new FormData();
     fd.append("_subject", `New job application: ${data.position}`);

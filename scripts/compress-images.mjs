@@ -4,10 +4,7 @@ import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const targets = [
-  join(root, "src", "assets", "optimized"),
-  join(root, "public", "site-assets"),
-];
+const targets = [join(root, "src", "assets", "optimized"), join(root, "public", "site-assets")];
 
 const MAX_WIDTH = 1920;
 const WEBP_QUALITY = 82;

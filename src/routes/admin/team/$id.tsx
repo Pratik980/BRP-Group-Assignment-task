@@ -56,7 +56,9 @@ function AdminEditTeamPage() {
                 initialValues={teamToFormValues(member)}
                 submitLabel="Save changes"
                 onCancel={() => navigate({ to: "/admin/team" })}
-                onSubmit={(v) => mutation.mutateAsync(v)}
+                onSubmit={async (v) => {
+                  await mutation.mutateAsync(v);
+                }}
               />
             )}
           </CardContent>

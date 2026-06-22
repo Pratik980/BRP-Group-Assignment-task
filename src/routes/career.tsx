@@ -166,9 +166,11 @@ function CareersPage() {
       );
       setSubmitSuccess(true);
       toast.success("Application submitted successfully!");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      toast.error(err.message || "Failed to submit application. Please try again.");
+      toast.error(
+        err instanceof Error ? err.message : "Failed to submit application. Please try again.",
+      );
     } finally {
       setSubmitting(false);
     }

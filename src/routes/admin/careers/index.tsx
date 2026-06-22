@@ -94,9 +94,7 @@ function AdminCareersPage() {
                     <TableCell>{v.department}</TableCell>
                     <TableCell>{v.employment_type}</TableCell>
                     <TableCell>
-                      <Badge
-                        variant={v.is_active && v.status === "open" ? "default" : "secondary"}
-                      >
+                      <Badge variant={v.is_active && v.status === "open" ? "default" : "secondary"}>
                         {v.status}
                       </Badge>
                     </TableCell>

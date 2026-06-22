@@ -20,9 +20,6 @@ import {
   parseHeroHeadline,
 } from "@/lib/cms/hero-morphing";
 
-
-
-
 const MORPH_INTERVAL_MS = 3500;
 const DEFAULT_HERO_SUBHEADLINE =
   "Combining physical assets with digital scale to develop and fund legacy-driven organizations in Education, Real Estate, Technology, and Partnerships.";
@@ -79,7 +76,7 @@ const NETWORK_NODES = [
   { id: 2, x: 81.18, y: 68, title: "B.R.P. Ventures", path: "brp-ventures" },
   { id: 3, x: 50, y: 86, title: "BRP Tours & Travels", path: "brp-tours-travels" },
   { id: 4, x: 18.82, y: 68, title: "Reddot", path: "reddot" },
-  { id: 5, x: 18.82, y: 32, title: "Cloud Axis", path: "cloud-axis" }
+  { id: 5, x: 18.82, y: 32, title: "Cloud Axis", path: "cloud-axis" },
 ];
 
 function renderPlaceholder(nodeId: number) {
@@ -87,7 +84,14 @@ function renderPlaceholder(nodeId: number) {
     case 0: // Education - Progress arc / concentric circles
       return (
         <svg className="w-6 h-6 sm:w-8 sm:h-8 opacity-75" viewBox="0 0 36 36">
-          <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
+          <circle
+            cx="18"
+            cy="18"
+            r="14"
+            fill="none"
+            stroke="rgba(255,255,255,0.1)"
+            strokeWidth="2"
+          />
           <motion.circle
             cx="18"
             cy="18"
@@ -98,15 +102,33 @@ function renderPlaceholder(nodeId: number) {
             strokeDasharray="88"
             initial={{ strokeDashoffset: 88 }}
             animate={{ strokeDashoffset: 28 }}
-            transition={{ duration: 2.2, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+            transition={{
+              duration: 2.2,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
           />
-          <circle cx="18" cy="18" r="8" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" strokeDasharray="3 3" />
+          <circle
+            cx="18"
+            cy="18"
+            r="8"
+            fill="none"
+            stroke="rgba(255,255,255,0.15)"
+            strokeWidth="1.5"
+            strokeDasharray="3 3"
+          />
         </svg>
       );
     case 1: // Investment - Rising trendline chart
       return (
         <svg className="w-8 h-6 sm:w-10 sm:h-8 opacity-75" viewBox="0 0 40 30" fill="none">
-          <path d="M 5,25 L 35,25" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" strokeLinecap="round" />
+          <path
+            d="M 5,25 L 35,25"
+            stroke="rgba(255,255,255,0.15)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
           <motion.path
             d="M 5,22 L 12,18 L 20,24 L 28,10 L 35,4"
             stroke="#ff7a2f"
@@ -115,7 +137,12 @@ function renderPlaceholder(nodeId: number) {
             strokeLinejoin="round"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
-            transition={{ duration: 2.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+            transition={{
+              duration: 2.5,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
           />
           <motion.circle
             cx="35"
@@ -135,14 +162,36 @@ function renderPlaceholder(nodeId: number) {
           <circle cx="23" cy="22" r="2.5" fill="rgba(255,255,255,0.5)" />
           <line x1="16" y1="10" x2="9" y2="22" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" />
           <line x1="16" y1="10" x2="23" y2="22" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" />
-          <line x1="9" y1="22" x2="23" y2="22" stroke="rgba(255,255,255,0.1)" strokeWidth="1.5" strokeDasharray="2 2" />
+          <line
+            x1="9"
+            y1="22"
+            x2="23"
+            y2="22"
+            stroke="rgba(255,255,255,0.1)"
+            strokeWidth="1.5"
+            strokeDasharray="2 2"
+          />
         </svg>
       );
     case 3: // Tourism - Radar sweep
       return (
         <svg className="w-6 h-6 sm:w-8 sm:h-8 opacity-75" viewBox="0 0 32 32">
-          <circle cx="16" cy="16" r="12" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-          <circle cx="16" cy="16" r="6" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+          <circle
+            cx="16"
+            cy="16"
+            r="12"
+            fill="none"
+            stroke="rgba(255,255,255,0.1)"
+            strokeWidth="1"
+          />
+          <circle
+            cx="16"
+            cy="16"
+            r="6"
+            fill="none"
+            stroke="rgba(255,255,255,0.15)"
+            strokeWidth="1"
+          />
           <motion.line
             x1="16"
             y1="16"
@@ -322,7 +371,15 @@ const FuturisticNetworkLines = memo(function FuturisticNetworkLines({
   );
 });
 
-const HeroRotatingWord = memo(function HeroRotatingWord({ words, color, glowColor }: { words: string[]; color?: string; glowColor?: string }) {
+const HeroRotatingWord = memo(function HeroRotatingWord({
+  words,
+  color,
+  glowColor,
+}: {
+  words: string[];
+  color?: string;
+  glowColor?: string;
+}) {
   const [index, setIndex] = useState(0);
   const safeWords = words.length > 0 ? words : [...DEFAULT_HERO_MORPHING_WORDS];
   const morphColor = color || DEFAULT_HERO_MORPHING_COLOR;
@@ -426,38 +483,50 @@ export function Hero() {
     <section
       id="top"
       className="hero-theme relative flex min-h-[92svh] w-full flex-col overflow-hidden select-none sm:min-h-[92svh] md:min-h-[92svh] lg:min-h-[93svh] xl:min-h-[94svh] pt-16 sm:pt-24 md:pt-28 lg:pt-28 xl:pt-32"
-      style={{
-        "--hero-text": heroTextColors.headline_color,
-        "--hero-text-muted": heroTextColors.subheadline_color,
-        "--hero-bg-primary": heroBgTheme.primary_color,
-        "--hero-bg-accent": heroBgTheme.accent_color,
-        "--hero-bg-deep": heroBgTheme.deep_color,
-        "--hero-bg-contrast": heroBgTheme.contrast,
-      } as React.CSSProperties}
+      style={
+        {
+          "--hero-text": heroTextColors.headline_color,
+          "--hero-text-muted": heroTextColors.subheadline_color,
+          "--hero-bg-primary": heroBgTheme.primary_color,
+          "--hero-bg-accent": heroBgTheme.accent_color,
+          "--hero-bg-deep": heroBgTheme.deep_color,
+          "--hero-bg-contrast": heroBgTheme.contrast,
+        } as React.CSSProperties
+      }
     >
       {isGradientBg && (
         <>
-          <div className="hero-theme__base pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
-          <div className="hero-theme__aurora pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
-          <div className="hero-theme__mesh pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
-          <div className="hero-theme__spectrum pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
-          <div className="hero-theme__glow pointer-events-none absolute inset-0 z-0" aria-hidden="true" />
+          <div
+            className="hero-theme__base pointer-events-none absolute inset-0 z-0"
+            aria-hidden="true"
+          />
+          <div
+            className="hero-theme__aurora pointer-events-none absolute inset-0 z-0"
+            aria-hidden="true"
+          />
+          <div
+            className="hero-theme__mesh pointer-events-none absolute inset-0 z-0"
+            aria-hidden="true"
+          />
+          <div
+            className="hero-theme__spectrum pointer-events-none absolute inset-0 z-0"
+            aria-hidden="true"
+          />
+          <div
+            className="hero-theme__glow pointer-events-none absolute inset-0 z-0"
+            aria-hidden="true"
+          />
         </>
       )}
 
-      {(background_type === "image" && background_url) && (
+      {background_type === "image" && background_url && (
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
-          <LazyImage
-            src={background_url}
-            alt=""
-            className="h-full w-full object-cover"
-            priority
-          />
+          <LazyImage src={background_url} alt="" className="h-full w-full object-cover" priority />
           <div className="absolute inset-0 bg-black/50" />
         </div>
       )}
 
-      {(background_type === "video" && background_url) && (
+      {background_type === "video" && background_url && (
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
           <video
             src={background_url}
@@ -507,13 +576,18 @@ export function Hero() {
             variants={textReveal}
             className="hero-theme__headline font-display max-w-[20ch] text-[clamp(1.5rem,7vw,2.8rem)] font-bold leading-[1.14] tracking-tight sm:max-w-[22ch] sm:text-[clamp(2.2rem,6vw,3rem)] md:max-w-[24ch] md:text-[clamp(2.5rem,5vw,3.3rem)] lg:max-w-[28ch] lg:text-[clamp(2.7rem,3.5vw,3.5rem)] 2xl:max-w-none 2xl:text-[clamp(3.2rem,3.5vw,4.2rem)] will-change-transform"
             style={{ textShadow: "none", color: "var(--hero-text)" }}
-            >
+          >
             {headlineTop}
             <br />
             {headlineMiddle}
             <br />
             <span className="inline-flex items-baseline gap-1 overflow-visible leading-[1.14]">
-              Diversified<HeroRotatingWord words={morphingWords} color={morphingColor} glowColor={morphingGlow} />
+              Diversified
+              <HeroRotatingWord
+                words={morphingWords}
+                color={morphingColor}
+                glowColor={morphingGlow}
+              />
             </span>
           </motion.h1>
 
@@ -524,7 +598,7 @@ export function Hero() {
             variants={textReveal}
             className="hero-theme__copy mt-1 sm:mt-3 max-w-xl font-sans text-xs sm:text-sm font-normal leading-[1.5] sm:leading-[1.6] sm:max-w-lg sm:text-[0.95rem] md:text-base md:max-w-xl lg:max-w-lg lg:text-[1rem] 2xl:max-w-xl 2xl:text-lg"
             style={{ textShadow: "none", color: "var(--hero-text-muted)" }}
-            >
+          >
             {subheadline}
           </motion.p>
 
@@ -537,10 +611,19 @@ export function Hero() {
             <a
               href={activeSlide?.cta_url?.trim() || "/ventures"}
               className="hero-theme__cta group mt-2 sm:mt-6 md:mt-8"
-              style={{ color: heroTextColors.cta_text_color, background: heroTextColors.cta_bg_color }}
+              style={{
+                color: heroTextColors.cta_text_color,
+                background: heroTextColors.cta_bg_color,
+              }}
             >
               <span>{activeSlide?.cta_text?.trim() || "Explore Ecosystem"}</span>
-              <div className="hero-theme__cta-icon" style={{ color: heroTextColors.cta_icon_color, background: "rgba(255, 255, 255, 0.15)" }}>
+              <div
+                className="hero-theme__cta-icon"
+                style={{
+                  color: heroTextColors.cta_icon_color,
+                  background: "rgba(255, 255, 255, 0.15)",
+                }}
+              >
                 <ArrowRight className="h-3.5 w-3.5" />
               </div>
             </a>
@@ -556,7 +639,10 @@ export function Hero() {
         >
           <div className="relative aspect-square w-full max-w-[14rem] sm:max-w-[20rem] md:max-w-[25rem] lg:max-w-[30rem] xl:max-w-[34rem] 2xl:max-w-[38rem] mx-auto flex items-center justify-center perspective-[1200px] transform-style-3d">
             {/* SVG Network Lines */}
-            <FuturisticNetworkLines gradientId="futuristicNetworkGradient" prefersReducedMotion={!!prefersReducedMotion} />
+            <FuturisticNetworkLines
+              gradientId="futuristicNetworkGradient"
+              prefersReducedMotion={!!prefersReducedMotion}
+            />
 
             {/* Central Rounded-Square Hub */}
             <motion.div
@@ -575,31 +661,31 @@ export function Hero() {
                   delay: 1.1,
                 }}
               >
-              <div
-                style={{
-                  transformStyle: "preserve-3d",
-                  transform: tiltTransform(0, 0),
-                }}
-                className="hero-theme__hub hero-theme__hub--network flex items-center justify-center rounded-[1.6rem] sm:rounded-[2rem] md:rounded-[2.2rem] w-[4rem] h-[4rem] sm:w-[6rem] sm:h-[6rem] md:w-[7rem] md:h-[7rem] lg:w-[7.5rem] lg:h-[7.5rem] xl:w-[8rem] xl:h-[8rem]"
-              >
-                {/* Glowing Outer Spinning Ring */}
-                {!prefersReducedMotion && (
-                  <div className="absolute inset-[-4px] rounded-[inherit] border border-dashed border-white/20 animate-spin [animation-duration:16s]" />
-                )}
-                {/* Central Radar Pulse */}
-                {!prefersReducedMotion && (
-                  <div className="absolute inset-0 rounded-[inherit] bg-white/5 animate-ping [animation-duration:3s]" />
-                )}
-                <motion.img
-                  src={logo}
-                  alt="BRP Group Logo"
-                  className="hero-theme__logo w-[70%] h-[70%] object-contain"
-                  style={{ filter: "brightness(0) invert(1) opacity(0.9)" }}
-                  initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.85 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.55, delay: 0.45, ease: revealEase }}
-                />
-              </div>
+                <div
+                  style={{
+                    transformStyle: "preserve-3d",
+                    transform: tiltTransform(0, 0),
+                  }}
+                  className="hero-theme__hub hero-theme__hub--network flex items-center justify-center rounded-[1.6rem] sm:rounded-[2rem] md:rounded-[2.2rem] w-[4rem] h-[4rem] sm:w-[6rem] sm:h-[6rem] md:w-[7rem] md:h-[7rem] lg:w-[7.5rem] lg:h-[7.5rem] xl:w-[8rem] xl:h-[8rem]"
+                >
+                  {/* Glowing Outer Spinning Ring */}
+                  {!prefersReducedMotion && (
+                    <div className="absolute inset-[-4px] rounded-[inherit] border border-dashed border-white/20 animate-spin [animation-duration:16s]" />
+                  )}
+                  {/* Central Radar Pulse */}
+                  {!prefersReducedMotion && (
+                    <div className="absolute inset-0 rounded-[inherit] bg-white/5 animate-ping [animation-duration:3s]" />
+                  )}
+                  <motion.img
+                    src={logo}
+                    alt="BRP Group Logo"
+                    className="hero-theme__logo w-[70%] h-[70%] object-contain"
+                    style={{ filter: "brightness(0) invert(1) opacity(0.9)" }}
+                    initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.55, delay: 0.45, ease: revealEase }}
+                  />
+                </div>
               </motion.div>
             </motion.div>
 
@@ -637,37 +723,37 @@ export function Hero() {
                       delay: 1.2 + idx * 0.15,
                     }}
                   >
-                  <Link
-                    {...href}
-                    className="hero-venture-link group block h-full w-full rounded-[1.2rem] sm:rounded-[1.5rem] md:rounded-[1.8rem] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-                    aria-label={`Explore ${displayTitle}`}
-                  >
-                    <div
-                      style={{
-                        transformStyle: "preserve-3d",
-                        transform: tiltTransform(tiltX, tiltY),
-                      }}
-                      className="hero-theme__card hero-theme__card--network relative flex h-full w-full items-center justify-center overflow-hidden rounded-[inherit] p-2 sm:p-2.5"
+                    <Link
+                      {...href}
+                      className="hero-venture-link group block h-full w-full rounded-[1.2rem] sm:rounded-[1.5rem] md:rounded-[1.8rem] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                      aria-label={`Explore ${displayTitle}`}
                     >
-                      <div className="flex h-full w-full items-center justify-center">
-                        {showLogo ? (
-                          <LazyImage
-                            src={logoUrl}
-                            alt=""
-                            className="hero-theme__venture-logo hero-theme__venture-logo--network relative z-[1] h-full w-full object-contain object-center"
-                            onError={() => handleLogoError(node.id)}
-                          />
-                        ) : (
-                          renderPlaceholder(node.id)
-                        )}
-                      </div>
+                      <div
+                        style={{
+                          transformStyle: "preserve-3d",
+                          transform: tiltTransform(tiltX, tiltY),
+                        }}
+                        className="hero-theme__card hero-theme__card--network relative flex h-full w-full items-center justify-center overflow-hidden rounded-[inherit] p-2 sm:p-2.5"
+                      >
+                        <div className="flex h-full w-full items-center justify-center">
+                          {showLogo ? (
+                            <LazyImage
+                              src={logoUrl}
+                              alt=""
+                              className="hero-theme__venture-logo hero-theme__venture-logo--network relative z-[1] h-full w-full object-contain object-center"
+                              onError={() => handleLogoError(node.id)}
+                            />
+                          ) : (
+                            renderPlaceholder(node.id)
+                          )}
+                        </div>
 
-                      {/* Hover Tooltip Label */}
-                      <div className="absolute max-sm:top-[-2rem] sm:bottom-[-2.2rem] left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 text-white text-[9px] px-2 py-0.5 rounded border border-white/10 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 pointer-events-none z-30 font-sans tracking-wide">
-                        {displayTitle}
+                        {/* Hover Tooltip Label */}
+                        <div className="absolute max-sm:top-[-2rem] sm:bottom-[-2.2rem] left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 text-white text-[9px] px-2 py-0.5 rounded border border-white/10 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 pointer-events-none z-30 font-sans tracking-wide">
+                          {displayTitle}
+                        </div>
                       </div>
-                    </div>
-                  </Link>
+                    </Link>
                   </motion.div>
                 </motion.div>
               );
@@ -682,9 +768,7 @@ export function Hero() {
         transition={{ duration: 0.65, delay: 0.55, ease: revealEase }}
         className="pointer-events-none relative z-30 w-full px-4 pb-4 sm:px-6 sm:pb-5"
       >
-        <div
-          className="hero-theme__footer mx-auto flex brp-container items-center justify-between font-sans text-[10px] uppercase tracking-[0.22em] md:text-xs"
-        >
+        <div className="hero-theme__footer mx-auto flex brp-container items-center justify-between font-sans text-[10px] uppercase tracking-[0.22em] md:text-xs">
           <span>Kathmandu, Nepal</span>
           <span>© {new Date().getFullYear()} BRP Group</span>
         </div>

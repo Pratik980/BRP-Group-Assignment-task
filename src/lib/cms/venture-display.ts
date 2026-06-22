@@ -63,7 +63,7 @@ const STYLE_BY_SLUG: Record<string, StylePreset> = {
     filterCategory: "Education",
     navColor: "#0ea5e9",
   },
-"satin-leaf-investment": {
+  "satin-leaf-investment": {
     code: "SATIN LEAF",
     focus: "Venture Capital & Incubation",
     tags: ["Venture Capital", "Incubation", "Funding"],

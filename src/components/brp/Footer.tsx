@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { usePublicVentures } from "@/hooks/usePublicVentures";
 import { usePublicSiteMeta } from "@/hooks/usePublicContent";
 import { siteMeta } from "@/data/brp-site-content";
+import type { PublicSiteMeta } from "@/lib/cms/content.public";
 import { FooterNavLink, useHashScroll } from "@/components/brp/FooterNavLink";
 import { cn } from "@/lib/utils";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
@@ -18,7 +19,7 @@ const exploreLinks = [
   { label: "Contact", to: "/" as const, hash: "contact" },
 ] as const;
 
-function useFooterSocialLinks(meta: typeof siteMeta) {
+function useFooterSocialLinks(meta: PublicSiteMeta) {
   return [
     { icon: Linkedin, href: meta.linkedIn, label: "LinkedIn" },
     { icon: Facebook, href: meta.facebook, label: "Facebook" },
@@ -196,7 +197,6 @@ export function Footer() {
               </div>
             </div>
           </section>
-
         </div>
 
         {/* ——— Desktop layout ——— */}

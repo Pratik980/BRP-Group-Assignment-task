@@ -46,7 +46,7 @@ export function ScrollTickers() {
       setLineIndex((prev) => (prev + 1) % rotatingLines.length);
     }, 4200);
     return () => clearInterval(timer);
-  }, [prefersReducedMotion]);
+  }, [prefersReducedMotion, rotatingLines.length]);
 
   return (
     <section

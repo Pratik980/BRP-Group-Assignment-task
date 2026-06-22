@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { siteMeta, ourHistory, ourLegacy, ourCommunity, communityPage } from "@/data/brp-site-content";
+import {
+  siteMeta,
+  ourHistory,
+  ourLegacy,
+  ourCommunity,
+  communityPage,
+} from "@/data/brp-site-content";
 
 describe("siteMeta", () => {
   it("has required fields", () => {

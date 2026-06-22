@@ -5,7 +5,13 @@ type LazyImageProps = ImgHTMLAttributes<HTMLImageElement> & {
   priority?: boolean;
 };
 
-export function LazyImage({ priority = false, loading, decoding, fetchPriority, ...props }: LazyImageProps) {
+export function LazyImage({
+  priority = false,
+  loading,
+  decoding,
+  fetchPriority,
+  ...props
+}: LazyImageProps) {
   return (
     <img
       {...props}

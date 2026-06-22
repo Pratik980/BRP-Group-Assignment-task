@@ -20,9 +20,15 @@ import { requireAdminRoute } from "@/lib/admin/require-admin";
 
 const DEFAULT_IMAGES: GalleryImage[] = [
   { src: "/site-assets/image-6.webp", label: "Corporate Team & Governance" },
-  { src: "/site-assets/Ubin-Pokharel-image-2.webp", label: "Leadership & Chairman Dr. Ubin Pokharel" },
+  {
+    src: "/site-assets/Ubin-Pokharel-image-2.webp",
+    label: "Leadership & Chairman Dr. Ubin Pokharel",
+  },
   { src: "/site-assets/image-1.webp", label: "Incubator Workshops & Satin Leaf" },
-  { src: "/site-assets/Babu-Ram-Pokharel-image-1.webp", label: "Chairman Emeritus Dr. Babu Ram Pokharel" },
+  {
+    src: "/site-assets/Babu-Ram-Pokharel-image-1.webp",
+    label: "Chairman Emeritus Dr. Babu Ram Pokharel",
+  },
   { src: "/site-assets/image-2.webp", label: "Venture Summit & Collaboration" },
   { src: "/site-assets/Brp-image-1.webp", label: "BRP Headquarters & Operations" },
   { src: "/site-assets/image-3.webp", label: "IT Infrastructure Planning" },
@@ -104,10 +110,7 @@ function AdminGalleryPage() {
             <Button variant="outline" onClick={addImage}>
               <Plus className="mr-2 h-4 w-4" /> Add image
             </Button>
-            <Button
-              onClick={() => saveMutation.mutate()}
-              disabled={saveMutation.isPending}
-            >
+            <Button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
               {saveMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Save gallery
             </Button>
@@ -188,9 +191,7 @@ function GalleryImageRow({
           >
             ↑
           </button>
-          <span className="text-xs tabular-nums text-muted-foreground">
-            {index + 1}
-          </span>
+          <span className="text-xs tabular-nums text-muted-foreground">{index + 1}</span>
           <button
             type="button"
             onClick={() => onMoveDown(index)}

@@ -30,9 +30,7 @@ export function AdminShell({ email, children }: AdminShellProps) {
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2.5">
               <div className="h-7 w-1 rounded-full bg-primary" />
-              <span className="text-sm font-medium text-foreground/70">
-                {email ?? "Admin"}
-              </span>
+              <span className="text-sm font-medium text-foreground/70">{email ?? "Admin"}</span>
             </div>
           </div>
           <div className="flex items-center gap-2">

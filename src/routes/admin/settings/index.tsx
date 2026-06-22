@@ -36,7 +36,7 @@ export const Route = createFileRoute("/admin/settings/")({
 function AdminSettingsPage() {
   const { session } = Route.useRouteContext();
   const queryClient = useQueryClient();
-  const { data: settings = {}, isLoading } = useQuery({
+  const { data: settings = {} as Record<string, string>, isLoading } = useQuery({
     queryKey: ["admin-settings"],
     queryFn: fetchSiteSettings,
   });
@@ -44,7 +44,7 @@ function AdminSettingsPage() {
   const [form, setForm] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    setForm(settings);
+    if (settings) setForm(settings as Record<string, string>);
   }, [settings]);
 
   const saveSite = useMutation({
