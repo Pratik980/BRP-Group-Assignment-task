@@ -13,6 +13,7 @@ import {
   Sparkles,
   UserRound,
   Users,
+  ArrowRight,
 } from "lucide-react";
 import {
   Bar,
@@ -28,6 +29,7 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { fetchDashboardStats, fetchRecentContacts } from "@/lib/admin/dashboard.client";
 import { requireAdminRoute } from "@/lib/admin/require-admin";
 
@@ -48,6 +50,35 @@ const quickActions = [
   { label: "Settings", to: "/admin/settings", icon: Settings },
 ];
 
+const CARD_COLORS = [
+  {
+    border: "border-l-blue-500",
+    bg: "bg-blue-500/10",
+    icon: "text-blue-500",
+    value: "text-blue-400",
+  },
+  {
+    border: "border-l-emerald-500",
+    bg: "bg-emerald-500/10",
+    icon: "text-emerald-500",
+    value: "text-emerald-400",
+  },
+  {
+    border: "border-l-amber-500",
+    bg: "bg-amber-500/10",
+    icon: "text-amber-500",
+    value: "text-amber-400",
+  },
+  {
+    border: "border-l-rose-500",
+    bg: "bg-rose-500/10",
+    icon: "text-rose-500",
+    value: "text-rose-400",
+  },
+];
+
+const CHART_COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#f43f5e"];
+
 function AdminDashboardPage() {
   const { session } = Route.useRouteContext();
 
@@ -62,27 +93,16 @@ function AdminDashboardPage() {
   });
 
   const statCards = [
-    { label: "Ventures", value: stats?.ventures ?? 0, icon: Briefcase, color: "text-blue-500" },
-    {
-      label: "Team members",
-      value: stats?.teamMembers ?? 0,
-      icon: Users,
-      color: "text-emerald-500",
-    },
-    {
-      label: "Unread contacts",
-      value: stats?.unreadContacts ?? 0,
-      icon: Mail,
-      color: "text-amber-500",
-    },
-    { label: "Open jobs", value: stats?.openJobs ?? 0, icon: UserRound, color: "text-rose-500" },
+    { label: "Ventures", value: stats?.ventures ?? 0, icon: Briefcase },
+    { label: "Team members", value: stats?.teamMembers ?? 0, icon: Users },
+    { label: "Unread contacts", value: stats?.unreadContacts ?? 0, icon: Mail },
+    { label: "Open jobs", value: stats?.openJobs ?? 0, icon: UserRound },
   ];
 
-  const chartColors = ["#3b82f6", "#10b981", "#f59e0b", "#f43f5e"];
   const chartData = statCards.map((s, i) => ({
     name: s.label,
     value: statsLoading ? 0 : s.value,
-    fill: chartColors[i],
+    fill: CHART_COLORS[i],
   }));
 
   const unreadCount = recentContacts?.filter((c) => !c.is_read).length ?? 0;
@@ -90,6 +110,7 @@ function AdminDashboardPage() {
   return (
     <AdminShell email={session.user.email}>
       <div className="mx-auto max-w-6xl space-y-8">
+        {/* ── Header ── */}
         <div className="flex items-start justify-between gap-4">
           <div>
             <h1 className="font-display text-3xl tracking-tight">Dashboard</h1>
@@ -105,42 +126,77 @@ function AdminDashboardPage() {
           </Button>
         </div>
 
+        {/* ── Stat cards ── */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {statCards.map((card) => {
+          {statCards.map((card, i) => {
             const Icon = card.icon;
+            const colors = CARD_COLORS[i];
             return (
-              <Card key={card.label}>
+              <Card
+                key={card.label}
+                className={cn(
+                  "border-l-4 overflow-hidden transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg",
+                  colors.border,
+                )}
+              >
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground">
                     {card.label}
                   </CardTitle>
-                  <Icon className={`h-4 w-4 ${card.color}`} />
+                  <div className={cn("rounded-lg p-2", colors.bg)}>
+                    <Icon className={cn("h-4 w-4", colors.icon)} />
+                  </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="font-display text-3xl">{statsLoading ? "—" : card.value}</p>
+                  <p className={cn("font-display text-3xl tracking-tight", colors.value)}>
+                    {statsLoading ? (
+                      <span className="animate-pulse text-muted-foreground/30">—</span>
+                    ) : (
+                      card.value
+                    )}
+                  </p>
                 </CardContent>
               </Card>
             );
           })}
         </div>
 
+        {/* ── Content chart + Recent contacts ── */}
         <div className="grid gap-6 lg:grid-cols-5">
+          {/* Chart */}
           <Card className="lg:col-span-3">
             <CardHeader>
               <CardTitle className="text-base flex items-center gap-2">
-                <BarChart3 className="h-4 w-4 text-muted-foreground" />
+                <div className="rounded-md bg-primary/10 p-1.5">
+                  <BarChart3 className="h-4 w-4 text-primary" />
+                </div>
                 Content overview
               </CardTitle>
             </CardHeader>
             <CardContent>
               {statsLoading ? (
-                <div className="flex h-64 items-center justify-center text-sm text-muted-foreground">
-                  Loading chart…
+                <div className="flex h-72 items-center justify-center text-sm text-muted-foreground">
+                  Loading chart...
                 </div>
               ) : (
                 <div className="h-72">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={chartData} layout="vertical" margin={{ left: 0, right: 16 }}>
+                      <defs>
+                        {CHART_COLORS.map((color, idx) => (
+                          <linearGradient
+                            key={idx}
+                            id={`barGrad${idx}`}
+                            x1="0"
+                            y1="0"
+                            x2="1"
+                            y2="0"
+                          >
+                            <stop offset="0%" stopColor={color} stopOpacity={0.85} />
+                            <stop offset="100%" stopColor={color} stopOpacity={0.4} />
+                          </linearGradient>
+                        ))}
+                      </defs>
                       <CartesianGrid
                         strokeDasharray="3 3"
                         stroke="hsl(var(--border))"
@@ -148,15 +204,17 @@ function AdminDashboardPage() {
                       />
                       <XAxis
                         type="number"
-                        tick={{ fontSize: 12 }}
-                        stroke="hsl(var(--muted-foreground))"
+                        tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                        axisLine={false}
+                        tickLine={false}
                       />
                       <YAxis
                         type="category"
                         dataKey="name"
-                        tick={{ fontSize: 12 }}
-                        stroke="hsl(var(--muted-foreground))"
-                        width={100}
+                        tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                        width={110}
+                        axisLine={false}
+                        tickLine={false}
                       />
                       <Tooltip
                         contentStyle={{
@@ -164,12 +222,14 @@ function AdminDashboardPage() {
                           border: "1px solid hsl(var(--border))",
                           borderRadius: "var(--radius)",
                           fontSize: 13,
+                          boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
                         }}
                         formatter={(value: number) => [value, "Count"]}
+                        cursor={{ fill: "hsl(var(--muted)/0.3)" }}
                       />
-                      <Bar dataKey="value" radius={[0, 6, 6, 0]} barSize={28}>
+                      <Bar dataKey="value" radius={[0, 6, 6, 0]} barSize={32}>
                         {chartData.map((entry, idx) => (
-                          <Cell key={idx} fill={chartColors[idx]} />
+                          <Cell key={idx} fill={`url(#barGrad${idx})`} />
                         ))}
                       </Bar>
                     </BarChart>
@@ -179,11 +239,14 @@ function AdminDashboardPage() {
             </CardContent>
           </Card>
 
+          {/* Recent contacts */}
           <Card className="lg:col-span-2">
             <CardHeader>
               <CardTitle className="text-base flex items-center justify-between gap-2">
                 <span className="flex items-center gap-2">
-                  <Mail className="h-4 w-4 text-muted-foreground" />
+                  <div className="rounded-md bg-primary/10 p-1.5">
+                    <Mail className="h-4 w-4 text-primary" />
+                  </div>
                   Recent contacts
                 </span>
                 {unreadCount > 0 && (
@@ -193,10 +256,12 @@ function AdminDashboardPage() {
                 )}
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-2">
               {(() => {
                 if (!recentContacts) {
-                  return <p className="py-6 text-center text-sm text-muted-foreground">Loading…</p>;
+                  return (
+                    <p className="py-6 text-center text-sm text-muted-foreground">Loading...</p>
+                  );
                 }
                 if (recentContacts.length === 0) {
                   return (
@@ -205,69 +270,104 @@ function AdminDashboardPage() {
                     </p>
                   );
                 }
-                return recentContacts.map((contact) => (
-                  <div
-                    key={contact.id}
-                    className="group rounded-lg border border-border/40 bg-background/40 px-3 py-2.5 transition-colors hover:bg-background"
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2">
-                          <span className="truncate text-sm font-medium text-foreground">
-                            {contact.name}
-                          </span>
-                          {!contact.is_read && (
-                            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                return recentContacts.map((contact) => {
+                  const initials = contact.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")
+                    .slice(0, 2)
+                    .toUpperCase();
+                  return (
+                    <div
+                      key={contact.id}
+                      className={cn(
+                        "group rounded-lg border px-3 py-2.5 transition-all duration-200 hover:shadow-sm",
+                        contact.is_read
+                          ? "border-border/40 bg-background/40"
+                          : "border-primary/20 bg-primary/[0.03]",
+                      )}
+                    >
+                      <div className="flex items-start gap-3">
+                        <div
+                          className={cn(
+                            "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-bold uppercase tracking-wide",
+                            contact.is_read
+                              ? "bg-muted text-muted-foreground"
+                              : "bg-primary/15 text-primary",
                           )}
+                        >
+                          {initials}
                         </div>
-                        <p className="truncate text-[11px] text-muted-foreground">
-                          {contact.subject || contact.email}
-                        </p>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="min-w-0 flex-1">
+                              <span className="text-sm font-medium text-foreground">
+                                {contact.name}
+                              </span>
+                              {!contact.is_read && (
+                                <span className="ml-1.5 inline-block h-2 w-2 rounded-full bg-primary align-middle" />
+                              )}
+                            </div>
+                            <time className="shrink-0 text-[10px] text-muted-foreground">
+                              {formatRelativeDate(contact.created_at)}
+                            </time>
+                          </div>
+                          <p className="truncate text-[11px] text-muted-foreground">
+                            {contact.subject || contact.email}
+                          </p>
+                          <p className="mt-1 line-clamp-1 text-[12px] text-muted-foreground/70">
+                            {contact.message}
+                          </p>
+                        </div>
                       </div>
-                      <time className="shrink-0 text-[10px] text-muted-foreground">
-                        {formatRelativeDate(contact.created_at)}
-                      </time>
                     </div>
-                    <p className="mt-1 line-clamp-1 text-[12px] text-muted-foreground/70">
-                      {contact.message}
-                    </p>
-                  </div>
-                ));
+                  );
+                });
               })()}
             </CardContent>
           </Card>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
-                Quick actions
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-stretch gap-3">
-                {quickActions.map((action) => {
-                  const Icon = action.icon;
-                  return (
-                    <Button
-                      key={action.to}
-                      asChild
-                      variant="outline"
-                      className="flex flex-1 flex-col items-center gap-1.5 px-2 py-3 text-xs h-auto"
-                    >
-                      <Link to={action.to}>
-                        <Icon className="h-4 w-4 shrink-0" />
-                        <span className="text-center leading-tight">{action.label}</span>
-                      </Link>
-                    </Button>
-                  );
-                })}
+        {/* ── Quick actions ── */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              <div className="rounded-md bg-primary/10 p-1.5">
+                <LayoutDashboard className="h-4 w-4 text-primary" />
               </div>
-            </CardContent>
-          </Card>
-        </div>
+              Quick actions
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-9 gap-3">
+              {quickActions.map((action) => {
+                const Icon = action.icon;
+                return (
+                  <Link
+                    key={action.to}
+                    to={action.to}
+                    className="group flex flex-col items-center gap-2 rounded-xl border border-border/50 bg-background/40 px-2 py-4 text-center transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/20 hover:bg-primary/[0.03] hover:shadow-sm"
+                  >
+                    <div className="rounded-lg bg-muted/60 p-2 transition-colors group-hover:bg-primary/10">
+                      <Icon className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
+                    </div>
+                    <span className="text-[11px] font-medium leading-tight text-muted-foreground transition-colors group-hover:text-foreground">
+                      {action.label}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+            <div className="mt-4 text-right">
+              <Button variant="ghost" size="sm" className="text-xs gap-1" asChild>
+                <Link to="/admin/settings">
+                  All settings
+                  <ArrowRight className="h-3 w-3" />
+                </Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </AdminShell>
   );
