@@ -1,73 +1,104 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
-import { Sparkles, Trees, Heart, Lightbulb, Globe, Flame, Quote } from "lucide-react";
+import { Sparkles, Trees, Heart, Lightbulb, Globe, Flame, Quote, GraduationCap, Award, Landmark, Compass, type LucideIcon } from "lucide-react";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
-import { cn } from "@/lib/utils";
 import babuRamImg from "@/assets/optimized/babu-ram.webp";
 import ubinImg from "@/assets/optimized/ubin.webp";
+import bidushiImgDefault from "@/assets/optimized/Bidushi-Pandey-Pokherel.webp";
 import { EXECUTIVE_PHOTO_BY_NAME } from "@/lib/cms/site-assets";
+import { usePublicHistoryLegacy } from "@/hooks/usePublicContent";
+import type { HistoryLegacyContent, LegacyTorchAct, LegacyValueItem } from "@/lib/cms/about-content";
 
-const bidushiImg = EXECUTIVE_PHOTO_BY_NAME["Ms. Bidushi Pandey Pokharel"];
+const bidushiImg = EXECUTIVE_PHOTO_BY_NAME["Ms. Bidushi Pandey Pokharel"] || bidushiImgDefault;
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const legacyValues = [
-  {
-    icon: Trees,
-    title: "Rooted in Service",
-    desc: "Founded on the principle that enterprise exists to serve community — not the other way around.",
-  },
-  {
-    icon: Heart,
-    title: "Compassionate Leadership",
-    desc: "Leading with empathy, integrity, and a deep sense of responsibility toward every stakeholder.",
-  },
-  {
-    icon: Lightbulb,
-    title: "Visionary Foresight",
-    desc: "Building across generations with a long-term view that transcends quarterly outcomes.",
-  },
-  {
-    icon: Globe,
-    title: "Nepal First",
-    desc: "Every venture, every investment, every partnership — grounded in the mission to elevate Nepal.",
-  },
-];
+const ICON_MAP_LEGACY: Record<string, LucideIcon> = {
+  Trees, Heart, Lightbulb, Globe, Flame, Quote, GraduationCap, Award, Landmark, Compass, Sparkles,
+};
 
-const torchActs = [
-  {
-    id: "foundation",
-    label: "1947 – 2022",
-    title: "The Foundation",
-    subtitle: "Dr. Babu Ram Pokharel",
-    desc: "A lifetime dedicated to education, public service, and nation-building. From a single school to a legacy that would span generations.",
-    accent: "from-amber-600/30 to-orange-600/20",
-    borderAccent: "border-amber-500/30",
-    iconColor: "text-amber-500",
+function resolveLegacyIcon(name: string): LucideIcon {
+  return ICON_MAP_LEGACY[name] || Trees;
+}
+
+const DEFAULT_LEGACY: HistoryLegacyContent = {
+  introBadge: "Carrying the Torch",
+  introTitle: "Our Legacy",
+  introDescription:
+    "BRP Group is more than a name \u2014 it is the living legacy of late Dr. Babu Ram Pokharel, carried forward by a new generation driven by the same values, renewed purpose, and a vision for Nepal\u2019s tomorrow.",
+  torchBadge: "Passing the Torch",
+  torchTitle: "From One Generation to the Next",
+  founder: {
+    title: "The Man Behind the Vision",
+    paragraphs: [
+      "Dr. Babu Ram Pokharel\u2019s journey began with a single school \u2014 V.S. Niketan \u2014 founded in 2037 B.S. with 7 teachers and 147 students. What started as a humble educational initiative grew into a lifelong mission of public service, enterprise, and community upliftment that would span over four decades.",
+      "Recognized nationally with the Gorkha Dakshina Bahu, Trishakti Patta, and the Birendra-Aishwarya medals, Dr. Pokharel\u2019s influence extended far beyond education. He served as a member of parliament, was a founding member of PABSON, and actively contributed to Rotary Clubs, Lions Clubs, CDGC, and the SAARC Relations Council.",
+      "His life was a testament to the belief that true leadership is measured not by what you accumulate, but by what you pass on. He planted seeds of education, nurtured institutions of care, and built bridges of opportunity \u2014 a legacy that now finds its next caretakers.",
+    ],
+    imageUrl: babuRamImg,
+    name: "Dr. Babu Ram Pokharel",
+    subtitle: "Chairman Emeritus \u00b7 1947\u20132022",
   },
-  {
-    id: "transition",
-    label: "The Bridge",
-    title: "Passing the Torch",
-    subtitle: "Values that transcend time",
-    desc: "Principles of integrity, service, and visionary leadership — carefully instilled and now carried forward with renewed purpose.",
-    accent: "from-primary/30 to-accent/20",
-    borderAccent: "border-primary/30",
-    iconColor: "text-primary",
-  },
-  {
-    id: "future",
-    label: "Present – Future",
-    title: "The Next Chapter",
-    subtitle: "Dr. Ubin Pokharel & Bidushi Pandey Pokharel",
-    desc: "Building on 45+ years of foundation with modern vision, global perspective, and an unwavering commitment to Nepal's tomorrow.",
-    accent: "from-sky-600/30 to-indigo-600/20",
-    borderAccent: "border-sky-500/30",
-    iconColor: "text-sky-500",
-  },
-];
+  torchActs: [
+    {
+      id: "foundation",
+      label: "1947 \u2013 2022",
+      title: "The Foundation",
+      subtitle: "Dr. Babu Ram Pokharel",
+      description:
+        "A lifetime dedicated to education, public service, and nation-building. From a single school to a legacy that would span generations.",
+      quote: "",
+      quoteAttribution: "",
+      accentFrom: "#d97706",
+      accentTo: "#ea580c",
+      borderAccent: "#d97706",
+      iconColor: "text-amber-500",
+    },
+    {
+      id: "transition",
+      label: "The Bridge",
+      title: "Passing the Torch",
+      subtitle: "Values that transcend time",
+      description:
+        "Principles of integrity, service, and visionary leadership \u2014 carefully instilled and now carried forward with renewed purpose.",
+      quote:
+        "\u201cThe foundation of a great nation is built not in years, but in the values we pass to the next generation.\u201d",
+      quoteAttribution: "\u2014 Dr. Babu Ram Pokharel",
+      accentFrom: "#8b5cf6",
+      accentTo: "#a78bfa",
+      borderAccent: "#8b5cf6",
+      iconColor: "text-primary",
+    },
+    {
+      id: "future",
+      label: "Present \u2013 Future",
+      title: "The Next Chapter",
+      subtitle: "Dr. Ubin Pokharel & Bidushi Pandey Pokharel",
+      description:
+        "Building on 45+ years of foundation with modern vision, global perspective, and an unwavering commitment to Nepal\u2019s tomorrow.",
+      quote: "",
+      quoteAttribution: "",
+      accentFrom: "#0284c7",
+      accentTo: "#4f46e5",
+      borderAccent: "#0284c7",
+      iconColor: "text-sky-500",
+    },
+  ],
+  valuesTitle: "Principles That Endure",
+  valuesDescription:
+    "The core values that Dr. Pokharel instilled continue to guide every decision, every venture, and every partnership.",
+  values: [
+    { iconName: "Trees", title: "Rooted in Service", description: "Founded on the principle that enterprise exists to serve community \u2014 not the other way around." },
+    { iconName: "Heart", title: "Compassionate Leadership", description: "Leading with empathy, integrity, and a deep sense of responsibility toward every stakeholder." },
+    { iconName: "Lightbulb", title: "Visionary Foresight", description: "Building across generations with a long-term view that transcends quarterly outcomes." },
+    { iconName: "Globe", title: "Nepal First", description: "Every venture, every investment, every partnership \u2014 grounded in the mission to elevate Nepal." },
+  ],
+};
 
 export function LegacySection() {
+  const adminLegacy = usePublicHistoryLegacy();
+  const content = adminLegacy?.introBadge ? adminLegacy : DEFAULT_LEGACY;
+
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -76,6 +107,7 @@ export function LegacySection() {
   });
 
   const founderY = useTransform(scrollYProgress, [0, 0.4], [120, 0]);
+  const founderImg = content.founder.imageUrl || babuRamImg;
 
   if (reduceMotion) {
     return (
@@ -85,10 +117,10 @@ export function LegacySection() {
       >
         <ThemeBackdrop variant="section" />
         <div className="relative z-10 brp-container space-y-24">
-          <LegacyIntroStatic />
-          <FounderStatic />
-          <BridgeStatic />
-          <ValuesStatic />
+          <LegacyIntroStatic content={content} />
+          <FounderStatic content={content} founderImg={founderImg} />
+          <BridgeStatic content={content} />
+          <ValuesStatic content={content} />
         </div>
       </section>
     );
@@ -113,15 +145,13 @@ export function LegacySection() {
         >
           <div className="glass mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.28em] text-primary shadow-sm">
             <Sparkles className="h-3 w-3 animate-pulse" />
-            Carrying the Torch
+            {content.introBadge}
           </div>
           <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight">
-            Our <span className="text-gradient italic">Legacy</span>
+            {content.introTitle}
           </h2>
           <p className="mt-5 text-base sm:text-lg font-light text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            BRP Group is more than a name — it is the living legacy of late Dr. Babu Ram Pokharel,
-            carried forward by a new generation driven by the same values, renewed purpose, and a
-            vision for Nepal's tomorrow.
+            {content.introDescription}
           </p>
         </motion.div>
 
@@ -136,17 +166,17 @@ export function LegacySection() {
               <div className="relative overflow-hidden rounded-[2rem] border border-border/40 bg-card/80 shadow-xl">
                 <div className="aspect-[3/4]">
                   <img
-                    src={babuRamImg}
-                    alt="Dr. Babu Ram Pokharel"
+                    src={founderImg}
+                    alt={content.founder.name}
                     className="h-full w-full object-cover object-top"
                     loading="lazy"
                     decoding="async"
                   />
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-5 pt-12">
-                  <p className="text-white font-display text-lg font-bold">Dr. Babu Ram Pokharel</p>
+                  <p className="text-white font-display text-lg font-bold">{content.founder.name}</p>
                   <p className="text-white/70 text-xs uppercase tracking-[0.2em] font-semibold">
-                    Chairman Emeritus · 1947–2022
+                    {content.founder.subtitle}
                   </p>
                 </div>
               </div>
@@ -159,27 +189,12 @@ export function LegacySection() {
           >
             <div className="glass-strong rounded-2xl border border-border/40 p-6 sm:p-8 md:p-10 shadow-glass">
               <h3 className="font-display text-2xl sm:text-3xl md:text-4xl tracking-tight text-foreground mb-5">
-                The Man Behind the <span className="text-gradient italic">Vision</span>
+                {content.founder.title}
               </h3>
               <div className="space-y-4 text-sm sm:text-base font-light text-muted-foreground leading-relaxed">
-                <p>
-                  Dr. Babu Ram Pokharel's journey began with a single school — V.S. Niketan —
-                  founded in 2037 B.S. with 7 teachers and 147 students. What started as a humble
-                  educational initiative grew into a lifelong mission of public service, enterprise,
-                  and community upliftment that would span over four decades.
-                </p>
-                <p>
-                  Recognized nationally with the Gorkha Dakshina Bahu, Trishakti Patta, and the
-                  Birendra-Aishwarya medals, Dr. Pokharel's influence extended far beyond education.
-                  He served as a member of parliament, was a founding member of PABSON, and actively
-                  contributed to Rotary Clubs, Lions Clubs, CDGC, and the SAARC Relations Council.
-                </p>
-                <p>
-                  His life was a testament to the belief that true leadership is measured not by
-                  what you accumulate, but by what you pass on. He planted seeds of education,
-                  nurtured institutions of care, and built bridges of opportunity — a legacy that
-                  now finds its next caretakers.
-                </p>
+                {content.founder.paragraphs.map((para, i) => (
+                  <p key={i}>{para}</p>
+                ))}
               </div>
             </div>
           </motion.div>
@@ -196,16 +211,15 @@ export function LegacySection() {
           >
             <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-primary/8 border border-primary/15 text-xs font-semibold uppercase tracking-[0.24em] text-primary mb-4">
               <Flame className="h-3 w-3" />
-              Passing the Torch
+              {content.torchBadge}
             </div>
             <h3 className="font-display text-3xl sm:text-4xl md:text-5xl tracking-tight text-foreground">
-              From One Generation to the <span className="text-gradient italic">Next</span>
+              {content.torchTitle}
             </h3>
           </motion.div>
 
-          {/* Spotlight acts — large photos, no timeline */}
           <div className="relative max-w-5xl mx-auto space-y-24 md:space-y-32">
-            {torchActs.map((act, i) => (
+            {content.torchActs.map((act, i) => (
               <TorchSpotlight
                 key={act.id}
                 act={act}
@@ -228,20 +242,19 @@ export function LegacySection() {
             className="text-center mb-12 md:mb-16"
           >
             <h3 className="font-display text-3xl sm:text-4xl md:text-5xl tracking-tight text-foreground">
-              Principles That <span className="text-gradient italic">Endure</span>
+              {content.valuesTitle}
             </h3>
             <p className="mt-3 text-sm text-muted-foreground max-w-lg mx-auto">
-              The core values that Dr. Pokharel instilled continue to guide every decision, every
-              venture, and every partnership.
+              {content.valuesDescription}
             </p>
           </motion.div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            {legacyValues.map((item, i) => {
-              const Icon = item.icon;
+            {content.values.map((item, i) => {
+              const Icon = resolveLegacyIcon(item.iconName);
               return (
                 <motion.div
-                  key={item.title}
+                  key={item.title + i}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-60px" }}
@@ -259,7 +272,7 @@ export function LegacySection() {
                         {item.title}
                       </h4>
                       <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                        {item.desc}
+                        {item.description}
                       </p>
                     </div>
                   </div>
@@ -281,7 +294,7 @@ function TorchSpotlight({
   ubinImg: ubin,
   bidushiImg: bidushi,
 }: {
-  act: (typeof torchActs)[number];
+  act: LegacyTorchAct;
   index: number;
   babuRamImg: string;
   ubinImg: string;
@@ -339,7 +352,7 @@ function TorchSpotlight({
           </h4>
           <p className="text-sm font-medium text-muted-foreground/70">{act.subtitle}</p>
           <p className="text-base sm:text-lg font-light text-muted-foreground leading-relaxed">
-            {act.desc}
+            {act.description}
           </p>
         </div>
       </motion.div>
@@ -375,18 +388,21 @@ function TorchSpotlight({
             </h4>
             <p className="text-sm font-medium text-muted-foreground/70">{act.subtitle}</p>
             <p className="text-base sm:text-lg font-light text-muted-foreground leading-relaxed max-w-lg mx-auto">
-              {act.desc}
+              {act.description}
             </p>
-            <div className="relative pl-7 border-l-2 border-primary/30 text-left max-w-md mx-auto mt-6 pt-4 border-t border-border/30">
-              <Quote className="absolute -left-3.5 -top-1 h-5 w-5 text-primary/40" />
-              <p className="text-sm italic text-muted-foreground/80 leading-relaxed">
-                "The foundation of a great nation is built not in years, but in the values we pass
-                to the next generation."
-              </p>
-              <p className="text-xs text-muted-foreground/50 mt-2 font-semibold">
-                — Dr. Babu Ram Pokharel
-              </p>
-            </div>
+            {act.quote ? (
+              <div className="relative pl-7 border-l-2 border-primary/30 text-left max-w-md mx-auto mt-6 pt-4 border-t border-border/30">
+                <Quote className="absolute -left-3.5 -top-1 h-5 w-5 text-primary/40" />
+                <p className="text-sm italic text-muted-foreground/80 leading-relaxed">
+                  {act.quote}
+                </p>
+                {act.quoteAttribution ? (
+                  <p className="text-xs text-muted-foreground/50 mt-2 font-semibold">
+                    {act.quoteAttribution}
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
           </div>
         </div>
       </motion.div>
@@ -407,7 +423,7 @@ function TorchSpotlight({
         </h4>
         <p className="text-sm font-medium text-muted-foreground/70">{act.subtitle}</p>
         <p className="text-base sm:text-lg font-light text-muted-foreground leading-relaxed">
-          {act.desc}
+          {act.description}
         </p>
       </div>
 
@@ -485,26 +501,24 @@ function TorchSpotlight({
 
 /* Static fallback versions for reduced motion */
 
-function LegacyIntroStatic() {
+function LegacyIntroStatic({ content }: { content: HistoryLegacyContent }) {
   return (
     <div className="text-center max-w-3xl mx-auto">
       <div className="glass mb-5 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.28em] text-primary shadow-sm">
         <Sparkles className="h-3 w-3" />
-        Carrying the Torch
+        {content.introBadge}
       </div>
       <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight">
-        Our <span className="text-gradient italic">Legacy</span>
+        {content.introTitle}
       </h2>
       <p className="mt-5 text-base sm:text-lg font-light text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-        BRP Group is more than a name — it is the living legacy of late Dr. Babu Ram Pokharel,
-        carried forward by a new generation driven by the same values, renewed purpose, and a vision
-        for Nepal's tomorrow.
+        {content.introDescription}
       </p>
     </div>
   );
 }
 
-function FounderStatic() {
+function FounderStatic({ content, founderImg }: { content: HistoryLegacyContent; founderImg: string }) {
   return (
     <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 items-center">
       <div className="lg:col-span-2 relative">
@@ -513,17 +527,17 @@ function FounderStatic() {
           <div className="relative overflow-hidden rounded-[2rem] border border-border/40 bg-card/80 shadow-xl">
             <div className="aspect-[3/4]">
               <img
-                src={babuRamImg}
-                alt="Dr. Babu Ram Pokharel"
+                src={founderImg}
+                alt={content.founder.name}
                 className="h-full w-full object-cover object-top"
                 loading="lazy"
                 decoding="async"
               />
             </div>
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-5 pt-12">
-              <p className="text-white font-display text-lg font-bold">Dr. Babu Ram Pokharel</p>
+              <p className="text-white font-display text-lg font-bold">{content.founder.name}</p>
               <p className="text-white/70 text-xs uppercase tracking-[0.2em] font-semibold">
-                Chairman Emeritus · 1947–2022
+                {content.founder.subtitle}
               </p>
             </div>
           </div>
@@ -533,27 +547,12 @@ function FounderStatic() {
       <div className="lg:col-span-3 space-y-5">
         <div className="glass-strong rounded-2xl border border-border/40 p-6 sm:p-8 md:p-10 shadow-glass">
           <h3 className="font-display text-2xl sm:text-3xl md:text-4xl tracking-tight text-foreground mb-5">
-            The Man Behind the <span className="text-gradient italic">Vision</span>
+            {content.founder.title}
           </h3>
           <div className="space-y-4 text-sm sm:text-base font-light text-muted-foreground leading-relaxed">
-            <p>
-              Dr. Babu Ram Pokharel's journey began with a single school — V.S. Niketan — founded in
-              2037 B.S. with 7 teachers and 147 students. What started as a humble educational
-              initiative grew into a lifelong mission of public service, enterprise, and community
-              upliftment that would span over four decades.
-            </p>
-            <p>
-              Recognized nationally with the Gorkha Dakshina Bahu, Trishakti Patta, and the
-              Birendra-Aishwarya medals, Dr. Pokharel's influence extended far beyond education. He
-              served as a member of parliament, was a founding member of PABSON, and actively
-              contributed to Rotary Clubs, Lions Clubs, CDGC, and the SAARC Relations Council.
-            </p>
-            <p>
-              His life was a testament to the belief that true leadership is measured not by what
-              you accumulate, but by what you pass on. He planted seeds of education, nurtured
-              institutions of care, and built bridges of opportunity — a legacy that now finds its
-              next caretakers.
-            </p>
+            {content.founder.paragraphs.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
           </div>
         </div>
       </div>
@@ -561,22 +560,22 @@ function FounderStatic() {
   );
 }
 
-function BridgeStatic() {
+function BridgeStatic({ content }: { content: HistoryLegacyContent }) {
+  const acts = content.torchActs;
   return (
     <div className="relative">
       <div className="text-center mb-14 md:mb-20">
         <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-primary/8 border border-primary/15 text-xs font-semibold uppercase tracking-[0.24em] text-primary mb-4">
           <Flame className="h-3 w-3" />
-          Passing the Torch
+          {content.torchBadge}
         </div>
         <h3 className="font-display text-3xl sm:text-4xl md:text-5xl tracking-tight text-foreground">
-          From One Generation to the <span className="text-gradient italic">Next</span>
+          {content.torchTitle}
         </h3>
       </div>
 
       <div className="max-w-5xl mx-auto space-y-24 md:space-y-32">
-        {torchActs.map((act) => {
-          /* Foundation — large photo left, content right */
+        {acts.map((act) => {
           if (act.id === "foundation") {
             return (
               <div key={act.id} className="flex flex-col md:flex-row items-center gap-10 md:gap-14">
@@ -614,14 +613,13 @@ function BridgeStatic() {
                   </h4>
                   <p className="text-sm font-medium text-muted-foreground/70">{act.subtitle}</p>
                   <p className="text-base sm:text-lg font-light text-muted-foreground leading-relaxed">
-                    {act.desc}
+                    {act.description}
                   </p>
                 </div>
               </div>
             );
           }
 
-          /* Transition — centered quote */
           if (act.id === "transition") {
             return (
               <div key={act.id} className="max-w-2xl mx-auto">
@@ -640,25 +638,27 @@ function BridgeStatic() {
                     </h4>
                     <p className="text-sm font-medium text-muted-foreground/70">{act.subtitle}</p>
                     <p className="text-base sm:text-lg font-light text-muted-foreground leading-relaxed max-w-lg mx-auto">
-                      {act.desc}
+                      {act.description}
                     </p>
-                    <div className="relative pl-7 border-l-2 border-primary/30 text-left max-w-md mx-auto mt-6 pt-4 border-t border-border/30">
-                      <Quote className="absolute -left-3.5 -top-1 h-5 w-5 text-primary/40" />
-                      <p className="text-sm italic text-muted-foreground/80 leading-relaxed">
-                        "The foundation of a great nation is built not in years, but in the values
-                        we pass to the next generation."
-                      </p>
-                      <p className="text-xs text-muted-foreground/50 mt-2 font-semibold">
-                        — Dr. Babu Ram Pokharel
-                      </p>
-                    </div>
+                    {act.quote ? (
+                      <div className="relative pl-7 border-l-2 border-primary/30 text-left max-w-md mx-auto mt-6 pt-4 border-t border-border/30">
+                        <Quote className="absolute -left-3.5 -top-1 h-5 w-5 text-primary/40" />
+                        <p className="text-sm italic text-muted-foreground/80 leading-relaxed">
+                          {act.quote}
+                        </p>
+                        {act.quoteAttribution ? (
+                          <p className="text-xs text-muted-foreground/50 mt-2 font-semibold">
+                            {act.quoteAttribution}
+                          </p>
+                        ) : null}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </div>
             );
           }
 
-          /* Future — two individual spotlights */
           return (
             <div key={act.id} className="space-y-16">
               <div className="max-w-2xl space-y-4">
@@ -671,7 +671,7 @@ function BridgeStatic() {
                 </h4>
                 <p className="text-sm font-medium text-muted-foreground/70">{act.subtitle}</p>
                 <p className="text-base sm:text-lg font-light text-muted-foreground leading-relaxed">
-                  {act.desc}
+                  {act.description}
                 </p>
               </div>
 
@@ -753,24 +753,23 @@ function BridgeStatic() {
   );
 }
 
-function ValuesStatic() {
+function ValuesStatic({ content }: { content: HistoryLegacyContent }) {
   return (
     <div>
       <div className="text-center mb-12 md:mb-16">
         <h3 className="font-display text-3xl sm:text-4xl md:text-5xl tracking-tight text-foreground">
-          Principles That <span className="text-gradient italic">Endure</span>
+          {content.valuesTitle}
         </h3>
         <p className="mt-3 text-sm text-muted-foreground max-w-lg mx-auto">
-          The core values that Dr. Pokharel instilled continue to guide every decision, every
-          venture, and every partnership.
+          {content.valuesDescription}
         </p>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-        {legacyValues.map((item) => {
-          const Icon = item.icon;
+        {content.values.map((item, i) => {
+          const Icon = resolveLegacyIcon(item.iconName);
           return (
             <div
-              key={item.title}
+              key={item.title + i}
               className="glass-strong rounded-2xl border border-border/30 p-6 shadow-sm"
             >
               <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center mb-4">
@@ -780,7 +779,7 @@ function ValuesStatic() {
                 {item.title}
               </h4>
               <p className="text-sm font-light text-muted-foreground leading-relaxed">
-                {item.desc}
+                {item.description}
               </p>
             </div>
           );

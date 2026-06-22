@@ -12,18 +12,50 @@ import {
   Award,
   Landmark,
   Compass,
+  Trees,
+  Heart,
+  Lightbulb,
+  Globe,
+  Flame,
+  Quote,
+  type LucideIcon,
 } from "lucide-react";
 
 import { LegacySection } from "@/components/brp/LegacySection";
 import { alternateSlideIn } from "@/lib/alternate-slide";
+import { usePublicHistoryPage } from "@/hooks/usePublicContent";
+import type { HistoryMilestoneItem } from "@/lib/cms/about-content";
 import histImg1 from "@/assets/optimized/History-image-1.webp";
 import histImg2 from "@/assets/optimized/History-image-2-1200.webp";
 import hallOfFrame from "@/assets/optimized/hall-of-frame.webp";
-import commaImg from "@/assets/optimized/comma.webp";
-import babuRam2 from "@/assets/optimized/Babu-Ram-Pokharel-image-2-1200.webp";
 import vsImg1 from "@/assets/optimized/new-vs.webp";
 import vsImg2 from "@/assets/optimized/education-1.webp";
 import vsImg3 from "@/assets/optimized/education-2.webp";
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  GraduationCap,
+  Award,
+  Landmark,
+  Compass,
+  Trees,
+  Heart,
+  Lightbulb,
+  Globe,
+  Flame,
+  Quote,
+};
+
+function resolveIcon(name: string): LucideIcon {
+  return ICON_MAP[name] || GraduationCap;
+}
+
+const FALLBACK_IMAGES: string[] = [histImg1, histImg2, hallOfFrame, vsImg1, vsImg2, vsImg3];
+let fallbackIdx = 0;
+function nextFallbackImage(): string {
+  const img = FALLBACK_IMAGES[fallbackIdx % FALLBACK_IMAGES.length];
+  fallbackIdx++;
+  return img;
+}
 
 export const Route = createFileRoute("/history")({
   head: () => ({
@@ -106,38 +138,46 @@ function ImageSlider({ images }: { images: string[] }) {
   );
 }
 
-const historyMilestones = [
+const FALLBACK_MILESTONES: HistoryMilestoneItem[] = [
   {
     period: "2040-50 BS",
     title: "The Educational Genesis",
-    icon: GraduationCap,
-    desc: "Dr. Babu Ram Pokharel started his long and impactful journey in the education sector with the establishment of V.S. Niketan School in 2037 B.S. A school that was initiated with 7 teachers and 147 students is now one of the biggest educational institutions in the country.\nHe was also the founding member of Private and Boarding Schools’ Organization Nepal (PABSON), established in B.S. 2047.",
-    image: histImg1,
-    glowColor: "oklch(0.65 0.18 15 / 0.15)", // Rose/Red
+    iconName: "GraduationCap",
+    description:
+      "Dr. Babu Ram Pokharel started his long and impactful journey in the education sector with the establishment of V.S. Niketan School in 2037 B.S. A school that was initiated with 7 teachers and 147 students is now one of the biggest educational institutions in the country.\nHe was also the founding member of Private and Boarding Schools\u2019 Organization Nepal (PABSON), established in B.S. 2047.",
+    imageUrl: histImg1,
+    extraImages: [],
+    glowColor: "oklch(0.65 0.18 15 / 0.15)",
   },
   {
     period: "2050-60 BS",
     title: "National Recognition & Honors",
-    icon: Award,
-    desc: "Recognizing the efforts of Dr. Babu Ram Pokharel and his initiatives in the social sector of the country, he was awarded with the Gorkha Dakshina Bahu in B.S. 2054, highest of awards from the then kingship of Nepal. He also received the Trishakti Patta, and the Birendra-Aishwarya medal in the years B.S. 2056 and B.S 2059 respectively.",
-    image: histImg2,
-    glowColor: "oklch(0.6 0.15 240 / 0.15)", // Blue
+    iconName: "Award",
+    description:
+      "Recognizing the efforts of Dr. Babu Ram Pokharel and his initiatives in the social sector of the country, he was awarded with the Gorkha Dakshina Bahu in B.S. 2054, highest of awards from the then kingship of Nepal. He also received the Trishakti Patta, and the Birendra-Aishwarya medal in the years B.S. 2056 and B.S 2059 respectively.",
+    imageUrl: histImg2,
+    extraImages: [],
+    glowColor: "oklch(0.6 0.15 240 / 0.15)",
   },
   {
     period: "2060-70 BS",
     title: "Institutional Scaling & Public Service",
-    icon: Landmark,
-    desc: "V.S. Niketan has been able to accomplish excellent outcomes in education since the 37 years of its establishment. Having won the Best School of the Nation award in B.S. 2065, it is now a family for 300+ teachers and about 5000 students.\nHis influence in bringing reforms doesn’t only limit to the education sector, an equally active member of the society Dr. Babu Ram Pokharel was the member of parliament from B.S. 2070.",
-    images: [vsImg1, vsImg2, vsImg3], // Uses slider!
-    glowColor: "oklch(0.65 0.16 180 / 0.15)", // Teal/Cyan
+    iconName: "Landmark",
+    description:
+      "V.S. Niketan has been able to accomplish excellent outcomes in education since the 37 years of its establishment. Having won the Best School of the Nation award in B.S. 2065, it is now a family for 300+ teachers and about 5000 students.\nHis influence in bringing reforms doesn\u2019t only limit to the education sector, an equally active member of the society Dr. Babu Ram Pokharel was the member of parliament from B.S. 2070.",
+    imageUrl: vsImg1,
+    extraImages: [vsImg2, vsImg3].filter(Boolean),
+    glowColor: "oklch(0.65 0.16 180 / 0.15)",
   },
   {
     period: "2070-80 BS",
     title: "Legacy Transition & Ecosystem Building",
-    icon: Compass,
-    desc: "A visionary and an influential figure for thousands of people, Dr. Babu Ram Pokharel was also actively involved in more than a dozen social groups, such as the Rotary Club, Lions Clubs, Community Development and Guidance Center (CDGC), SAARC Relations Council, and others.\nHis involvements, deeds, and beliefs have now paved a way and given younger generations direction. The legacy of Dr. Babu Ram Pokharel is carried on by Dr. Ubin Pokharel and Ms. Bidushi Pandey Pokharel, who embody the same values and ethics but are motivated by fresher concepts.",
-    image: hallOfFrame,
-    glowColor: "oklch(0.55 0.15 280 / 0.15)", // Violet
+    iconName: "Compass",
+    description:
+      "A visionary and an influential figure for thousands of people, Dr. Babu Ram Pokharel was also actively involved in more than a dozen social groups, such as the Rotary Club, Lions Clubs, Community Development and Guidance Center (CDGC), SAARC Relations Council, and others.\nHis involvements, deeds, and beliefs have now paved a way and given younger generations direction. The legacy of Dr. Babu Ram Pokharel is carried on by Dr. Ubin Pokharel and Ms. Bidushi Pandey Pokharel, who embody the same values and ethics but are motivated by fresher concepts.",
+    imageUrl: hallOfFrame,
+    extraImages: [],
+    glowColor: "oklch(0.55 0.15 280 / 0.15)",
   },
 ];
 
@@ -193,6 +233,18 @@ function TimelineNavItem({
 }
 
 function HistoryPage() {
+  const adminPage = usePublicHistoryPage();
+  const milestones = adminPage?.milestones?.length
+    ? adminPage.milestones
+    : FALLBACK_MILESTONES;
+  const heroBadge = adminPage?.heroBadge || "Our Timeline";
+  const heroTitle = adminPage?.heroTitle || "Chronicle of Trust";
+  const heroDescription =
+    adminPage?.heroDescription ||
+    "A 45-year narrative of corporate responsibility, educational transformation, and compound value creation across Nepal.";
+  const overviewBadge = adminPage?.overviewBadge || "Overview";
+  const overviewTitle = adminPage?.overviewTitle || "Complete timeline";
+
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
   const cardsContainerRef = useRef<HTMLDivElement | null>(null);
   const [overviewHeight, setOverviewHeight] = useState(0);
@@ -248,14 +300,13 @@ function HistoryPage() {
             >
               <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-6 shadow-sm">
                 <Sparkles className="h-3 w-3 text-primary animate-pulse" />
-                Our Timeline
+                {heroBadge}
               </span>
               <h1 className="font-display text-4xl leading-tight tracking-tight sm:text-6xl md:text-7xl">
-                Chronicle of <span className="text-gradient italic">Trust</span>
+                {heroTitle}
               </h1>
               <p className="mx-auto mt-6 max-w-2xl text-base font-light text-muted-foreground md:text-lg xl:text-xl">
-                A 45-year narrative of corporate responsibility, educational transformation, and
-                compound value creation across Nepal.
+                {heroDescription}
               </p>
             </motion.div>
           </div>
@@ -311,9 +362,9 @@ function HistoryPage() {
                     subtitle="View all milestones"
                     index={0}
                   />
-                  {historyMilestones.map((m, i) => (
+                  {milestones.map((m, i) => (
                     <TimelineNavItem
-                      key={m.period}
+                      key={m.period + i}
                       active={activeIdx === i}
                       onClick={() => setTimelineView(i)}
                       title={m.period}
@@ -338,25 +389,25 @@ function HistoryPage() {
                   >
                     <div className="mb-5 border-b border-border/30 pb-4">
                       <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
-                        Overview
+                        {overviewBadge}
                       </p>
                       <h2 className="font-display mt-2 text-2xl tracking-tight text-foreground md:text-3xl">
-                        Complete timeline
+                        {overviewTitle}
                       </h2>
                     </div>
                     <div className="max-h-[calc(100vh-190px)] overflow-y-auto pr-2">
                       <div className="flex flex-col gap-8 pb-1">
-                        {historyMilestones.map((milestone, i) => (
-                          <MilestoneCard key={milestone.period} milestone={milestone} index={i} />
+                        {milestones.map((milestone, i) => (
+                          <MilestoneCard key={milestone.period + i} milestone={milestone} index={i} />
                         ))}
                       </div>
                     </div>
                   </motion.div>
                 ) : (
                   <div className="flex flex-col gap-12">
-                    {historyMilestones.map((milestone, i) => (
+                    {milestones.map((milestone, i) => (
                       <div
-                        key={milestone.period}
+                        key={milestone.period + i}
                         className={isCardVisible(i) ? "block" : "hidden"}
                         aria-hidden={!isCardVisible(i)}
                       >
@@ -381,9 +432,9 @@ function HistoryPage() {
                 className="flex flex-col gap-12"
                 style={overviewHeight > 0 ? { minHeight: overviewHeight } : undefined}
               >
-                {historyMilestones.map((milestone, i) => (
+                {milestones.map((milestone, i) => (
                   <div
-                    key={milestone.period}
+                    key={milestone.period + i}
                     className={isCardVisible(i) ? "block" : "hidden"}
                     aria-hidden={!isCardVisible(i)}
                   >
@@ -406,7 +457,7 @@ function MilestoneCard({
   milestone,
   index = 0,
 }: {
-  milestone: (typeof historyMilestones)[number];
+  milestone: HistoryMilestoneItem;
   index?: number;
 }) {
   const reduceMotion = useReducedMotion();
@@ -444,8 +495,13 @@ function MilestoneCard({
   );
 }
 
-function RightCardContent({ milestone }: { milestone: (typeof historyMilestones)[number] }) {
+function RightCardContent({ milestone }: { milestone: HistoryMilestoneItem }) {
   const reduceMotion = useReducedMotion();
+  const Icon = resolveIcon(milestone.iconName);
+
+  const sliderImages = [milestone.imageUrl, ...milestone.extraImages].filter(Boolean);
+  const hasSlider = sliderImages.length > 1;
+  const singleImage = !hasSlider && milestone.imageUrl;
 
   return (
     <motion.div
@@ -465,7 +521,7 @@ function RightCardContent({ milestone }: { milestone: (typeof historyMilestones)
             whileHover={reduceMotion ? undefined : { scale: 1.08, rotate: 4 }}
             transition={{ type: "spring", stiffness: 400, damping: 18 }}
           >
-            <milestone.icon className="h-4 w-4 sm:h-5 sm:w-5" />
+            <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
           </motion.div>
           <div className="min-w-0">
             <div className="text-[11px] sm:text-xs text-muted-foreground">{milestone.period}</div>
@@ -490,21 +546,21 @@ function RightCardContent({ milestone }: { milestone: (typeof historyMilestones)
         <div className="grid gap-4 sm:gap-5 md:grid-cols-2 md:gap-6 md:items-start">
           <motion.div variants={reduceMotion ? undefined : cardItemVariants}>
             <p className="text-sm font-light text-muted-foreground text-pretty whitespace-pre-line">
-              {milestone.desc}
+              {milestone.description}
             </p>
           </motion.div>
 
           <motion.div className="w-full" variants={reduceMotion ? undefined : cardItemVariants}>
-            {milestone.images && milestone.images.length > 1 ? (
-              <ImageSlider images={milestone.images} />
-            ) : milestone.image ? (
+            {hasSlider ? (
+              <ImageSlider images={sliderImages} />
+            ) : singleImage ? (
               <motion.div
                 className="overflow-hidden rounded-2xl border bg-white p-2 shadow-sm"
                 whileHover={reduceMotion ? undefined : { scale: 1.02 }}
                 transition={{ duration: 0.35, ease }}
               >
                 <img
-                  src={milestone.image}
+                  src={milestone.imageUrl}
                   alt={milestone.title}
                   className="w-full h-auto rounded-xl pointer-events-none"
                   loading="lazy"

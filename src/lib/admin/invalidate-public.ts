@@ -33,3 +33,9 @@ export function invalidatePublicSiteSettings(queryClient: QueryClient) {
 export function invalidatePublicCareers(queryClient: QueryClient) {
   return queryClient.invalidateQueries({ queryKey: ["public-careers"] });
 }
+
+export function invalidatePublicHistory(queryClient: QueryClient) {
+  return Promise.all([
+    queryClient.invalidateQueries({ queryKey: ["public-about"] }),
+  ]);
+}

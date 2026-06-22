@@ -2,6 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   BarChart3,
   Briefcase,
+  Clock,
   FileText,
   Heart,
   Image,
@@ -16,6 +17,7 @@ import sidebarLogo from "@/assets/optimized/BRPGrouplogo.png";
 const navItems = [
   { label: "Dashboard", to: "/admin", icon: LayoutDashboard, exact: true },
   { label: "Hero", to: "/admin/hero", icon: Sparkles },
+  { label: "History & Legacy", to: "/admin/history", icon: Clock },
   { label: "Impact stats", to: "/admin/stats", icon: BarChart3 },
   { label: "Page content", to: "/admin/about", icon: FileText },
   { label: "Ventures", to: "/admin/ventures", icon: Briefcase },

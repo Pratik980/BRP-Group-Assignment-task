@@ -18,7 +18,9 @@ import {
   fetchPublicOurTeam,
   mergeSiteMeta,
   parseStatValue,
+  fetchPublicAboutSection,
 } from "@/lib/cms/content.public";
+import { resolveHistoryPage, resolveHistoryLegacy, ABOUT_SECTION_KEYS } from "@/lib/cms/about-content";
 
 const PUBLIC_CACHE = {
   staleTime: 5 * 60_000,
@@ -138,6 +140,20 @@ export function usePublicHeroTextColors() {
   const { data: aboutSections } = usePublicAboutSections();
   return resolveHeroTextColors(
     aboutSections?.hero_text_colors?.metadata as Record<string, unknown> | undefined,
+  );
+}
+
+export function usePublicHistoryPage() {
+  const { data: aboutSections } = usePublicAboutSections();
+  return resolveHistoryPage(
+    aboutSections?.history_page?.metadata as Record<string, unknown> | undefined,
+  );
+}
+
+export function usePublicHistoryLegacy() {
+  const { data: aboutSections } = usePublicAboutSections();
+  return resolveHistoryLegacy(
+    aboutSections?.history_legacy?.metadata as Record<string, unknown> | undefined,
   );
 }
 
