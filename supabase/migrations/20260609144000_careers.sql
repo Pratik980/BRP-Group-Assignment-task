@@ -37,6 +37,7 @@ GRANT SELECT ON public.job_vacancies TO anon, authenticated;
 GRANT ALL ON public.job_vacancies TO service_role;
 
 GRANT SELECT ON public.job_applications TO authenticated;
+GRANT INSERT ON public.job_applications TO anon;
 GRANT ALL ON public.job_applications TO service_role;
 
 -- Enable RLS

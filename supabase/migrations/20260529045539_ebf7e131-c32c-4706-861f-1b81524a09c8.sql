@@ -8,6 +8,7 @@ CREATE TABLE public.contact_submissions (
 );
 
 GRANT SELECT ON public.contact_submissions TO authenticated;
+GRANT INSERT ON public.contact_submissions TO anon;
 GRANT ALL ON public.contact_submissions TO service_role;
 
 ALTER TABLE public.contact_submissions ENABLE ROW LEVEL SECURITY;
