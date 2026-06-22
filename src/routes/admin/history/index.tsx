@@ -157,79 +157,6 @@ function AdminHistoryPage() {
     );
   }
 
-/* ─── Image Upload Field ─── */
-
-function ImageUploadField({
-  label,
-  value,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  onChange: (url: string) => void;
-}) {
-  const fileRef = useRef<HTMLInputElement>(null);
-  const [uploading, setUploading] = useState(false);
-
-  const handleFile = async (file: File | undefined) => {
-    if (!file) return;
-    setUploading(true);
-    try {
-      const url = await uploadHistoryImage(file);
-      onChange(url);
-      toast.success("Image uploaded");
-    } catch {
-      toast.error("Upload failed");
-    } finally {
-      setUploading(false);
-      if (fileRef.current) fileRef.current.value = "";
-    }
-  };
-
-  return (
-    <div className="space-y-2">
-      <Label>{label}</Label>
-      <div className="flex gap-3 items-start">
-        <div className="h-20 w-20 shrink-0 overflow-hidden rounded-md border bg-muted/30 flex items-center justify-center">
-          {value ? (
-            <img src={value} alt="" className="h-full w-full object-cover" />
-          ) : (
-            <span className="text-[10px] text-muted-foreground">No image</span>
-          )}
-        </div>
-        <div className="flex-1 space-y-2">
-          <Input
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="Image URL"
-          />
-          <input
-            ref={fileRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={(e) => handleFile(e.target.files?.[0])}
-          />
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            disabled={uploading}
-            onClick={() => fileRef.current?.click()}
-          >
-            {uploading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Upload className="h-4 w-4" />
-            )}
-            {uploading ? "Uploading..." : "Upload"}
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
   return (
     <AdminShell email={session.user.email}>
       <div className="mx-auto max-w-4xl space-y-8">
@@ -618,6 +545,79 @@ function ImageUploadField({
         </Card>
       </div>
     </AdminShell>
+  );
+}
+
+/* ─── Image Upload Field ─── */
+
+function ImageUploadField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (url: string) => void;
+}) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleFile = async (file: File | undefined) => {
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadHistoryImage(file);
+      onChange(url);
+      toast.success("Image uploaded");
+    } catch {
+      toast.error("Upload failed");
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
+
+  return (
+    <div className="space-y-2">
+      <Label>{label}</Label>
+      <div className="flex gap-3 items-start">
+        <div className="h-20 w-20 shrink-0 overflow-hidden rounded-md border bg-muted/30 flex items-center justify-center">
+          {value ? (
+            <img src={value} alt="" className="h-full w-full object-cover" />
+          ) : (
+            <span className="text-[10px] text-muted-foreground">No image</span>
+          )}
+        </div>
+        <div className="flex-1 space-y-2">
+          <Input
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="Image URL"
+          />
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => handleFile(e.target.files?.[0])}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={uploading}
+            onClick={() => fileRef.current?.click()}
+          >
+            {uploading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Upload className="h-4 w-4" />
+            )}
+            {uploading ? "Uploading..." : "Upload"}
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 }
 
