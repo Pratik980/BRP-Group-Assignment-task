@@ -25,6 +25,9 @@ import type {
   LegacyTorchAct,
   LegacyValueItem,
 } from "@/lib/cms/about-content";
+import babuRamImg from "@/assets/optimized/babu-ram.webp";
+import ubinImg from "@/assets/optimized/ubin.webp";
+import bidushiImg from "@/assets/optimized/Bidushi-Pandey-Pokherel.webp";
 
 export const Route = createFileRoute("/admin/history/")({
   beforeLoad: requireAdminRoute,
@@ -371,6 +374,7 @@ function AdminHistoryPage() {
             <ImageUploadField
               label="Image"
               value={legacy.founder.imageUrl}
+              fallbackSrc={babuRamImg}
               onChange={(url) =>
                 setLegacy({
                   ...legacy,
@@ -554,10 +558,12 @@ function ImageUploadField({
   label,
   value,
   onChange,
+  fallbackSrc,
 }: {
   label: string;
   value: string;
   onChange: (url: string) => void;
+  fallbackSrc?: string;
 }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -581,9 +587,16 @@ function ImageUploadField({
     <div className="space-y-2">
       <Label>{label}</Label>
       <div className="flex gap-3 items-start">
-        <div className="h-20 w-20 shrink-0 overflow-hidden rounded-md border bg-muted/30 flex items-center justify-center">
+        <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md border bg-muted/30 flex items-center justify-center">
           {value ? (
             <img src={value} alt="" className="h-full w-full object-cover" />
+          ) : fallbackSrc ? (
+            <>
+              <img src={fallbackSrc} alt="" className="h-full w-full object-cover opacity-40" />
+              <span className="absolute bottom-0 left-0 right-0 bg-background/80 text-[9px] text-muted-foreground text-center leading-tight py-0.5">
+                Default
+              </span>
+            </>
           ) : (
             <span className="text-[10px] text-muted-foreground">No image</span>
           )}
@@ -753,6 +766,8 @@ function TorchActForm({
   onChange: (a: LegacyTorchAct) => void;
   onRemove: () => void;
 }) {
+  const imgFallback = act.id === "foundation" ? babuRamImg : act.id === "future" ? ubinImg : undefined;
+  const img2Fallback = act.id === "future" ? bidushiImg : undefined;
   return (
     <div className="rounded-lg border border-border/60 p-4 space-y-3">
       <div className="flex items-center justify-between">
@@ -869,11 +884,13 @@ function TorchActForm({
         <ImageUploadField
           label="Image"
           value={act.imageUrl}
+          fallbackSrc={imgFallback}
           onChange={(url) => onChange({ ...act, imageUrl: url })}
         />
         <ImageUploadField
-          label="Second image (for Future act)"
+          label="Second image"
           value={act.imageUrl2}
+          fallbackSrc={img2Fallback}
           onChange={(url) => onChange({ ...act, imageUrl2: url })}
         />
       </div>
