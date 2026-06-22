@@ -273,6 +273,9 @@ export function Footer() {
                   </a>
                 </p>
               ))}
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                {siteMetaLive.headquarters}
+              </p>
             </div>
           </div>
         </div>
