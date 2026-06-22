@@ -55,3 +55,8 @@ export async function saveHistoryLegacy(
   );
   if (error) throw error;
 }
+
+export async function uploadHistoryImage(file: File) {
+  const { uploadMediaFile } = await import("@/lib/admin/media-upload");
+  return uploadMediaFile(file, "history");
+}

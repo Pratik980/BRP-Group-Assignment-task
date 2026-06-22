@@ -326,8 +326,8 @@ function TorchSpotlight({
             <div className="relative overflow-hidden rounded-[2rem] border border-amber-500/15 bg-card shadow-xl transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-amber-500/10 group-hover:-translate-y-1">
               <div className="aspect-[4/5]">
                 <img
-                  src={babuRam}
-                  alt="Dr. Babu Ram Pokharel"
+                  src={act.imageUrl || babuRam}
+                  alt={act.title}
                   className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
@@ -435,7 +435,7 @@ function TorchSpotlight({
             <div className="relative overflow-hidden rounded-[2rem] border border-sky-500/15 bg-card shadow-xl transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-sky-500/10 group-hover:-translate-y-1">
               <div className="aspect-[4/5]">
                 <img
-                  src={ubin}
+                  src={act.imageUrl || ubin}
                   alt="Dr. Ubin Pokharel"
                   className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
@@ -470,7 +470,7 @@ function TorchSpotlight({
             <div className="relative overflow-hidden rounded-[2rem] border border-sky-500/15 bg-card shadow-xl transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-indigo-500/10 group-hover:-translate-y-1">
               <div className="aspect-[4/5]">
                 <img
-                  src={bidushi}
+                  src={act.imageUrl2 || bidushi}
                   alt="Bidushi Pandey Pokharel"
                   className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
@@ -585,8 +585,8 @@ function BridgeStatic({ content }: { content: HistoryLegacyContent }) {
                     <div className="relative overflow-hidden rounded-[2rem] border border-amber-500/15 bg-card shadow-xl">
                       <div className="aspect-[4/5]">
                         <img
-                          src={babuRamImg}
-                          alt="Dr. Babu Ram Pokharel"
+                          src={act.imageUrl || babuRamImg}
+                          alt={act.title}
                           className="h-full w-full object-cover object-top"
                           loading="lazy"
                         />
@@ -682,7 +682,7 @@ function BridgeStatic({ content }: { content: HistoryLegacyContent }) {
                     <div className="relative overflow-hidden rounded-[2rem] border border-sky-500/15 bg-card shadow-xl">
                       <div className="aspect-[4/5]">
                         <img
-                          src={ubinImg}
+                          src={act.imageUrl || ubinImg}
                           alt="Dr. Ubin Pokharel"
                           className="h-full w-full object-cover object-top"
                           loading="lazy"
@@ -718,7 +718,7 @@ function BridgeStatic({ content }: { content: HistoryLegacyContent }) {
                     <div className="relative overflow-hidden rounded-[2rem] border border-sky-500/15 bg-card shadow-xl">
                       <div className="aspect-[4/5]">
                         <img
-                          src={bidushiImg}
+                          src={act.imageUrl2 || bidushiImg}
                           alt="Bidushi Pandey Pokharel"
                           className="h-full w-full object-cover object-top"
                           loading="lazy"

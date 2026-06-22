@@ -348,6 +348,8 @@ export type LegacyTorchAct = {
   accentTo: string;
   borderAccent: string;
   iconColor: string;
+  imageUrl: string;
+  imageUrl2: string;
 };
 
 export type LegacyValueItem = {
@@ -502,6 +504,8 @@ const DEFAULT_HISTORY_LEGACY: HistoryLegacyContent = {
       accentTo: "#ea580c",
       borderAccent: "#d97706",
       iconColor: "text-amber-500",
+      imageUrl: "",
+      imageUrl2: "",
     },
     {
       id: "transition",
@@ -517,6 +521,8 @@ const DEFAULT_HISTORY_LEGACY: HistoryLegacyContent = {
       accentTo: "#a78bfa",
       borderAccent: "#8b5cf6",
       iconColor: "text-primary",
+      imageUrl: "",
+      imageUrl2: "",
     },
     {
       id: "future",
@@ -531,6 +537,8 @@ const DEFAULT_HISTORY_LEGACY: HistoryLegacyContent = {
       accentTo: "#4f46e5",
       borderAccent: "#0284c7",
       iconColor: "text-sky-500",
+      imageUrl: "",
+      imageUrl2: "",
     },
   ],
   valuesTitle: "Principles That Endure",
@@ -562,6 +570,8 @@ function parseTorchActs(val: unknown): LegacyTorchAct[] | null {
         accentTo: parseString(obj.accentTo, "#a78bfa"),
         borderAccent: parseString(obj.borderAccent, "#8b5cf6"),
         iconColor: parseString(obj.iconColor, "text-primary"),
+        imageUrl: parseString(obj.imageUrl, ""),
+        imageUrl2: parseString(obj.imageUrl2, ""),
       };
     })
     .filter((a) => a && a.id && a.title);

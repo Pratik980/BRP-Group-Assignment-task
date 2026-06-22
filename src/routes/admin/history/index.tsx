@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader2, Plus, Trash2, GripVertical } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Loader2, Plus, Trash2, Upload } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import {
   fetchHistoryLegacy,
   saveHistoryPage,
   saveHistoryLegacy,
+  uploadHistoryImage,
 } from "@/lib/admin/history.client";
 import { invalidatePublicAbout } from "@/lib/admin/invalidate-public";
 import type {
@@ -65,6 +66,8 @@ const DEFAULT_TORCH_ACT: LegacyTorchAct = {
   accentTo: "#a78bfa",
   borderAccent: "#8b5cf6",
   iconColor: "text-primary",
+  imageUrl: "",
+  imageUrl2: "",
 };
 
 const DEFAULT_VALUE: LegacyValueItem = {
@@ -153,6 +156,79 @@ function AdminHistoryPage() {
       </AdminShell>
     );
   }
+
+/* ─── Image Upload Field ─── */
+
+function ImageUploadField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (url: string) => void;
+}) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleFile = async (file: File | undefined) => {
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadHistoryImage(file);
+      onChange(url);
+      toast.success("Image uploaded");
+    } catch {
+      toast.error("Upload failed");
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
+
+  return (
+    <div className="space-y-2">
+      <Label>{label}</Label>
+      <div className="flex gap-3 items-start">
+        <div className="h-20 w-20 shrink-0 overflow-hidden rounded-md border bg-muted/30 flex items-center justify-center">
+          {value ? (
+            <img src={value} alt="" className="h-full w-full object-cover" />
+          ) : (
+            <span className="text-[10px] text-muted-foreground">No image</span>
+          )}
+        </div>
+        <div className="flex-1 space-y-2">
+          <Input
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="Image URL"
+          />
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => handleFile(e.target.files?.[0])}
+          />
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={uploading}
+            onClick={() => fileRef.current?.click()}
+          >
+            {uploading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Upload className="h-4 w-4" />
+            )}
+            {uploading ? "Uploading..." : "Upload"}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
   return (
     <AdminShell email={session.user.email}>
@@ -365,19 +441,16 @@ function AdminHistoryPage() {
                 />
               </div>
             </div>
-            <div className="space-y-2">
-              <Label>Image URL</Label>
-              <Input
-                value={legacy.founder.imageUrl}
-                onChange={(e) =>
-                  setLegacy({
-                    ...legacy,
-                    founder: { ...legacy.founder, imageUrl: e.target.value },
-                  })
-                }
-                placeholder="Leave empty to use default image"
-              />
-            </div>
+            <ImageUploadField
+              label="Image"
+              value={legacy.founder.imageUrl}
+              onChange={(url) =>
+                setLegacy({
+                  ...legacy,
+                  founder: { ...legacy.founder, imageUrl: url },
+                })
+              }
+            />
             <div className="space-y-2">
               <Label>Paragraphs</Label>
               {legacy.founder.paragraphs.map((p, i) => (
@@ -619,26 +692,49 @@ function MilestoneForm({
           />
         </div>
       </div>
+      <ImageUploadField
+        label="Image"
+        value={milestone.imageUrl}
+        onChange={(url) => onChange({ ...milestone, imageUrl: url })}
+      />
       <div className="space-y-2">
-        <Label>Image URL</Label>
-        <Input
-          value={milestone.imageUrl}
-          onChange={(e) => onChange({ ...milestone, imageUrl: e.target.value })}
-          placeholder="Leave empty to use default"
-        />
-      </div>
-      <div className="space-y-2">
-        <Label>Extra images for slider (one URL per line)</Label>
-        <Textarea
-          value={milestone.extraImages.filter(Boolean).join("\n")}
-          onChange={(e) =>
-            onChange({
-              ...milestone,
-              extraImages: e.target.value.split("\n").map((s) => s.trim()),
-            })
+        <Label>Extra images for slider</Label>
+        {milestone.extraImages.map((img, i) => (
+          <div key={i} className="flex gap-2 items-start">
+            <div className="flex-1">
+              <ImageUploadField
+                label={`Slider image ${i + 1}`}
+                value={img}
+                onChange={(url) => {
+                  const list = [...milestone.extraImages];
+                  list[i] = url;
+                  onChange({ ...milestone, extraImages: list });
+                }}
+              />
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="mt-6"
+              onClick={() => {
+                const list = milestone.extraImages.filter((_, idx) => idx !== i);
+                onChange({ ...milestone, extraImages: list });
+              }}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+        ))}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() =>
+            onChange({ ...milestone, extraImages: [...milestone.extraImages, ""] })
           }
-          rows={3}
-        />
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          Add slider image
+        </Button>
       </div>
     </div>
   );
@@ -768,6 +864,18 @@ function TorchActForm({
             />
           </div>
         </div>
+      </div>
+      <div className="grid gap-3 md:grid-cols-2">
+        <ImageUploadField
+          label="Image"
+          value={act.imageUrl}
+          onChange={(url) => onChange({ ...act, imageUrl: url })}
+        />
+        <ImageUploadField
+          label="Second image (for Future act)"
+          value={act.imageUrl2}
+          onChange={(url) => onChange({ ...act, imageUrl2: url })}
+        />
       </div>
     </div>
   );
