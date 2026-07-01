@@ -101,7 +101,7 @@ export function TeamForm({
           )}
           <p className="text-xs text-muted-foreground">
             {values.department === TEAM_DEPARTMENT_EXECUTIVE
-              ? "Shown in Our Executive Team — limited to 3 people."
+              ? "Shown in Our Executive Team - limited to 3 people."
               : "Shown in Our Team below the executives on About Us."}
           </p>
         </div>

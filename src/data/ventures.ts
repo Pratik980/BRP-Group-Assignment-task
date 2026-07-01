@@ -21,7 +21,7 @@ export type Venture = {
   tags: string[];
 };
 
-/** All operating companies — matches https://brpgroup.com.np/ portfolio (7 ventures). */
+/** All operating companies - matches https://brpgroup.com.np/ portfolio (7 ventures). */
 export const ventures: Venture[] = [
   {
     name: "Reddot",

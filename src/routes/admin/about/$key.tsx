@@ -89,7 +89,7 @@ function AdminEditAboutPage() {
                   <Textarea value={content} onChange={(e) => setContent(e.target.value)} rows={8} />
                 </div>
                 <div className="space-y-2">
-                  <Label>Metadata (JSON — for paragraphs, highlights, etc.)</Label>
+                  <Label>Metadata (JSON - for paragraphs, highlights, etc.)</Label>
                   <Textarea
                     value={metadataJson}
                     onChange={(e) => setMetadataJson(e.target.value)}

@@ -134,7 +134,7 @@ export const executiveTeam = [
     name: "Dr. Ubin Pokharel",
     role: "Chairman",
     imageKey: "ubin" as const,
-    bio: "Steering B.R.P. Group's diversified investments across technology, healthcare, education, and real estate — expanding the ecosystem through innovation and strategic US collaborations.",
+    bio: "Steering B.R.P. Group's diversified investments across technology, healthcare, education, and real estate - expanding the ecosystem through innovation and strategic US collaborations.",
   },
   {
     name: "Ms. Bidushi Pandey Pokharel",

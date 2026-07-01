@@ -8,14 +8,19 @@ import { fetchAboutSections } from "@/lib/admin/about.client";
 import { requireAdminRoute } from "@/lib/admin/require-admin";
 
 const SECTION_LABELS: Record<string, string> = {
-  home_history: "Home — intro paragraph",
-  about_vision: "About — vision",
-  about_mission: "About — mission",
-  home_legacy: "Home — legacy story",
-  home_community: "Home — community story",
+  home_history: "Home - intro paragraph",
+  about_vision: "About - vision",
+  about_mission: "About - mission",
+  home_legacy: "Home - legacy story",
+  home_community: "Home - community story",
   heritage_strip: "Heritage strip label",
   ventures_hero: "Ventures page intro",
   community_page: "Community page content",
+  history_page: "History page - timeline & milestones",
+  history_legacy: "History page - legacy & torch acts",
+  hero_morphing_words: "Hero - rotating headline words",
+  hero_visual_cards: "Hero - floating visual cards",
+  hero_brand_logo: "Hero - center brand logo",
 };
 
 export const Route = createFileRoute("/admin/about/")({

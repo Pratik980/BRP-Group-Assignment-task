@@ -3,28 +3,28 @@ import { test, expect } from "@playwright/test";
 test.describe("Page Navigation", () => {
   test("About page loads", async ({ page }) => {
     await page.goto("/about");
-    await expect(page).toHaveTitle(/BRP/i);
+    await expect(page).toHaveTitle(/B.R.P./i);
     await expect(page.locator("h1").first()).toBeAttached();
   });
 
   test("Ventures page loads", async ({ page }) => {
     await page.goto("/ventures");
-    await expect(page).toHaveTitle(/BRP/i);
+    await expect(page).toHaveTitle(/B.R.P./i);
   });
 
   test("Community page loads", async ({ page }) => {
     await page.goto("/community");
-    await expect(page).toHaveTitle(/BRP/i);
+    await expect(page).toHaveTitle(/B.R.P./i);
   });
 
   test("Careers page loads", async ({ page }) => {
     await page.goto("/career");
-    await expect(page).toHaveTitle(/BRP/i);
+    await expect(page).toHaveTitle(/B.R.P./i);
   });
 
   test("History page loads", async ({ page }) => {
     await page.goto("/history");
-    await expect(page).toHaveTitle(/BRP/i);
+    await expect(page).toHaveTitle(/B.R.P./i);
   });
 
   test("404 page for unknown routes", async ({ page }) => {
@@ -48,11 +48,11 @@ test.describe("Navigation Flow", () => {
 test.describe("Admin Panel", () => {
   test("admin login page loads", async ({ page }) => {
     await page.goto("/admin/login");
-    await expect(page).toHaveTitle(/BRP/i);
+    await expect(page).toHaveTitle(/B.R.P./i);
   });
 
   test("admin redirects unauthenticated users to login", async ({ page }) => {
     await page.goto("/admin");
-    await expect(page).toHaveTitle(/BRP/i);
+    await expect(page).toHaveTitle(/B.R.P./i);
   });
 });

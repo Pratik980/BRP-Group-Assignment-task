@@ -1,7 +1,7 @@
 import type { ImgHTMLAttributes } from "react";
 
 type LazyImageProps = ImgHTMLAttributes<HTMLImageElement> & {
-  /** LCP / above-the-fold image — eager load with high fetch priority */
+  /** LCP / above-the-fold image - eager load with high fetch priority */
   priority?: boolean;
 };
 

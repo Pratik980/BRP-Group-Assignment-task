@@ -103,7 +103,7 @@ function AboutDropbar({ onClose }: { onClose: () => void }) {
   return (
     <div className="dropbar-inner">
       <div className="dropbar-layout">
-        {/* Left — Featured intro */}
+        {/* Left - Featured intro */}
         <div className="dropbar-featured">
           <div className="dropbar-featured-badge">
             <Users className="h-3.5 w-3.5" />
@@ -125,7 +125,7 @@ function AboutDropbar({ onClose }: { onClose: () => void }) {
         {/* Divider */}
         <div className="dropbar-divider" />
 
-        {/* Right — Grid cards */}
+        {/* Right - Grid cards */}
         <div className="dropbar-grid dropbar-grid--ventures">
           {aboutHighlights.map((item, idx) => {
             const Icon = item.icon;
@@ -176,7 +176,7 @@ function HistoryDropbar({ onClose }: { onClose: () => void }) {
   return (
     <div className="dropbar-inner">
       <div className="dropbar-layout">
-        {/* Left — Featured intro */}
+        {/* Left - Featured intro */}
         <div className="dropbar-featured">
           <div className="dropbar-featured-badge">
             <Landmark className="h-3.5 w-3.5" />
@@ -198,7 +198,7 @@ function HistoryDropbar({ onClose }: { onClose: () => void }) {
         {/* Divider */}
         <div className="dropbar-divider" />
 
-        {/* Right — Grid cards */}
+        {/* Right - Grid cards */}
         <div className="dropbar-grid">
           {historyHighlights.map((item, idx) => {
             const Icon = item.icon;
@@ -247,7 +247,7 @@ function VenturesDropbar({
   return (
     <div className="dropbar-inner">
       <div className="dropbar-layout">
-        {/* Left — Featured intro */}
+        {/* Left - Featured intro */}
         <div className="dropbar-featured">
           <div className="dropbar-featured-badge">
             <TrendingUp className="h-3.5 w-3.5" />
@@ -266,7 +266,7 @@ function VenturesDropbar({
         {/* Divider */}
         <div className="dropbar-divider" />
 
-        {/* Right — Grid cards */}
+        {/* Right - Grid cards */}
         <div className="dropbar-grid dropbar-grid--ventures">
           {ventures.slice(0, 6).map((item, idx) => {
             return (

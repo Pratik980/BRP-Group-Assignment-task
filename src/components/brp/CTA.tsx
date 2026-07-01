@@ -88,11 +88,11 @@ export function CTA() {
             className="mx-auto mt-7 max-w-xl text-base font-light leading-[1.75] text-muted-foreground md:text-lg"
           >
             Whether you are a founder seeking capital, a prospective business partner, or looking to
-            join our growing team — we'd love to hear from you.
+            join our growing team - we'd love to hear from you.
           </motion.p>
         </div>
 
-        {/* Main content — form left, details right */}
+        {/* Main content - form left, details right */}
         <div className="grid items-start gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 xl:gap-20">
           {/* Form Column */}
           <motion.div

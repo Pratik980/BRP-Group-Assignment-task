@@ -19,7 +19,7 @@ const values: ValueItem[] = [
   {
     icon: Lightbulb,
     name: "Innovation",
-    desc: "Technology with purpose — building solutions that genuinely change daily life.",
+    desc: "Technology with purpose - building solutions that genuinely change daily life.",
     detail:
       "By harnessing artificial intelligence, modern software engineering, and smart hardware integration, we build products that solve real infrastructure and logistical pain points in Nepal.",
     bgClass: "bg-gradient-to-br from-primary/10 via-accent/6 to-primary/4",
@@ -43,7 +43,7 @@ const values: ValueItem[] = [
   {
     icon: Compass,
     name: "Long-Term Vision",
-    desc: "A 45-year horizon — we are stewards, not speculators.",
+    desc: "A 45-year horizon - we are stewards, not speculators.",
     detail:
       "Over a 45-year generational horizon, we prioritize building enduring infrastructure and institutional knowledge that outlasts short-term market cycles.",
     bgClass: "bg-gradient-to-br from-indigo-500/10 via-primary/6 to-sky-200/4",
@@ -120,7 +120,7 @@ export function Values() {
                     </p>
                   </div>
 
-                  {/* Detail — always visible on touch; expand on hover for desktop */}
+                  {/* Detail - always visible on touch; expand on hover for desktop */}
                   <div className="mt-4 max-h-40 border-t border-border/10 pt-3 opacity-100 md:max-h-0 md:border-transparent md:pt-0 md:opacity-0 md:transition-all md:duration-500 md:ease-in-out md:group-hover:max-h-40 md:group-hover:border-border/10 md:group-hover:pt-3 md:group-hover:opacity-100">
                     <p className="text-xs font-light leading-relaxed text-muted-foreground line-clamp-3 md:line-clamp-none">
                       {v.detail}

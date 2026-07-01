@@ -328,7 +328,7 @@ function AdminHeroPage() {
           <CardHeader>
             <CardTitle className="text-base">Rotating headline words</CardTitle>
             <CardDescription>
-              These words cycle in the hero after &quot;Through Diversified&quot; — e.g. Ventures,
+              These words cycle in the hero after &quot;Through Diversified&quot; - e.g. Ventures,
               Innovation, Growth, Legacy.
             </CardDescription>
           </CardHeader>
@@ -845,13 +845,13 @@ function AdminHeroPage() {
                 <div className="grid gap-6 md:grid-cols-2">
                   {cardsDraft.map((card, index) => {
                     const slotLabels = [
-                      "Slot 1 — Top Center Card",
-                      "Slot 2 — Left Card",
-                      "Slot 3 — Right Card",
-                      "Slot 4 — Bottom Center Card",
-                      "Slot 5 — Far Right Top Card",
-                      "Slot 6 — Far Bottom Left Card",
-                      "Slot 7 — Far Bottom Right Card",
+                      "Slot 1 - Top Center Card",
+                      "Slot 2 - Left Card",
+                      "Slot 3 - Right Card",
+                      "Slot 4 - Bottom Center Card",
+                      "Slot 5 - Far Right Top Card",
+                      "Slot 6 - Far Bottom Left Card",
+                      "Slot 7 - Far Bottom Right Card",
                     ];
                     return (
                       <div key={index} className="space-y-3 rounded-lg border p-4 relative">

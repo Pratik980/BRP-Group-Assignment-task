@@ -25,7 +25,7 @@ export function Leadership({ title = "Our Executive Team" }: LeadershipProps) {
           className="mb-12 text-center md:mb-16"
         >
           <h2 className="font-display text-4xl tracking-tight text-primary md:text-5xl">{title}</h2>
-          <p className="mt-3 text-sm text-muted-foreground">Leadership — up to 3 executives</p>
+          <p className="mt-3 text-sm text-muted-foreground">Leadership - up to 3 executives</p>
         </motion.div>
 
         {isLoading ? (

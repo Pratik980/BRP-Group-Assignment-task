@@ -106,7 +106,7 @@ export function resolveVenturesHeroIntro(sections: AboutSectionsMap | undefined)
   const row = sections?.[ABOUT_SECTION_KEYS.VENTURES_HERO];
   return (
     row?.content?.trim() ||
-    "Operating across critical nodes of education, technology, finance, and logistics — B.R.P. Group combines physical strength with digital adaptability to lead the Himalayan region."
+    "Operating across critical nodes of education, technology, finance, and logistics - B.R.P. Group combines physical strength with digital adaptability to lead the Himalayan region."
   );
 }
 

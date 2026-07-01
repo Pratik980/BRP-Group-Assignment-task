@@ -204,7 +204,7 @@ export function VenturesEcosystem() {
             driving innovation and growth.
           </h2>
           <p className="mt-5 text-base font-light leading-relaxed text-muted-foreground md:text-lg md:leading-8 xl:text-xl">
-            Each company in the B.R.P. constellation operates independently — yet draws strength from a
+            Each company in the B.R.P. constellation operates independently - yet draws strength from a
             shared core of values, capital, and 45 years of compounding trust.
           </p>
         </motion.div>
@@ -320,7 +320,7 @@ export function VenturesEcosystem() {
                 />
               </AnimatePresence>
 
-              {/* Quick jump — desktop dots */}
+              {/* Quick jump - desktop dots */}
               <div className="mt-4 hidden items-center justify-between sm:flex">
                 <div className="flex gap-1.5">
                   {ventures.map((_, i) => (

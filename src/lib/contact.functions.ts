@@ -18,8 +18,8 @@ async function sendNotification(data: ContactInput): Promise<void> {
     const body = new URLSearchParams({
       name: data.name,
       email: data.email,
-      phone: data.phone || "—",
-      organization: data.organization || "—",
+      phone: data.phone || " - ",
+      organization: data.organization || " - ",
       message: data.message,
       _subject: `New enquiry from ${data.name}`,
       _captcha: "false",

@@ -45,13 +45,13 @@ export const Route = createFileRoute("/")({
   loader: ({ context }) => prefetchPublicHeroContent(context.queryClient),
   head: () => ({
     meta: [
-      { title: "B.R.P. Group — Building Nepal's Future Through Diversified Ventures" },
+      { title: "B.R.P. Group - Building Nepal's Future Through Diversified Ventures" },
       {
         name: "description",
         content:
-          "Founded in 2019, B.R.P. Group is focused on tech, real estate, education, and healthcare — combining the real and digital worlds across Nepal.",
+          "Founded in 2019, B.R.P. Group is focused on tech, real estate, education, and healthcare - combining the real and digital worlds across Nepal.",
       },
-      { property: "og:title", content: "B.R.P. Group — A diversified venture ecosystem" },
+      { property: "og:title", content: "B.R.P. Group - A diversified venture ecosystem" },
       {
         property: "og:description",
         content:
@@ -98,7 +98,7 @@ function IntroSection() {
                 <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-muted/10">
                   <LazyImage
                     src={aboutSideImg}
-                    alt="B.R.P. Group — building Nepal's future through diversified ventures"
+                    alt="B.R.P. Group - building Nepal's future through diversified ventures"
                     className="w-full h-auto max-h-[200px] sm:max-h-[260px] lg:max-h-[300px] object-contain"
                   />
                 </div>
@@ -152,7 +152,7 @@ function IntroSection() {
           </div>
         </div>
 
-        {/* Vision & Mission — avoid opacity-only whileInView; covered by parallax on short laptops */}
+        {/* Vision & Mission - avoid opacity-only whileInView; covered by parallax on short laptops */}
         <div className="mt-8 sm:mt-12 lg:mt-14 pt-6 sm:pt-10 border-t border-border/30">
           <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
             <div className="glass-strong border border-border/40 p-5 sm:p-6 lg:p-7 rounded-2xl sm:rounded-3xl shadow-sm flex flex-col h-full">
@@ -198,9 +198,9 @@ function Index() {
         IME-style parallax: Hero sticks while content slides up over it.
         
         Structure:
-        1. hero-track (height: 200vh) — creates extra scroll runway
-        2. Hero (sticky top:0, h:screen) — stays put while we scroll through the track
-        3. content-panel (relative z-10, solid bg) — sits right after the track,
+        1. hero-track (height: 200vh) - creates extra scroll runway
+        2. Hero (sticky top:0, h:screen) - stays put while we scroll through the track
+        3. content-panel (relative z-10, solid bg) - sits right after the track,
            pulled up by 100vh via negative margin so it enters the viewport
            while the Hero is still stuck. The solid background fully covers
            the Hero as it slides up.

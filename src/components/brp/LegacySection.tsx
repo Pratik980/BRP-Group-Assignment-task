@@ -200,7 +200,7 @@ export function LegacySection() {
           </motion.div>
         </div>
 
-        {/* ─── The Torch Relay — Three Acts ─── */}
+        {/* ─── The Torch Relay - Three Acts ─── */}
         <div className="relative">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -286,7 +286,7 @@ export function LegacySection() {
   );
 }
 
-/* ─── Torch Spotlight — Large Photo Cards ─── */
+/* ─── Torch Spotlight - Large Photo Cards ─── */
 function TorchSpotlight({
   act,
   index,
@@ -316,7 +316,7 @@ function TorchSpotlight({
         transition: { duration: 0.8, delay: index * 0.15, ease },
       };
 
-  /* ─── Foundation Act — Single large photo ─── */
+  /* ─── Foundation Act - Single large photo ─── */
   if (act.id === "foundation") {
     return (
       <motion.div {...fadeIn} className="flex flex-col md:flex-row items-center gap-10 md:gap-14">
@@ -359,7 +359,7 @@ function TorchSpotlight({
     );
   }
 
-  /* ─── Transition Act — Centered quote card ─── */
+  /* ─── Transition Act - Centered quote card ─── */
   if (act.id === "transition") {
     return (
       <motion.div {...fadeIn} className="max-w-2xl mx-auto">
@@ -409,7 +409,7 @@ function TorchSpotlight({
     );
   }
 
-  /* ─── Future Act — Two individual spotlights ─── */
+  /* ─── Future Act - Two individual spotlights ─── */
   return (
     <motion.div {...fadeIn} className="space-y-16">
       {/* Shared heading */}
@@ -456,7 +456,7 @@ function TorchSpotlight({
           </h5>
           <p className="text-base sm:text-lg font-light text-muted-foreground leading-relaxed">
             Steering B.R.P. Group&apos;s diversified investments across technology, healthcare,
-            education, and real estate — expanding the ecosystem through innovation and strategic US
+            education, and real estate - expanding the ecosystem through innovation and strategic US
             collaborations.
           </p>
         </div>
@@ -705,7 +705,7 @@ function BridgeStatic({ content }: { content: HistoryLegacyContent }) {
                   </h5>
                   <p className="text-base sm:text-lg font-light text-muted-foreground leading-relaxed">
                     Steering B.R.P. Group&apos;s diversified investments across technology, healthcare,
-                    education, and real estate — expanding the ecosystem through innovation and
+                    education, and real estate - expanding the ecosystem through innovation and
                     strategic US collaborations.
                   </p>
                 </div>

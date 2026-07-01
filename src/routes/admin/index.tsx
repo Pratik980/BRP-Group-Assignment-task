@@ -150,7 +150,7 @@ function AdminDashboardPage() {
                 <CardContent>
                   <p className={cn("font-display text-3xl tracking-tight", colors.value)}>
                     {statsLoading ? (
-                      <span className="animate-pulse text-muted-foreground/30">—</span>
+                      <span className="animate-pulse text-muted-foreground/30"> - </span>
                     ) : (
                       card.value
                     )}

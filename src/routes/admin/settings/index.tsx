@@ -95,7 +95,7 @@ function AdminSettingsPage() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">SEO — page meta tags</CardTitle>
+            <CardTitle className="text-base">SEO - page meta tags</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {seo.map((row) => (

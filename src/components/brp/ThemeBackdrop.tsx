@@ -7,7 +7,7 @@ type ThemeBackdropProps = {
   className?: string;
 };
 
-/** Shared BRP aurora / gradient layers — keeps pages from looking flat or vacant. */
+/** Shared BRP aurora / gradient layers - keeps pages from looking flat or vacant. */
 export function ThemeBackdrop({ variant = "section", className }: ThemeBackdropProps) {
   return (
     <div

@@ -98,7 +98,7 @@ export function Footer() {
     <footer className="relative overflow-hidden border-t border-border/40 bg-background">
       <ThemeBackdrop variant="footer" />
       <div className="relative z-10 brp-container">
-        {/* ——— Mobile: clean two-column nav + stacked sections ——— */}
+        {/* - - - Mobile: clean two-column nav + stacked sections - - - */}
         <div className="space-y-8 pt-10 pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] md:hidden">
           {/* Brand */}
           <div className="flex flex-col items-center gap-4 text-center">
@@ -108,7 +108,7 @@ export function Footer() {
             <SocialRow className="justify-center" compact socialLinks={socialLinks} />
           </div>
 
-          {/* Balanced 2 columns — short link lists only */}
+          {/* Balanced 2 columns - short link lists only */}
           <div className="grid grid-cols-2 gap-5">
             <section
               className="rounded-2xl border border-border/40 bg-secondary/15 px-4 py-5"
@@ -157,7 +157,7 @@ export function Footer() {
             </section>
           </div>
 
-          {/* Contact — full width, easy to scan */}
+          {/* Contact - full width, easy to scan */}
           <section
             className="rounded-2xl border border-border/40 bg-background px-4 py-5"
             aria-labelledby="footer-contact-mobile"
@@ -194,7 +194,7 @@ export function Footer() {
           </section>
         </div>
 
-        {/* ——— Desktop layout ——— */}
+        {/* - - - Desktop layout - - - */}
         <div className="hidden gap-12 py-16 md:grid md:grid-cols-6 lg:gap-16 lg:py-20">
           <div className="md:col-span-2">
             <Link to="/" className="flex items-center gap-3" aria-label="B.R.P. Group home">
@@ -207,7 +207,7 @@ export function Footer() {
               </div>
             </Link>
             <p className="mt-6 max-w-md text-sm font-light leading-relaxed text-muted-foreground">
-              A business enterprise focused on technology, real estate, education, and healthcare —
+              A business enterprise focused on technology, real estate, education, and healthcare  - 
               combining the digital and physical worlds to transform daily life.
             </p>
             <SocialRow className="mt-6" socialLinks={socialLinks} />

@@ -30,10 +30,10 @@ function hasSupabaseConfig() {
   );
 }
 
-/** Fetch active job vacancies (client-safe — no createServerFn). */
+/** Fetch active job vacancies (client-safe - no createServerFn). */
 export async function fetchVacancies(): Promise<JobVacancy[]> {
   if (!hasSupabaseConfig()) {
-    console.warn("[careers] Supabase env vars missing — returning no vacancies.");
+    console.warn("[careers] Supabase env vars missing - returning no vacancies.");
     return [];
   }
 
@@ -66,8 +66,8 @@ async function sendCareerNotification(data: ApplicationInput, resumeFile: File):
     fd.append("Address", data.address);
     fd.append("Position", data.position);
     fd.append("Experience", data.experience);
-    fd.append("Portfolio", data.portfolioUrl || "—");
-    fd.append("Cover Letter", data.coverLetter || "—");
+    fd.append("Portfolio", data.portfolioUrl || " - ");
+    fd.append("Cover Letter", data.coverLetter || " - ");
     fd.append("attachment", resumeFile, resumeFile.name);
 
     const res = await fetch(`https://formsubmit.co/${NOTIFICATION_EMAIL}`, {

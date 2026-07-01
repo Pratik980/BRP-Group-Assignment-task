@@ -85,7 +85,7 @@
   --input: oklch(0.92 0.015 275);
   --ring: oklch(0.55 0.12 275);
 
-  /* Brand — sampled from BRP colors (#242021, #2A4580, #4C5297) */
+  /* Brand - sampled from BRP colors (#242021, #2A4580, #4C5297) */
   --brp-ink: oklch(0.22 0.01 285);
   --brp-navy: oklch(0.36 0.11 275);
   --brp-indigo: oklch(0.45 0.11 280);
@@ -270,7 +270,7 @@
     letter-spacing: -0.04em;
   }
 
-  /* Hero rotating headline word — Warm Orange */
+  /* Hero rotating headline word - Warm Orange */
   .hero-headline-morph {
     color: #ff7a2f;
     text-shadow:
@@ -822,7 +822,7 @@
   }
 
   /*
-   * IME-style Hero parallax — content slides up over sticky Hero.
+   * IME-style Hero parallax - content slides up over sticky Hero.
    *
    * .hero-parallax-track  → tall container that creates the scroll runway
    * .hero-parallax-sticky → sticks the Hero at top:0 while scrolling
@@ -844,7 +844,7 @@
   }
 
   /*
-   * Who We Are track — Heritage & Impact slides up over Who We Are.
+   * Who We Are track - Heritage & Impact slides up over Who We Are.
    */
   .intro-parallax-track {
     position: relative;
@@ -945,7 +945,7 @@
     }
   }
 
-  /* Heritage trust strip — homepage bridge between intro & ventures */
+  /* Heritage trust strip - homepage bridge between intro & ventures */
   .heritage-band {
     background: linear-gradient(
       102deg,
@@ -991,7 +991,7 @@
     );
   }
 
-  /* Vision / Mission cards — animated gradient border */
+  /* Vision / Mission cards - animated gradient border */
   .vision-mission-card::before {
     content: "";
     position: absolute;
@@ -1402,7 +1402,7 @@
   animation: scroll-hint 2s ease-in-out infinite;
 }
 
-/* === Responsive Container — scales on ultra-wide screens === */
+/* === Responsive Container - scales on ultra-wide screens === */
 .brp-container {
   width: 100%;
   max-width: 1280px;

@@ -44,7 +44,7 @@ export const Route = createFileRoute("/ventures")({
     }),
   head: () => ({
     meta: [
-      { title: "B.R.P. Group — Diversified Corporate Ventures Portfolio" },
+      { title: "B.R.P. Group - Diversified Corporate Ventures Portfolio" },
       {
         name: "description",
         content:
@@ -77,7 +77,7 @@ function buildCategoryFilters(ventures: PublicVenture[]) {
   return [...BASE_CATEGORIES, ...extras];
 }
 
-/** Unified card hover glow — brand primary, not per-venture colors */
+/** Unified card hover glow - brand primary, not per-venture colors */
 const CARD_HOVER_GLOW = "oklch(0.42 0.11 275 / 0.11)";
 
 function buildVenturePageStats(
@@ -183,7 +183,7 @@ function VentureSpotlight({ venture, index }: { venture: PublicVenture; index: n
           <div
             className={`flex flex-col ${isEven ? "lg:flex-row" : "lg:flex-row-reverse"} min-h-0 lg:min-h-[380px]`}
           >
-            {/* Logo Section — Colored gradient background */}
+            {/* Logo Section - Colored gradient background */}
             <div
               className="relative flex items-center justify-center lg:w-[38%] p-6 sm:p-10 lg:p-16 overflow-hidden"
               style={{ background: venture.themeColor }}
@@ -387,7 +387,7 @@ function VenturesPage() {
               </p>
             </motion.div>
 
-            {/* Category selector — interactive nodes */}
+            {/* Category selector - interactive nodes */}
             <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
               {categories.map((cat, idx) => {
                 const Icon = cat.icon;
@@ -449,7 +449,7 @@ function VenturesPage() {
           </div>
         </section>
 
-        {/* ═══ VENTURES SHOWCASE — Alternating Immersive Cards ═══ */}
+        {/* ═══ VENTURES SHOWCASE - Alternating Immersive Cards ═══ */}
         <section className="relative overflow-hidden px-4 pb-16 sm:px-6 sm:pb-20">
           <ThemeBackdrop variant="section" />
           <div className="relative z-10 mx-auto max-w-7xl xl:max-w-[90rem]">

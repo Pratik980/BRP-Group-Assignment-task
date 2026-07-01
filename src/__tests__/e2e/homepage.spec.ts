@@ -6,7 +6,7 @@ test.describe("Homepage", () => {
   });
 
   test("page loads successfully", async ({ page }) => {
-    await expect(page).toHaveTitle(/BRP/i);
+    await expect(page).toHaveTitle(/B.R.P./i);
   });
 
   test("hero section is visible", async ({ page }) => {

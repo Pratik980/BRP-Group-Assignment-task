@@ -42,7 +42,7 @@ export function ContactForm() {
       });
 
       setDone(true);
-      toast.success("Thank you — we'll be in touch soon.");
+      toast.success("Thank you - we'll be in touch soon.");
       (e.target as HTMLFormElement).reset();
     } catch (err) {
       console.error(err);

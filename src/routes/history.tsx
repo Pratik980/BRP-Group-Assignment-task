@@ -60,7 +60,7 @@ function nextFallbackImage(): string {
 export const Route = createFileRoute("/history")({
   head: () => ({
     meta: [
-      { title: "B.R.P. Group — Corporate History & Timeline" },
+      { title: "B.R.P. Group - Corporate History & Timeline" },
       {
         name: "description",
         content:

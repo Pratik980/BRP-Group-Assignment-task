@@ -275,7 +275,7 @@ function AdminHistoryPage() {
         {/* ── Legacy Intro ── */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Legacy — Intro</CardTitle>
+            <CardTitle className="text-base">Legacy - Intro</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
@@ -330,7 +330,7 @@ function AdminHistoryPage() {
         {/* ── Founder Section ── */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Legacy — Founder</CardTitle>
+            <CardTitle className="text-base">Legacy - Founder</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -443,7 +443,7 @@ function AdminHistoryPage() {
         {/* ── Torch Acts ── */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Legacy — Torch relay acts</CardTitle>
+            <CardTitle className="text-base">Legacy - Torch relay acts</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {legacy.torchActs.map((act, i) => (
@@ -491,7 +491,7 @@ function AdminHistoryPage() {
         {/* ── Values ── */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Legacy — Values</CardTitle>
+            <CardTitle className="text-base">Legacy - Values</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">

@@ -1,6 +1,6 @@
 /**
  * Server-only career handlers (TanStack Start createServerFn).
- * The app runs as a Vite SPA — use `@/lib/career.api` from client routes instead.
+ * The app runs as a Vite SPA - use `@/lib/career.api` from client routes instead.
  *
  * Re-enable these when TanStack Start server middleware is configured in vite.config.
  */

@@ -20,11 +20,11 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About B.R.P. Group — Vision, Mission & Leadership" },
+      { title: "About B.R.P. Group - Vision, Mission & Leadership" },
       {
         name: "description",
         content:
-          "Learn about B.R.P. Group's vision, mission, and executive team — from late Dr. Babu Ram Pokharel to Chairman Dr. Ubin Pokharel and Executive Director Ms. Bidushi Pandey Pokharel.",
+          "Learn about B.R.P. Group's vision, mission, and executive team - from late Dr. Babu Ram Pokharel to Chairman Dr. Ubin Pokharel and Executive Director Ms. Bidushi Pandey Pokharel.",
       },
     ],
   }),
@@ -54,7 +54,7 @@ function AboutPage() {
       />
       <Nav />
       <div className="relative z-10">
-        {/* Hero — text left, photo right (no full-width background) */}
+        {/* Hero - text left, photo right (no full-width background) */}
         <section className="relative overflow-hidden border-b border-border/30 bg-gradient-to-b from-secondary/50 via-background to-background pt-20 pb-10 sm:pt-28 sm:pb-16 md:pt-32 md:pb-24">
           <ThemeBackdrop variant="hero" />
           <div className="relative z-10 brp-container">

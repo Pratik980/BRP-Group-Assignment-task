@@ -86,7 +86,7 @@ export function CorporateGallery() {
               B.R.P. Group <span className="text-gradient italic">In Action</span>
             </h2>
             <p className="mt-3 max-w-xl text-sm font-light text-muted-foreground md:text-base xl:text-lg">
-              Browse the full gallery below — select any photo to view it without cropping.
+              Browse the full gallery below - select any photo to view it without cropping.
             </p>
           </motion.div>
 
@@ -117,7 +117,7 @@ export function CorporateGallery() {
           </motion.div>
         </div>
 
-        {/* Main viewer — object-contain shows the entire photo */}
+        {/* Main viewer - object-contain shows the entire photo */}
         <motion.div
           ref={containerRef}
           {...alternateSlideIn(0, { margin: "-80px", duration: 0.95 })}
@@ -158,7 +158,7 @@ export function CorporateGallery() {
           </motion.div>
         </motion.div>
 
-        {/* Thumbnail grid — see every photo at a glance */}
+        {/* Thumbnail grid - see every photo at a glance */}
         <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5 md:gap-3">
           {images.map((img, idx) => (
             <motion.button

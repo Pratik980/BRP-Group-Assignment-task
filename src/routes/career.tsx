@@ -30,13 +30,13 @@ import { fetchVacancies, submitApplication } from "@/lib/career.api";
 export const Route = createFileRoute("/career")({
   head: () => ({
     meta: [
-      { title: "B.R.P. Group — Careers" },
+      { title: "B.R.P. Group - Careers" },
       {
         name: "description",
         content:
           "Submit your application to join B.R.P. Group's premier diversified venture ecosystem. Upload your CV and contact details to get in touch with our recruitment team.",
       },
-      { property: "og:title", content: "B.R.P. Group — Join Our Team" },
+      { property: "og:title", content: "B.R.P. Group - Join Our Team" },
       {
         property: "og:description",
         content:
