@@ -2,7 +2,6 @@ import { motion, useMotionValue } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { alternateSlideIn, splitSlideIn, slideEase } from "@/lib/alternate-slide";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 import { useGallery } from "@/hooks/useGallery";
 
@@ -78,7 +77,12 @@ export function CorporateGallery() {
       <ThemeBackdrop variant="section" />
       <div className="relative z-10 brp-container">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12">
-          <motion.div {...splitSlideIn(0, "visual", { margin: "-60px" })}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <div className="glass mb-4 inline-flex rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground shadow-sm">
               Corporate Gallery
             </div>
@@ -91,8 +95,10 @@ export function CorporateGallery() {
           </motion.div>
 
           <motion.div
-            {...splitSlideIn(0, "content", { margin: "-60px" })}
-            transition={{ duration: 0.85, ease: slideEase, delay: 0.08 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.08 }}
             className="flex items-center gap-3 mt-6 md:mt-0 relative z-20"
           >
             <button
@@ -120,7 +126,10 @@ export function CorporateGallery() {
         {/* Main viewer - object-contain shows the entire photo */}
         <motion.div
           ref={containerRef}
-          {...alternateSlideIn(0, { margin: "-80px", duration: 0.95 })}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
           className="relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-muted/40 border border-border/40 shadow-glass"
         >
           <motion.div
@@ -165,8 +174,10 @@ export function CorporateGallery() {
               key={idx}
               type="button"
               onClick={() => goTo(idx)}
-              {...alternateSlideIn(idx, { margin: "-40px", duration: 0.7 })}
-              transition={{ duration: 0.7, ease: slideEase, delay: idx * 0.04 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, ease: "easeOut", delay: idx * 0.04 }}
               className={cn(
                 "group relative overflow-hidden rounded-xl border-2 bg-muted/30 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                 idx === imgIndex
@@ -195,7 +206,10 @@ export function CorporateGallery() {
 
         {/* Dot indicators */}
         <motion.div
-          {...alternateSlideIn(1, { margin: "-20px", duration: 0.75 })}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-20px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="mt-6 flex flex-wrap items-center justify-center gap-2"
         >
           {images.map((_, idx) => (
