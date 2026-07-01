@@ -37,7 +37,7 @@ export const VENTURE_LOGO_ASSETS: SiteAsset[] = [
   },
   {
     id: "brp-tours-travels",
-    label: "BRP Tours & Travels",
+    label: "B.R.P. Tours & Travels",
     url: base("Brp-tours-and-travel.webp"),
     category: "ventures",
   },
@@ -65,8 +65,8 @@ export const EXECUTIVE_PHOTO_ASSETS: SiteAsset[] = [
 ];
 
 export const BRAND_ASSETS: SiteAsset[] = [
-  { id: "brp-group", label: "BRP Group", url: base("Brp-Group-1200.webp"), category: "brand" },
-  { id: "brp-logo", label: "BRP Logo", url: base("BRPGrouplogo.png"), category: "brand" },
+  { id: "brp-group", label: "B.R.P. Group", url: base("Brp-Group-1200.webp"), category: "brand" },
+  { id: "brp-logo", label: "B.R.P. Logo", url: base("BRPGrouplogo.png"), category: "brand" },
 ];
 
 export const GALLERY_ASSETS: SiteAsset[] = [

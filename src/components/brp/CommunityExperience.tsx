@@ -75,7 +75,7 @@ function CommunityHero() {
             {content.heroTitle}
           </span>
 
-          <h1 className="font-display text-4xl leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+          <h1 className="font-display text-4xl leading-[1.14] tracking-tight sm:text-6xl sm:leading-[1.1] md:text-7xl md:leading-[1.08] pb-1">
             {content.heroHeadline}
           </h1>
 

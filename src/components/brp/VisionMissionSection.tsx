@@ -16,17 +16,17 @@ const AUTOPLAY_MS = 5500;
 const galleryPhotos = [
   {
     src: photoHeritage,
-    alt: "BRP Group heritage and long-term vision",
+    alt: "B.R.P. Group heritage and long-term vision",
     caption: "Legacy & vision",
   },
   {
     src: photoGrowth,
-    alt: "BRP Group growth across sectors",
+    alt: "B.R.P. Group growth across sectors",
     caption: "Growth & scale",
   },
   {
     src: photoCommunity,
-    alt: "BRP Group community impact",
+    alt: "B.R.P. Group community impact",
     caption: "Community impact",
   },
 ] as const;

@@ -51,7 +51,7 @@ export function ScrollTickers() {
   return (
     <section
       className="relative z-10 overflow-hidden border-y border-border/25 bg-gradient-to-b from-secondary/20 via-background to-secondary/15 py-16 sm:py-20 md:py-28"
-      aria-label="BRP heritage and impact highlights"
+      aria-label="B.R.P. heritage and impact highlights"
     >
       <ThemeBackdrop variant="subtle" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.95_0.02_240/0.35),transparent_58%)]" />

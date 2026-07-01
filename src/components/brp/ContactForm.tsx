@@ -72,7 +72,7 @@ export function ContactForm() {
         </motion.div>
         <div className="font-display text-2xl text-gradient">Message received.</div>
         <p className="mt-3 text-sm font-light leading-relaxed text-muted-foreground">
-          A member of the BRP Group team will reach out shortly.
+          A member of the B.R.P. Group team will reach out shortly.
         </p>
         <motion.button
           whileHover={{ x: 4 }}

@@ -173,7 +173,6 @@
     font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
   }
 
   html {
@@ -224,6 +223,9 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+  .text-gradient.italic {
+    padding-right: 0.3em;
   }
   .aurora-bg {
     background: var(--gradient-aurora);
@@ -746,6 +748,17 @@
       0 20px 60px rgba(0, 0, 0, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
     transform: scale(1.02) !important;
+  }
+
+  .hero-theme__hub--network-center {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 2px solid rgba(255, 255, 255, 0.92) !important;
+    box-shadow:
+      0 0 50px rgba(255, 255, 255, 0.45),
+      0 16px 48px rgba(0, 0, 0, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
   }
 
   /* Frosted network connector lines */

@@ -42,11 +42,11 @@ export function AdminSidebar() {
       <div className="border-b border-border/40 px-5 py-5">
         <div className="flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden bg-white shadow-sm">
-            <img src={sidebarLogo} alt="BRP" className="h-6 w-6 object-contain" />
+            <img src={sidebarLogo} alt="B.R.P." className="h-6 w-6 object-contain" />
           </div>
           <div className="leading-tight">
             <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              BRP Group
+              B.R.P. Group
             </p>
             <h1 className="font-display text-[15px] text-foreground">Admin CMS</h1>
           </div>

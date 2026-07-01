@@ -44,11 +44,11 @@ export const Route = createFileRoute("/ventures")({
     }),
   head: () => ({
     meta: [
-      { title: "BRP Group — Diversified Corporate Ventures Portfolio" },
+      { title: "B.R.P. Group — Diversified Corporate Ventures Portfolio" },
       {
         name: "description",
         content:
-          "Explore BRP Group's operations in education, technology, finance, real estate, and travel. Driven by compounding trust and innovation in Nepal.",
+          "Explore B.R.P. Group's operations in education, technology, finance, real estate, and travel. Driven by compounding trust and innovation in Nepal.",
       },
     ],
   }),

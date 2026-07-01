@@ -75,7 +75,7 @@ const STYLE_BY_SLUG: Record<string, StylePreset> = {
     navColor: "#8b5cf6",
   },
   "brp-ventures": {
-    code: "BRP VENTURES",
+    code: "B.R.P. VENTURES",
     focus: "Property Investment & Fund Management",
     tags: ["Real Estate", "Fund Management", "Investments"],
     accent: "oklch(0.48 0.14 275)",
@@ -97,7 +97,7 @@ const STYLE_BY_SLUG: Record<string, StylePreset> = {
     navColor: "#10b981",
   },
   "brp-tours-travels": {
-    code: "BRP TOURS",
+    code: "B.R.P. TOURS",
     focus: "Local & International Travel",
     tags: ["Corporate Travel", "Tours", "Hospitality"],
     accent: "oklch(0.58 0.14 55)",
@@ -112,7 +112,7 @@ const STYLE_BY_SLUG: Record<string, StylePreset> = {
 const DEFAULT_STYLE: StylePreset = {
   code: "VENTURE",
   focus: "Operating company",
-  tags: ["BRP Group"],
+    tags: ["B.R.P. Group"],
   accent: "oklch(0.55 0.12 275)",
   themeColor: "rgba(99, 102, 241, 0.12)",
   glowColor: "oklch(0.55 0.12 275)",

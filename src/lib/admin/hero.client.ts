@@ -8,6 +8,11 @@ import {
   DEFAULT_HERO_MORPHING_COLOR,
   DEFAULT_HERO_MORPHING_GLOW,
 } from "@/lib/cms/hero-morphing";
+import {
+  DEFAULT_HERO_BRAND_LOGO,
+  HERO_BRAND_LOGO_KEY,
+  resolveHeroBrandLogo,
+} from "@/lib/cms/hero-brand-logo";
 
 export type HeroSlide = Tables<"hero_slides">;
 
@@ -123,4 +128,38 @@ export async function saveHeroVisualCards(cards: Record<string, unknown>[]) {
 export async function uploadHeroImage(file: File) {
   const { uploadMediaFile } = await import("@/lib/admin/media-upload");
   return uploadMediaFile(file, "hero");
+}
+
+export async function fetchHeroBrandLogo(): Promise<string | null> {
+  const { data, error } = await supabase
+    .from("about_content")
+    .select("metadata")
+    .eq("section_key", HERO_BRAND_LOGO_KEY)
+    .maybeSingle();
+  if (error) throw error;
+  return resolveHeroBrandLogo(data?.metadata as Record<string, unknown> | undefined) ?? DEFAULT_HERO_BRAND_LOGO;
+}
+
+export async function saveHeroBrandLogo(url: string | null) {
+  const { data, error } = await supabase
+    .from("about_content")
+    .upsert(
+      {
+        section_key: HERO_BRAND_LOGO_KEY,
+        title: "Hero brand logo",
+        content: "Uploadable logo shown in the homepage hero center badge.",
+        metadata: { url },
+      },
+      { onConflict: "section_key" },
+    )
+    .select("metadata")
+    .single();
+  if (error) throw error;
+  return resolveHeroBrandLogo(data?.metadata as Record<string, unknown> | undefined);
+}
+
+export async function deleteHeroStorageImage(url: string) {
+  const path = url.replace(/.*\/storage\/v1\/object\/public\/media\//, "");
+  if (!path || path === url) return;
+  await supabase.storage.from("media").remove([path]);
 }

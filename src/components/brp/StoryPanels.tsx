@@ -70,7 +70,7 @@ export function StoryPanels() {
             >
               <LazyImage
                 src={legacyImg}
-                alt="BRP Legacy Portrait"
+                alt="B.R.P. Legacy Portrait"
                 className="w-full h-full object-cover rounded-2xl pointer-events-none"
               />
             </div>
@@ -93,7 +93,7 @@ export function StoryPanels() {
             >
               <LazyImage
                 src={childrenImg}
-                alt="BRP Community Children"
+                alt="B.R.P. Community Children"
                 className="w-full h-full object-cover rounded-2xl pointer-events-none"
               />
             </div>

@@ -107,7 +107,7 @@ export function OurTeam() {
             Our Team
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground">
-            Staff and team members across BRP Group ventures.
+            Staff and team members across B.R.P. Group ventures.
           </p>
         </motion.div>
 

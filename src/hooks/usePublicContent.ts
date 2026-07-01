@@ -9,6 +9,7 @@ import { resolveHeroTextColors } from "@/lib/cms/hero-colors";
 import { DEFAULT_HERO_VISUAL_CARDS } from "@/lib/cms/hero-visual-cards";
 import {
   fetchPublicAboutSections,
+  fetchPublicHeroBrandLogo,
   fetchPublicHeroMorphingWords,
   fetchPublicHeroSlides,
   fetchPublicHeroVisualCards,
@@ -47,6 +48,11 @@ const heroVisualCardsQuery = {
   queryFn: async () => (await fetchPublicHeroVisualCards()) ?? DEFAULT_HERO_VISUAL_CARDS,
 };
 
+const heroBrandLogoQuery = {
+  queryKey: ["public-hero-brand-logo"] as const,
+  queryFn: async () => (await fetchPublicHeroBrandLogo()) ?? null,
+};
+
 export async function prefetchPublicHeroContent(queryClient: QueryClient) {
   await Promise.all([
     queryClient.ensureQueryData({
@@ -58,6 +64,7 @@ export async function prefetchPublicHeroContent(queryClient: QueryClient) {
       queryFn: fetchPublicHeroSlides,
     }),
     queryClient.ensureQueryData(heroVisualCardsQuery),
+    queryClient.ensureQueryData(heroBrandLogoQuery),
     queryClient.ensureQueryData(heroMorphingQuery),
   ]);
 }
@@ -126,6 +133,13 @@ export function usePublicHeroVisualCards() {
     ...PUBLIC_CACHE,
     initialData: () => DEFAULT_HERO_VISUAL_CARDS,
     initialDataUpdatedAt: 0,
+  });
+}
+
+export function usePublicHeroBrandLogo() {
+  return useQuery({
+    ...heroBrandLogoQuery,
+    ...PUBLIC_CACHE,
   });
 }
 

@@ -102,7 +102,7 @@ export function Footer() {
         <div className="space-y-8 pt-10 pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] md:hidden">
           {/* Brand */}
           <div className="flex flex-col items-center gap-4 text-center">
-            <Link to="/" className="flex flex-col items-center gap-3" aria-label="BRP Group home">
+            <Link to="/" className="flex flex-col items-center gap-3" aria-label="B.R.P. Group home">
               <img src={logo as string} alt="" className="h-11 w-auto object-contain" />
             </Link>
             <SocialRow className="justify-center" compact socialLinks={socialLinks} />
@@ -176,17 +176,12 @@ export function Footer() {
               <div className="rounded-xl bg-secondary/25 px-3 py-3">
                 <div className="flex items-start gap-3">
                   <Phone className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                  <div className="space-y-1.5">
-                    {phoneNumbers.map((num) => (
-                      <a
-                        key={num}
-                        href={`tel:${num.replace(/\s/g, "")}`}
-                        className="block text-sm font-medium text-foreground active:text-primary"
-                      >
-                        {num}
-                      </a>
-                    ))}
-                  </div>
+                  <a
+                    href={`tel:${phoneNumbers[0]?.replace(/\s/g, "")}`}
+                    className="text-sm font-medium text-foreground active:text-primary"
+                  >
+                    {phoneNumbers.join(", ")}
+                  </a>
                 </div>
               </div>
               <div className="flex items-start gap-3 rounded-xl bg-secondary/25 px-3 py-3">
@@ -202,7 +197,7 @@ export function Footer() {
         {/* ——— Desktop layout ——— */}
         <div className="hidden gap-12 py-16 md:grid md:grid-cols-6 lg:gap-16 lg:py-20">
           <div className="md:col-span-2">
-            <Link to="/" className="flex items-center gap-3" aria-label="BRP Group home">
+            <Link to="/" className="flex items-center gap-3" aria-label="B.R.P. Group home">
               <img src={logo as string} alt="" className="h-10 w-auto object-contain" />
               <div className="min-w-0">
                 <div className="text-sm font-semibold tracking-[0.18em] text-foreground"></div>
@@ -255,7 +250,8 @@ export function Footer() {
           <div className="md:col-span-2">
             <FooterHeading className="mb-5">Contact</FooterHeading>
             <div className="mt-5 space-y-3">
-              <p className="text-sm text-muted-foreground">
+              <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Mail className="h-4 w-4 shrink-0 text-primary" />
                 <a
                   href={`mailto:${siteMetaLive.email}`}
                   className="hover:text-primary transition-colors"
@@ -263,17 +259,19 @@ export function Footer() {
                   {siteMetaLive.email}
                 </a>
               </p>
-              {phoneNumbers.map((num) => (
-                <p key={num} className="text-sm text-muted-foreground">
+              {phoneNumbers.length > 0 && (
+                <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Phone className="h-4 w-4 shrink-0 text-primary" />
                   <a
-                    href={`tel:${num.replace(/\s/g, "")}`}
+                    href={`tel:${phoneNumbers[0].replace(/\s/g, "")}`}
                     className="hover:text-primary transition-colors"
                   >
-                    {num}
+                    {phoneNumbers.join(", ")}
                   </a>
                 </p>
-              ))}
-              <p className="text-sm leading-relaxed text-muted-foreground">
+              )}
+              <p className="flex items-start gap-2 text-sm leading-relaxed text-muted-foreground">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                 {siteMetaLive.headquarters}
               </p>
             </div>
@@ -283,7 +281,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col items-center gap-6 border-t border-border/40 py-8 text-center md:flex-row md:justify-between md:py-8 md:text-left max-md:mt-2">
           <p className="text-xs font-light leading-relaxed text-muted-foreground">
-            © {new Date().getFullYear()} BRP Group. All rights reserved.
+            © {new Date().getFullYear()} B.R.P. Group. All rights reserved.
           </p>
 
           <div className="flex flex-col items-center gap-5 md:flex-row md:gap-8">

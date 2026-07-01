@@ -20,11 +20,11 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About BRP Group — Vision, Mission & Leadership" },
+      { title: "About B.R.P. Group — Vision, Mission & Leadership" },
       {
         name: "description",
         content:
-          "Learn about BRP Group's vision, mission, and executive team — from late Dr. Babu Ram Pokharel to Chairman Dr. Ubin Pokharel and Executive Director Ms. Bidushi Pandey Pokharel.",
+          "Learn about B.R.P. Group's vision, mission, and executive team — from late Dr. Babu Ram Pokharel to Chairman Dr. Ubin Pokharel and Executive Director Ms. Bidushi Pandey Pokharel.",
       },
     ],
   }),
@@ -38,7 +38,7 @@ function AboutPage() {
   const communityStory = resolveCommunityStory(aboutSections);
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+    <main className="relative min-h-screen bg-background text-foreground">
       <ThemeBackdrop variant="page" className="opacity-50" />
       <div
         className="pointer-events-none absolute inset-0 opacity-70"
@@ -86,7 +86,7 @@ function AboutPage() {
                 <div className="overflow-hidden rounded-3xl border border-border/30 shadow-sm bg-muted/10 flex items-center justify-center p-4 sm:p-6">
                   <img
                     src={aboutSideImg}
-                    alt="BRP Group"
+                    alt="B.R.P. Group"
                     className="w-full h-auto max-h-[480px] object-contain"
                   />
                 </div>
@@ -98,7 +98,7 @@ function AboutPage() {
         <VisionMissionSection />
 
         {/* Community */}
-        <section className="relative overflow-hidden py-16 md:py-24">
+        <section className="relative py-16 md:py-24">
           <ThemeBackdrop variant="section" />
           <div className="relative z-10 brp-container">
             <motion.div
@@ -112,7 +112,7 @@ function AboutPage() {
                 <Heart className="h-3.5 w-3.5" />
                 Our Community
               </span>
-              <h2 className="font-display text-3xl tracking-tight text-foreground md:text-5xl">
+              <h2 className="font-display text-3xl tracking-tight text-foreground md:text-5xl leading-snug">
                 Community impact rooted in <span className="text-gradient italic">legacy.</span>
               </h2>
             </motion.div>
@@ -121,7 +121,7 @@ function AboutPage() {
               <div className="overflow-hidden rounded-3xl shadow-glass lg:order-2">
                 <img
                   src={communityImg}
-                  alt="BRP Group community initiatives"
+                  alt="B.R.P. Group community initiatives"
                   className="aspect-[4/3] w-full object-cover"
                 />
               </div>
@@ -147,15 +147,15 @@ function AboutPage() {
 
         <Values />
 
-        <section className="relative overflow-hidden border-t border-border/30 py-12">
+        <section className="relative border-t border-border/30 py-12">
           <ThemeBackdrop variant="subtle" />
           <div className="relative z-10 brp-container text-center">
             <div className="glass mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
               Get in touch
             </div>
-            <h2 className="font-display text-3xl tracking-tight text-foreground md:text-5xl xl:text-6xl">
-              Connect with <span className="text-gradient italic">BRP Group.</span>
+            <h2 className="font-display text-3xl leading-[1.12] tracking-tight text-foreground md:text-5xl md:leading-[1.15] xl:text-6xl xl:leading-[1.15] pb-1">
+              Connect with <span className="text-gradient italic">B.R.P. Group.</span>
             </h2>
             <div className="mx-auto mt-4 flex max-w-md flex-col gap-2 text-sm text-muted-foreground sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-2 sm:gap-y-1">
               <span>{siteMetaLive.headquarters}</span>
@@ -182,7 +182,7 @@ function AboutPage() {
               hash="contact"
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background"
             >
-              Contact BRP Group
+              Contact B.R.P. Group
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

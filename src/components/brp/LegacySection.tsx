@@ -25,7 +25,7 @@ const DEFAULT_LEGACY: HistoryLegacyContent = {
   introBadge: "Carrying the Torch",
   introTitle: "Our Legacy",
   introDescription:
-    "BRP Group is more than a name \u2014 it is the living legacy of late Dr. Babu Ram Pokharel, carried forward by a new generation driven by the same values, renewed purpose, and a vision for Nepal\u2019s tomorrow.",
+    "B.R.P. Group is more than a name \u2014 it is the living legacy of late Dr. Babu Ram Pokharel, carried forward by a new generation driven by the same values, renewed purpose, and a vision for Nepal\u2019s tomorrow.",
   torchBadge: "Passing the Torch",
   torchTitle: "From One Generation to the Next",
   founder: {
@@ -455,7 +455,7 @@ function TorchSpotlight({
             Steering the Vision Forward
           </h5>
           <p className="text-base sm:text-lg font-light text-muted-foreground leading-relaxed">
-            Steering BRP Group&apos;s diversified investments across technology, healthcare,
+            Steering B.R.P. Group&apos;s diversified investments across technology, healthcare,
             education, and real estate — expanding the ecosystem through innovation and strategic US
             collaborations.
           </p>
@@ -704,7 +704,7 @@ function BridgeStatic({ content }: { content: HistoryLegacyContent }) {
                     Steering the Vision Forward
                   </h5>
                   <p className="text-base sm:text-lg font-light text-muted-foreground leading-relaxed">
-                    Steering BRP Group&apos;s diversified investments across technology, healthcare,
+                    Steering B.R.P. Group&apos;s diversified investments across technology, healthcare,
                     education, and real estate — expanding the ecosystem through innovation and
                     strategic US collaborations.
                   </p>

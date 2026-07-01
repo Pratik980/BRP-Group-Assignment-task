@@ -17,7 +17,7 @@ export const Route = createFileRoute("/community")({
     const page = loaderData ?? communityPage;
     return {
       meta: [
-        { title: `BRP Group — ${page.heroTitle}` },
+        { title: `B.R.P. Group — ${page.heroTitle}` },
         {
           name: "description",
           content: page.heroIntro.slice(0, 160),

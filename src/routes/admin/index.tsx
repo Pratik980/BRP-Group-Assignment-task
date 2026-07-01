@@ -115,7 +115,7 @@ function AdminDashboardPage() {
           <div>
             <h1 className="font-display text-3xl tracking-tight">Dashboard</h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              Overview of your BRP Group website content and submissions.
+              Overview of your B.R.P. Group website content and submissions.
             </p>
           </div>
           <Button asChild size="sm">

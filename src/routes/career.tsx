@@ -30,13 +30,13 @@ import { fetchVacancies, submitApplication } from "@/lib/career.api";
 export const Route = createFileRoute("/career")({
   head: () => ({
     meta: [
-      { title: "BRP Group — Careers" },
+      { title: "B.R.P. Group — Careers" },
       {
         name: "description",
         content:
-          "Submit your application to join BRP Group's premier diversified venture ecosystem. Upload your CV and contact details to get in touch with our recruitment team.",
+          "Submit your application to join B.R.P. Group's premier diversified venture ecosystem. Upload your CV and contact details to get in touch with our recruitment team.",
       },
-      { property: "og:title", content: "BRP Group — Join Our Team" },
+      { property: "og:title", content: "B.R.P. Group — Join Our Team" },
       {
         property: "og:description",
         content:
@@ -209,7 +209,7 @@ function CareersPage() {
             >
               <div className="glass mb-4 inline-flex items-center rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-primary shadow-sm">
                 <Sparkles className="h-3 w-3 text-primary shrink-0 mr-1.5 animate-pulse" />
-                Careers at BRP Group
+                Careers at B.R.P. Group
               </div>
             </motion.div>
 
@@ -219,7 +219,7 @@ function CareersPage() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="font-display text-3xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-foreground"
             >
-              Work with <span className="text-gradient italic">BRP Group</span>
+              Work with <span className="text-gradient italic">B.R.P. Group</span>
             </motion.h1>
 
             <motion.p
@@ -391,7 +391,7 @@ function CareersPage() {
                         Application Submitted
                       </h3>
                       <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                        Thank you for your interest in joining BRP Group,{" "}
+                        Thank you for your interest in joining B.R.P. Group,{" "}
                         <span className="font-semibold text-foreground">{fullName}</span>. We have
                         successfully received your details and resume. Our recruitment team will
                         review your profile and contact you if it aligns with our requirements.

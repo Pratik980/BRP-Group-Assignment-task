@@ -60,11 +60,11 @@ function nextFallbackImage(): string {
 export const Route = createFileRoute("/history")({
   head: () => ({
     meta: [
-      { title: "BRP Group — Corporate History & Timeline" },
+      { title: "B.R.P. Group — Corporate History & Timeline" },
       {
         name: "description",
         content:
-          "Explore the 45-year history of BRP Group, starting from foundational education in 1980 by late Dr. Babu Ram Pokharel to modern diversified sectors today.",
+          "Explore the 45-year history of B.R.P. Group, starting from foundational education in 1980 by late Dr. Babu Ram Pokharel to modern diversified sectors today.",
       },
     ],
   }),

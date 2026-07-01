@@ -106,7 +106,7 @@ export function resolveVenturesHeroIntro(sections: AboutSectionsMap | undefined)
   const row = sections?.[ABOUT_SECTION_KEYS.VENTURES_HERO];
   return (
     row?.content?.trim() ||
-    "Operating across critical nodes of education, technology, finance, and logistics — BRP Group combines physical strength with digital adaptability to lead the Himalayan region."
+    "Operating across critical nodes of education, technology, finance, and logistics — B.R.P. Group combines physical strength with digital adaptability to lead the Himalayan region."
   );
 }
 
@@ -476,7 +476,7 @@ const DEFAULT_HISTORY_LEGACY: HistoryLegacyContent = {
   introBadge: "Carrying the Torch",
   introTitle: "Our Legacy",
   introDescription:
-    "BRP Group is more than a name \u2014 it is the living legacy of late Dr. Babu Ram Pokharel, carried forward by a new generation driven by the same values, renewed purpose, and a vision for Nepal\u2019s tomorrow.",
+    "B.R.P. Group is more than a name \u2014 it is the living legacy of late Dr. Babu Ram Pokharel, carried forward by a new generation driven by the same values, renewed purpose, and a vision for Nepal\u2019s tomorrow.",
   torchBadge: "Passing the Torch",
   torchTitle: "From One Generation to the Next",
   founder: {

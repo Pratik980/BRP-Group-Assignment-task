@@ -7,7 +7,7 @@ import type { PublicVenture } from "@/lib/cms/venture-display";
 import { findImpactStatValue, resolveImpactStatItems } from "@/lib/cms/about-content";
 import { usePublicImpactStats } from "@/hooks/usePublicContent";
 import { usePublicVentures } from "@/hooks/usePublicVentures";
-import brpVenturesLogo from "@/assets/optimized/logo-BRP.webp";
+import brpGroupLogo from "@/assets/optimized/BRPGrouplogo.png";
 import { ThemeBackdrop } from "@/components/brp/ThemeBackdrop";
 import { LazyImage } from "@/components/ui/lazy-image";
 
@@ -24,7 +24,7 @@ function VentureLogo({ src, className }: { src: string; className?: string }) {
         )}
         aria-hidden
       >
-        BRP
+        B.R.P.
       </span>
     );
   }
@@ -109,7 +109,7 @@ function VentureDetailPanel({
             {[
               { label: "Division", value: venture.code },
               { label: "Sector", value: venture.category },
-              { label: "Group", value: "BRP Constellation" },
+              { label: "Group", value: "B.R.P. Constellation" },
             ].map((item) => (
               <div key={item.label} className="rounded-xl bg-muted/30 px-3 py-2.5">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -204,7 +204,7 @@ export function VenturesEcosystem() {
             driving innovation and growth.
           </h2>
           <p className="mt-5 text-base font-light leading-relaxed text-muted-foreground md:text-lg md:leading-8 xl:text-xl">
-            Each company in the BRP constellation operates independently — yet draws strength from a
+            Each company in the B.R.P. constellation operates independently — yet draws strength from a
             shared core of values, capital, and 45 years of compounding trust.
           </p>
         </motion.div>
@@ -223,10 +223,10 @@ export function VenturesEcosystem() {
               <div className="glass-strong overflow-hidden rounded-[1.75rem] border border-border/50 shadow-glass">
                 <div className="border-b border-border/40 bg-muted/20 px-5 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-border/40 bg-white p-2 shadow-sm">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-xl border border-border/40 bg-white p-1.5 shadow-sm">
                       <img
-                        src={brpVenturesLogo}
-                        alt="BRP Group"
+                        src={brpGroupLogo}
+                        alt="B.R.P. Group"
                         className="h-full w-full object-contain"
                       />
                     </div>
@@ -234,7 +234,7 @@ export function VenturesEcosystem() {
                       <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                         Holding company
                       </p>
-                      <p className="font-display text-lg text-foreground">BRP Group</p>
+                      <p className="font-display text-lg text-foreground">B.R.P. Group</p>
                     </div>
                   </div>
                   <p className="mt-3 text-xs font-light leading-relaxed text-muted-foreground">
@@ -411,7 +411,7 @@ export function VenturesEcosystem() {
             hash="contact"
             className="inline-flex items-center gap-2 rounded-full border border-border/60 px-6 py-3.5 text-sm font-medium text-muted-foreground"
           >
-            Partner with BRP
+            Partner with B.R.P.
             <ExternalLink className="h-3.5 w-3.5 opacity-60" />
           </Link>
         </div>

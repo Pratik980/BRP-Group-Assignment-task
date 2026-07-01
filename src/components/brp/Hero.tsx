@@ -2,9 +2,10 @@ import { useState, useEffect, Fragment, memo, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import logo from "@/assets/optimized/BRPGrouplogo.png";
+import defaultLogo from "@/assets/optimized/BRPGrouplogo.png";
 import {
   usePublicHero,
+  usePublicHeroBrandLogo,
   usePublicHeroMorphingWords,
   usePublicHeroBgTheme,
   usePublicHeroTextColors,
@@ -74,7 +75,7 @@ const NETWORK_NODES = [
   { id: 0, x: 50, y: 14, title: "Small Heaven School", path: "small-heaven-school" },
   { id: 1, x: 81.18, y: 32, title: "Satin Leaf Investment", path: "satin-leaf-investment" },
   { id: 2, x: 81.18, y: 68, title: "B.R.P. Ventures", path: "brp-ventures" },
-  { id: 3, x: 50, y: 86, title: "BRP Tours & Travels", path: "brp-tours-travels" },
+  { id: 3, x: 50, y: 86, title: "B.R.P. Tours & Travels", path: "brp-tours-travels" },
   { id: 4, x: 18.82, y: 68, title: "Reddot", path: "reddot" },
   { id: 5, x: 18.82, y: 32, title: "Cloud Axis", path: "cloud-axis" },
 ];
@@ -458,6 +459,7 @@ export function Hero() {
   const isGradientBg = background_type === "gradient";
   const heroTextColors = usePublicHeroTextColors();
   const { data: heroSlides } = usePublicHero();
+  const { data: brandLogo } = usePublicHeroBrandLogo();
   const activeSlide = heroSlides?.find((slide) => slide.is_active) ?? heroSlides?.[0];
   const parsedHeadline = parseHeroHeadline(activeSlide?.headline);
   const [headlineTop, headlineMiddle] = splitHeadlineForDisplay(
@@ -466,6 +468,7 @@ export function Hero() {
   const { data: visualCards } = usePublicHeroVisualCards();
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
   const subheadline = activeSlide?.subheadline?.trim() || DEFAULT_HERO_SUBHEADLINE;
+  const logoSrc = brandLogo || defaultLogo;
 
   useEffect(() => {
     setImageErrors(new Set());
@@ -666,7 +669,7 @@ export function Hero() {
                     transformStyle: "preserve-3d",
                     transform: tiltTransform(0, 0),
                   }}
-                  className="hero-theme__hub hero-theme__hub--network flex items-center justify-center rounded-[1.6rem] sm:rounded-[2rem] md:rounded-[2.2rem] w-[4rem] h-[4rem] sm:w-[6rem] sm:h-[6rem] md:w-[7rem] md:h-[7rem] lg:w-[7.5rem] lg:h-[7.5rem] xl:w-[8rem] xl:h-[8rem]"
+                  className="hero-theme__hub hero-theme__hub--network hero-theme__hub--network-center flex items-center justify-center rounded-[1.6rem] sm:rounded-[2rem] md:rounded-[2.2rem] w-[4rem] h-[4rem] sm:w-[6rem] sm:h-[6rem] md:w-[7rem] md:h-[7rem] lg:w-[7.5rem] lg:h-[7.5rem] xl:w-[8rem] xl:h-[8rem]"
                 >
                   {/* Glowing Outer Spinning Ring */}
                   {!prefersReducedMotion && (
@@ -677,10 +680,9 @@ export function Hero() {
                     <div className="absolute inset-0 rounded-[inherit] bg-white/5 animate-ping [animation-duration:3s]" />
                   )}
                   <motion.img
-                    src={logo}
-                    alt="BRP Group Logo"
+                    src={logoSrc}
+                    alt="B.R.P. Group Logo"
                     className="hero-theme__logo w-[70%] h-[70%] object-contain"
-                    style={{ filter: "brightness(0) invert(1) opacity(0.9)" }}
                     initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.85 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.55, delay: 0.45, ease: revealEase }}
@@ -735,7 +737,7 @@ export function Hero() {
                         }}
                         className="hero-theme__card hero-theme__card--network relative flex h-full w-full items-center justify-center overflow-hidden rounded-[inherit] p-2 sm:p-2.5"
                       >
-                        <div className="flex h-full w-full items-center justify-center">
+                        <div className={`flex h-full w-full items-center justify-center ${node.id === 0 ? "p-1 sm:p-1.5" : ""}`}>
                           {showLogo ? (
                             <LazyImage
                               src={logoUrl}
@@ -770,7 +772,7 @@ export function Hero() {
       >
         <div className="hero-theme__footer mx-auto flex brp-container items-center justify-between font-sans text-[10px] uppercase tracking-[0.22em] md:text-xs">
           <span>Kathmandu, Nepal</span>
-          <span>© {new Date().getFullYear()} BRP Group</span>
+          <span>© {new Date().getFullYear()} B.R.P. Group</span>
         </div>
       </motion.footer>
     </section>

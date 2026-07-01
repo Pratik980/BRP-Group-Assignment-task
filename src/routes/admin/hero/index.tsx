@@ -39,10 +39,14 @@ import {
   fetchHeroMorphingWords,
   fetchHeroSlides,
   saveHeroMorphingWords,
+  deleteHeroStorageImage,
+  fetchHeroBrandLogo,
+  saveHeroBrandLogo,
   fetchHeroVisualCards,
   saveHeroVisualCards,
   uploadHeroImage,
 } from "@/lib/admin/hero.client";
+import { DEFAULT_HERO_BRAND_LOGO } from "@/lib/cms/hero-brand-logo";
 import {
   fetchHeroTextColors,
   saveHeroTextColors,
@@ -80,6 +84,12 @@ function AdminHeroPage() {
   const [morphColor, setMorphColor] = useState<string>(DEFAULT_HERO_MORPHING_COLOR);
   const [morphGlow, setMorphGlow] = useState<string>(DEFAULT_HERO_MORPHING_GLOW);
 
+  const { data: dbBrandLogo, isLoading: brandLogoLoading } = useQuery({
+    queryKey: ["admin-hero-brand-logo"],
+    queryFn: fetchHeroBrandLogo,
+  });
+  const [brandLogoUrl, setBrandLogoUrl] = useState<string>(DEFAULT_HERO_BRAND_LOGO);
+
   useEffect(() => {
     if (morphingData) {
       setWordDraft(morphingData.words);
@@ -87,6 +97,31 @@ function AdminHeroPage() {
       setMorphGlow(morphingData.glowColor);
     }
   }, [morphingData]);
+
+  useEffect(() => {
+    if (dbBrandLogo !== undefined) {
+      setBrandLogoUrl(dbBrandLogo || DEFAULT_HERO_BRAND_LOGO);
+    }
+  }, [dbBrandLogo]);
+
+  const brandLogoMutation = useMutation({
+    mutationFn: () =>
+      saveHeroBrandLogo(brandLogoUrl.trim() === DEFAULT_HERO_BRAND_LOGO ? null : brandLogoUrl.trim() || null),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-hero-brand-logo"] });
+      queryClient.invalidateQueries({ queryKey: ["public-hero-brand-logo"] });
+      queryClient.invalidateQueries({ queryKey: ["public-about"] });
+      toast.success("Hero logo saved");
+    },
+    onError: () => toast.error("Could not save hero logo"),
+  });
+
+  const clearBrandLogo = () => {
+    if (brandLogoUrl) {
+      deleteHeroStorageImage(brandLogoUrl).catch(() => {});
+    }
+    setBrandLogoUrl(DEFAULT_HERO_BRAND_LOGO);
+  };
 
   const { data: dbVisualCards, isLoading: visualCardsLoading } = useQuery({
     queryKey: ["admin-hero-visual-cards"],
@@ -148,7 +183,7 @@ function AdminHeroPage() {
         { title: "Satin Leaf Investment", image: "/site-assets/satin-leaf.webp" },
         { title: "B.R.P. Ventures", image: "/site-assets/logo-BRP.webp" },
         { title: "Reddot", image: "/site-assets/reddot.webp" },
-        { title: "BRP Tours & Travels", image: "/site-assets/Brp-tours-and-travel.webp" },
+        { title: "B.R.P. Tours & Travels", image: "/site-assets/Brp-tours-and-travel.webp" },
         { title: "Cloud Axis", image: "" },
       ]);
     }
@@ -741,6 +776,58 @@ function AdminHeroPage() {
 
         <Card>
           <CardHeader>
+            <CardTitle className="text-base">Hero brand logo</CardTitle>
+            <CardDescription>
+              Upload or remove the B.R.P. Group logo shown in the center of the homepage hero.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {brandLogoLoading ? (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Loading…
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="flex flex-wrap items-center gap-4">
+                  <div className="flex h-24 w-24 items-center justify-center rounded-2xl border bg-white p-3 shadow-sm">
+                    {brandLogoUrl ? (
+                      <img
+                        src={brandLogoUrl}
+                        alt="Hero brand logo preview"
+                        className="h-full w-full object-contain"
+                      />
+                    ) : (
+                      <span className="text-center text-xs text-muted-foreground">
+                        No logo uploaded
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    <HeroLogoUpload
+                      onUpload={(url) => setBrandLogoUrl(url)}
+                      onClear={clearBrandLogo}
+                      hasLogo={Boolean(brandLogoUrl)}
+                    />
+                    <Button
+                      type="button"
+                      onClick={() => brandLogoMutation.mutate()}
+                      disabled={brandLogoMutation.isPending}
+                    >
+                      {brandLogoMutation.isPending ? (
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                      ) : null}
+                      Save logo
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
             <CardTitle className="text-base">Hero visual cards (up to 8 floating frames)</CardTitle>
             <CardDescription>
               Configure the brand names, logo/image URLs, and custom card background colors for the
@@ -1037,6 +1124,58 @@ function CardImageUpload({ onUpload }: { onUpload: (url: string) => void }) {
           <Upload className="h-3.5 w-3.5" />
         )}
         {uploading ? "Uploading..." : "Upload image"}
+      </Button>
+    </div>
+  );
+}
+
+function HeroLogoUpload({
+  onUpload,
+  onClear,
+  hasLogo,
+}: {
+  onUpload: (url: string) => void;
+  onClear: () => void;
+  hasLogo: boolean;
+}) {
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  async function handleFile(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadHeroImage(file);
+      onUpload(url);
+    } catch {
+      toast.error("Failed to upload hero logo");
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        disabled={uploading}
+        onClick={() => fileRef.current?.click()}
+      >
+        {uploading ? (
+          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+        ) : (
+          <Upload className="h-3.5 w-3.5" />
+        )}
+        {uploading ? "Uploading..." : hasLogo ? "Replace logo" : "Upload logo"}
+      </Button>
+      <Button type="button" variant="outline" size="sm" disabled={!hasLogo} onClick={onClear}>
+        <Trash2 className="h-3.5 w-3.5" />
+        Remove
       </Button>
     </div>
   );

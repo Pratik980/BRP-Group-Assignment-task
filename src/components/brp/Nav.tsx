@@ -110,10 +110,10 @@ function AboutDropbar({ onClose }: { onClose: () => void }) {
             <span>Who We Are</span>
           </div>
           <h3 className="dropbar-featured-title">
-            BRP <span className="text-gradient italic">Group</span>
+            B.R.P. <span className="text-gradient italic">Group</span>
           </h3>
           <p className="dropbar-featured-desc">
-            BRP Group seeks to create a long-term positive impact on the Nepalese economy and the
+            B.R.P. Group seeks to create a long-term positive impact on the Nepalese economy and the
             lives of our citizens.
           </p>
           <Link to="/about" className="dropbar-featured-link" onClick={onClose}>
@@ -415,7 +415,7 @@ export function Nav() {
             <Link
               to="/"
               className="flex items-center gap-2 shrink-0"
-              aria-label="BRP Group home"
+              aria-label="B.R.P. Group home"
               onClick={(e) => {
                 if (window.location.pathname === "/") {
                   e.preventDefault();
@@ -425,7 +425,7 @@ export function Nav() {
             >
               <img
                 src={logoImg}
-                alt="BRP Group"
+                alt="B.R.P. Group"
                 className={`h-9 md:h-10 lg:h-11 xl:h-12 w-auto object-contain transition-all duration-300 ${
                   isDarkTheme ? "drop-shadow-[0_0_10px_rgba(255,255,255,0.55)]" : ""
                 }`}

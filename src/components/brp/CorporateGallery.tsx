@@ -23,7 +23,7 @@ const FALLBACK_IMAGES = [
   { src: fallbackImg1, label: "Incubator Workshops & Satin Leaf" },
   { src: fallbackBabuRamImg, label: "Chairman Emeritus Dr. Babu Ram Pokharel" },
   { src: fallbackImg2, label: "Venture Summit & Collaboration" },
-  { src: fallbackBrpImg1, label: "BRP Headquarters & Operations" },
+  { src: fallbackBrpImg1, label: "B.R.P. Headquarters & Operations" },
   { src: fallbackImg3, label: "IT Infrastructure Planning" },
   { src: fallbackUbinPng2, label: "Executive Board Meetings" },
   { src: fallbackImg4, label: "Strategic Investments Group" },
@@ -83,7 +83,7 @@ export function CorporateGallery() {
               Corporate Gallery
             </div>
             <h2 className="font-display text-4xl leading-[1.05] tracking-tight text-foreground md:text-6xl xl:text-7xl">
-              BRP Group <span className="text-gradient italic">In Action</span>
+              B.R.P. Group <span className="text-gradient italic">In Action</span>
             </h2>
             <p className="mt-3 max-w-xl text-sm font-light text-muted-foreground md:text-base xl:text-lg">
               Browse the full gallery below — select any photo to view it without cropping.

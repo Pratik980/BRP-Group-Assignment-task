@@ -65,7 +65,7 @@ export const ventures: Venture[] = [
   {
     name: "B.R.P. Ventures",
     slug: "brp-ventures",
-    code: "BRP VENTURES",
+    code: "B.R.P. VENTURES",
     category: "Real Estate",
     desc: "Property investment, market analysis, and fund management.",
     longDesc:
@@ -89,9 +89,9 @@ export const ventures: Venture[] = [
     tags: ["Commercial Leasing", "Real Estate", "Structures"],
   },
   {
-    name: "BRP Tours & Travels",
+    name: "B.R.P. Tours & Travels",
     slug: "brp-tours-travels",
-    code: "BRP TOURS",
+    code: "B.R.P. TOURS",
     category: "Travel",
     desc: "Local and international travel management services.",
     longDesc:

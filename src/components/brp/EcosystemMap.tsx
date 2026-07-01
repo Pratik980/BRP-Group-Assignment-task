@@ -13,7 +13,7 @@ const ventures = [
   { title: "Satin Leaf Investment", logo: satinLeafLogo },
   { title: "B.R.P. Ventures", logo: brpVenturesLogo },
   { title: "U.B. Ventures", logo: ubVenturesLogo },
-  { title: "BRP Tours & Travels", logo: brpToursLogo },
+  { title: "B.R.P. Tours & Travels", logo: brpToursLogo },
 ];
 
 export function EcosystemMap() {
@@ -46,7 +46,7 @@ export function EcosystemMap() {
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
         >
-          <img src={brpVenturesLogo} alt="BRP" className="w-full h-full object-contain p-3" />
+          <img src={brpVenturesLogo} alt="B.R.P." className="w-full h-full object-contain p-3" />
         </motion.div>
 
         {positioned.map((v) => (

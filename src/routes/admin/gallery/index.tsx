@@ -30,7 +30,7 @@ const DEFAULT_IMAGES: GalleryImage[] = [
     label: "Chairman Emeritus Dr. Babu Ram Pokharel",
   },
   { src: "/site-assets/image-2.webp", label: "Venture Summit & Collaboration" },
-  { src: "/site-assets/Brp-image-1.webp", label: "BRP Headquarters & Operations" },
+  { src: "/site-assets/Brp-image-1.webp", label: "B.R.P. Headquarters & Operations" },
   { src: "/site-assets/image-3.webp", label: "IT Infrastructure Planning" },
   { src: "/site-assets/Ubin-Pokherel-2.webp", label: "Executive Board Meetings" },
   { src: "/site-assets/image-4.webp", label: "Strategic Investments Group" },

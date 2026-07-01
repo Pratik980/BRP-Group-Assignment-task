@@ -46,7 +46,7 @@ function AdminLoginPage() {
           <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
             <Lock className="h-5 w-5" />
           </div>
-          <CardTitle className="font-display text-2xl">BRP Admin</CardTitle>
+          <CardTitle className="font-display text-2xl">B.R.P. Admin</CardTitle>
           <CardDescription>Sign in to manage website content</CardDescription>
         </CardHeader>
         <CardContent>

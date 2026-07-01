@@ -12,6 +12,7 @@ import {
   parseHeroMorphingColor,
   parseHeroMorphingGlow,
 } from "@/lib/cms/hero-morphing";
+import { HERO_BRAND_LOGO_KEY, resolveHeroBrandLogo } from "@/lib/cms/hero-brand-logo";
 import { EXECUTIVE_PHOTO_BY_NAME } from "@/lib/cms/site-assets";
 
 export async function fetchPublicHeroSlides() {
@@ -46,6 +47,16 @@ export async function fetchPublicHeroMorphingWords() {
     color: parseHeroMorphingColor(data.metadata),
     glowColor: parseHeroMorphingGlow(data.metadata),
   };
+}
+
+export async function fetchPublicHeroBrandLogo(): Promise<string | null> {
+  const { data, error } = await supabase
+    .from("about_content")
+    .select("metadata")
+    .eq("section_key", HERO_BRAND_LOGO_KEY)
+    .maybeSingle();
+  if (error || !data?.metadata) return null;
+  return resolveHeroBrandLogo(data.metadata as Record<string, unknown>);
 }
 
 export async function fetchPublicAboutSection(key: string) {

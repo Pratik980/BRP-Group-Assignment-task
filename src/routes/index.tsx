@@ -45,13 +45,13 @@ export const Route = createFileRoute("/")({
   loader: ({ context }) => prefetchPublicHeroContent(context.queryClient),
   head: () => ({
     meta: [
-      { title: "BRP Group — Building Nepal's Future Through Diversified Ventures" },
+      { title: "B.R.P. Group — Building Nepal's Future Through Diversified Ventures" },
       {
         name: "description",
         content:
-          "Founded in 2019, BRP Group is focused on tech, real estate, education, and healthcare — combining the real and digital worlds across Nepal.",
+          "Founded in 2019, B.R.P. Group is focused on tech, real estate, education, and healthcare — combining the real and digital worlds across Nepal.",
       },
-      { property: "og:title", content: "BRP Group — A diversified venture ecosystem" },
+      { property: "og:title", content: "B.R.P. Group — A diversified venture ecosystem" },
       {
         property: "og:description",
         content:
@@ -98,7 +98,7 @@ function IntroSection() {
                 <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-muted/10">
                   <LazyImage
                     src={aboutSideImg}
-                    alt="BRP Group — building Nepal's future through diversified ventures"
+                    alt="B.R.P. Group — building Nepal's future through diversified ventures"
                     className="w-full h-auto max-h-[200px] sm:max-h-[260px] lg:max-h-[300px] object-contain"
                   />
                 </div>
