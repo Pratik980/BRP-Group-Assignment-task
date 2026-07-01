@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { Key, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,6 +17,7 @@ import {
   updateSiteSetting,
 } from "@/lib/admin/settings.client";
 import { requireAdminRoute } from "@/lib/admin/require-admin";
+import { supabase } from "@/integrations/supabase/client";
 
 const SITE_KEYS = [
   { key: "company_email", label: "Contact email" },
@@ -93,6 +94,28 @@ function AdminSettingsPage() {
             </Button>
           </CardContent>
         </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              <Key className="h-4 w-4 text-primary" />
+              Admin credentials
+            </CardTitle>
+            <CardDescription>
+              Email change sends a confirmation link to the new address. Password change takes effect immediately.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>Current email</Label>
+                <Input value={session.user.email ?? ""} readOnly className="bg-muted/50" />
+              </div>
+              <CredentialForm />
+            </div>
+          </CardContent>
+        </Card>
+
         <Card>
           <CardHeader>
             <CardTitle className="text-base">SEO - page meta tags</CardTitle>
@@ -109,6 +132,86 @@ function AdminSettingsPage() {
         </Card>
       </div>
     </AdminShell>
+  );
+}
+
+function CredentialForm() {
+  const [newEmail, setNewEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      if (newPassword && newPassword !== confirmPassword) {
+        throw new Error("Passwords do not match");
+      }
+      if (newPassword && newPassword.length < 6) {
+        throw new Error("Password must be at least 6 characters");
+      }
+      const updates: Record<string, string> = {};
+      if (newEmail.trim()) updates.email = newEmail.trim();
+      if (newPassword) updates.password = newPassword;
+      if (Object.keys(updates).length === 0) {
+        throw new Error("Fill in at least one field");
+      }
+      const { error } = await supabase.auth.updateUser(updates);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success(
+        newEmail.trim()
+          ? "Confirmation email sent to the new address"
+          : "Password updated successfully",
+      );
+      setNewEmail("");
+      setNewPassword("");
+      setConfirmPassword("");
+    },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Could not update credentials"),
+  });
+
+  return (
+    <div className="space-y-4 border-t pt-4">
+      <div className="space-y-2">
+        <Label>New email</Label>
+        <Input
+          value={newEmail}
+          onChange={(e) => setNewEmail(e.target.value)}
+          placeholder="admin@brpgroup.com.np"
+          type="email"
+        />
+      </div>
+      <div className="space-y-2">
+        <Label>New password</Label>
+        <Input
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          placeholder="Min. 6 characters"
+          type="password"
+          autoComplete="new-password"
+        />
+      </div>
+      <div className="space-y-2">
+        <Label>Confirm new password</Label>
+        <Input
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="Repeat the new password"
+          type="password"
+          autoComplete="new-password"
+        />
+      </div>
+      <Button onClick={() => mutation.mutate()} disabled={mutation.isPending}>
+        {mutation.isPending ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Saving…
+          </>
+        ) : (
+          "Update credentials"
+        )}
+      </Button>
+    </div>
   );
 }
 

@@ -26,7 +26,7 @@ export function AdminShell({ email, children }: AdminShellProps) {
       <AdminSidebar />
 
       <div className="flex min-w-0 flex-1 flex-col overflow-y-auto">
-        <header className="flex h-16 shrink-0 items-center justify-between border-b border-border/50 bg-background/95 backdrop-blur-sm px-6">
+        <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center justify-between border-b border-border/50 bg-background/95 backdrop-blur-sm px-6">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2.5">
               <div className="h-7 w-1 rounded-full bg-primary" />
