@@ -4,6 +4,7 @@ export type HeroTextColors = {
   cta_text_color: string;
   cta_bg_color: string;
   cta_icon_color: string;
+  cta_glow_color: string;
 };
 
 export const DEFAULT_HERO_TEXT_COLORS: HeroTextColors = {
@@ -12,6 +13,7 @@ export const DEFAULT_HERO_TEXT_COLORS: HeroTextColors = {
   cta_text_color: "#ffffff",
   cta_bg_color: "#ff7a2f",
   cta_icon_color: "#ffffff",
+  cta_glow_color: "#ff7a2f",
 };
 
 const STALE_HERO_COLORS = new Set([
@@ -50,6 +52,10 @@ export function resolveHeroTextColors(
     cta_icon_color: sanitizeColor(
       metadata?.cta_icon_color,
       DEFAULT_HERO_TEXT_COLORS.cta_icon_color,
+    ),
+    cta_glow_color: sanitizeColor(
+      metadata?.cta_glow_color,
+      DEFAULT_HERO_TEXT_COLORS.cta_glow_color,
     ),
   };
 }

@@ -535,6 +535,28 @@ function AdminHeroPage() {
                     </div>
                   </div>
                 </div>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label>CTA glow color</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="color"
+                        value={textColors.cta_glow_color}
+                        onChange={(e) =>
+                          setTextColors({ ...textColors, cta_glow_color: e.target.value })
+                        }
+                        className="w-12 h-10 p-1"
+                      />
+                      <Input
+                        value={textColors.cta_glow_color}
+                        onChange={(e) =>
+                          setTextColors({ ...textColors, cta_glow_color: e.target.value })
+                        }
+                        placeholder="#ff7a2f"
+                      />
+                    </div>
+                  </div>
+                </div>
                 <Button
                   onClick={() => textColorsMutation.mutate()}
                   disabled={textColorsMutation.isPending}

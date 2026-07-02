@@ -490,6 +490,7 @@ export function Hero() {
         {
           "--hero-text": heroTextColors.headline_color,
           "--hero-text-muted": heroTextColors.subheadline_color,
+          "--hero-cta-glow": heroTextColors.cta_glow_color,
           "--hero-bg-primary": heroBgTheme.primary_color,
           "--hero-bg-accent": heroBgTheme.accent_color,
           "--hero-bg-deep": heroBgTheme.deep_color,
