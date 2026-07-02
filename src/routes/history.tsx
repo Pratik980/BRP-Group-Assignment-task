@@ -248,6 +248,7 @@ function HistoryPage() {
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
   const cardsContainerRef = useRef<HTMLDivElement | null>(null);
   const [overviewHeight, setOverviewHeight] = useState(0);
+  const [singleHeight, setSingleHeight] = useState(0);
   const reduceMotion = useReducedMotion();
 
   useLayoutEffect(() => {
@@ -257,6 +258,8 @@ function HistoryPage() {
     const updateHeight = () => {
       if (activeIdx === null) {
         setOverviewHeight(el.offsetHeight);
+      } else {
+        setSingleHeight(el.offsetHeight);
       }
     };
     updateHeight();
@@ -265,6 +268,10 @@ function HistoryPage() {
     observer.observe(el);
     return () => observer.disconnect();
   }, [activeIdx]);
+
+  const pinnedHeight = activeIdx === null
+    ? (singleHeight > 0 ? singleHeight : 0)
+    : (overviewHeight > 0 ? overviewHeight : 0);
 
   const setTimelineView = (idx: number | null) => {
     setActiveIdx(idx);
@@ -378,44 +385,49 @@ function HistoryPage() {
               <div
                 ref={cardsContainerRef}
                 className="min-w-0 md:pt-11 [overflow-anchor:none]"
-                style={overviewHeight > 0 ? { minHeight: overviewHeight } : undefined}
+                style={pinnedHeight > 0 ? { minHeight: pinnedHeight } : undefined}
               >
-                {activeIdx === null ? (
-                  <motion.div
-                    initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.55, ease }}
-                    className="glass-strong rounded-[2rem] border border-border/40 p-4 shadow-glass md:p-6"
-                  >
-                    <div className="mb-5 border-b border-border/30 pb-4">
-                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
-                        {overviewBadge}
-                      </p>
-                      <h2 className="font-display mt-2 text-2xl tracking-tight text-foreground md:text-3xl">
-                        {overviewTitle}
-                      </h2>
-                    </div>
-                    <div className="max-h-[calc(100vh-190px)] overflow-y-auto pr-2">
-                      <div className="flex flex-col gap-8 pb-1">
-                        {milestones.map((milestone, i) => (
-                          <MilestoneCard key={milestone.period + i} milestone={milestone} index={i} />
-                        ))}
-                      </div>
-                    </div>
-                  </motion.div>
-                ) : (
-                  <div className="flex flex-col gap-12">
-                    {milestones.map((milestone, i) => (
-                      <div
-                        key={milestone.period + i}
-                        className={isCardVisible(i) ? "block" : "hidden"}
-                        aria-hidden={!isCardVisible(i)}
+                <motion.div
+                  initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.55, ease }}
+                  className="glass-strong rounded-[2rem] border border-border/40 p-4 shadow-glass md:p-6"
+                >
+                  <AnimatePresence initial={false}>
+                    {activeIdx === null && (
+                      <motion.div
+                        key="overview-header"
+                        initial={reduceMotion ? false : { opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={reduceMotion ? undefined : { opacity: 0, height: 0 }}
+                        transition={{ duration: 0.35, ease }}
+                        className="mb-5 border-b border-border/30 pb-4 overflow-hidden"
                       >
-                        <MilestoneCard milestone={milestone} index={i} />
-                      </div>
-                    ))}
+                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+                          {overviewBadge}
+                        </p>
+                        <h2 className="font-display mt-2 text-2xl tracking-tight text-foreground md:text-3xl">
+                          {overviewTitle}
+                        </h2>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  <div
+                    className={activeIdx === null ? "max-h-[calc(100vh-190px)] overflow-y-auto pr-2" : ""}
+                  >
+                    <div className="flex flex-col gap-8 pb-1">
+                      {milestones.map((milestone, i) => (
+                        <div
+                          key={milestone.period + i}
+                          className={isCardVisible(i) ? "block" : "hidden"}
+                          aria-hidden={!isCardVisible(i)}
+                        >
+                          <MilestoneCard milestone={milestone} index={i} />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                )}
+                </motion.div>
               </div>
             </div>
 
