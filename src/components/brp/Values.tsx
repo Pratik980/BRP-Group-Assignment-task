@@ -78,7 +78,7 @@ export function Values() {
             What we stand for
           </div>
           <h2 className="font-display text-3xl leading-[1.1] tracking-tight sm:text-4xl md:text-6xl xl:text-7xl">
-            The principles that <span className="text-gradient italic">compound over decades.</span>
+            The principles that <span className="text-gradient italic italic-fix">compound over decades.</span>
           </h2>
         </motion.div>
 

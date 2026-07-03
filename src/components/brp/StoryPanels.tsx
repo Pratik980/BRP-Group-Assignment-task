@@ -36,7 +36,7 @@ export function StoryPanels() {
               {legacy.label}
             </div>
             <h2 className="font-display text-4xl sm:text-5xl xl:text-6xl leading-tight tracking-tight text-foreground mb-6">
-              Compounding governance, <span className="text-gradient italic">ethical growth.</span>
+              Compounding governance, <span className="text-gradient italic italic-fix">ethical growth.</span>
             </h2>
             <div className="space-y-4 text-sm font-light text-muted-foreground leading-relaxed text-pretty md:text-base xl:text-lg">
               {legacy.paragraphs.map((p) => (
