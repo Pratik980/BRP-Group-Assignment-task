@@ -158,7 +158,7 @@ export function LegacySection() {
         {/* ─── The Founder ─── */}
         <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 items-center">
           <motion.div
-            style={{ y: founderY, opacity: useTransform(scrollYProgress, [0, 0.3], [0, 1]) }}
+            style={{ y: founderY }}
             className="lg:col-span-2 relative"
           >
             <div className="relative mx-auto max-w-xs lg:max-w-none">
@@ -184,7 +184,7 @@ export function LegacySection() {
           </motion.div>
 
           <motion.div
-            style={{ y: founderY, opacity: useTransform(scrollYProgress, [0.1, 0.35], [0, 1]) }}
+            style={{ y: founderY }}
             className="lg:col-span-3 space-y-5"
           >
             <div className="glass-strong rounded-2xl border border-border/40 p-6 sm:p-8 md:p-10 shadow-glass">
