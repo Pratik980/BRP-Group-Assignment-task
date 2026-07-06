@@ -71,8 +71,8 @@ export function ScrollTickers() {
 
           <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:gap-10 md:gap-12">
-              <div className="relative shrink-0">
-                <span className="heritage-numeral font-display block leading-[0.82] tracking-[-0.06em]">
+              <div className="relative shrink-0 overflow-visible pr-1 sm:pr-2 pb-1 sm:pb-2">
+                <span className="heritage-numeral font-display block tracking-[-0.03em]">
                   {legacyNumeral}
                 </span>
               </div>
