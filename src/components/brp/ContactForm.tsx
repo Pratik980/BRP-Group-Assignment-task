@@ -148,14 +148,19 @@ export function ContactForm() {
         </div>
 
         <div>
-          <label className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+          <label
+            htmlFor="message"
+            className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground"
+          >
             Message
           </label>
           <textarea
+            id="message"
             name="message"
             required
             maxLength={2000}
             rows={5}
+            autoComplete="off"
             onFocus={() => setFocused("message")}
             onBlur={() => setFocused(null)}
             className={`w-full resize-none rounded-xl border bg-background/80 px-4 py-3.5 text-sm text-foreground outline-none transition-all duration-300 placeholder:text-muted-foreground/50 ${
@@ -204,6 +209,13 @@ export function ContactForm() {
   );
 }
 
+const AUTOCOMPLETE_MAP: Record<string, string> = {
+  name: "name",
+  email: "email",
+  phone: "tel",
+  organization: "organization",
+};
+
 function Field({
   label,
   name,
@@ -227,18 +239,24 @@ function Field({
   onBlur?: () => void;
   placeholder?: string;
 }) {
+  const id = `contact-${name}`;
   return (
     <div>
-      <label className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+      <label
+        htmlFor={id}
+        className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground"
+      >
         {label}
       </label>
       <motion.div animate={focused ? { y: -1 } : { y: 0 }} transition={{ duration: 0.2 }}>
         <input
+          id={id}
           name={name}
           type={type}
           required={required}
           maxLength={maxLength}
           placeholder={placeholder}
+          autoComplete={AUTOCOMPLETE_MAP[name] || "off"}
           onFocus={onFocus}
           onBlur={onBlur}
           className={`w-full rounded-xl border bg-background/80 px-4 py-3 text-sm text-foreground outline-none transition-all duration-300 placeholder:text-muted-foreground/50 ${
